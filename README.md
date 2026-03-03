@@ -96,7 +96,7 @@ docker compose --env-file .env.local up -d
 
 ### Variables principales en `.env`
 - `WEB_PORT`: Puerto para Odoo (8069 por defecto)
-- `DB_PORT`: Puerto para PostgreSQL (5432 por defecto)
+- `DB_PORT`: Puerto para PostgreSQL (5439 por defecto)
 - `DB_PASSWD`: Password de PostgreSQL
 - `WEB_ADDONS_CUSTOMIZE`: Ruta a addons personalizados
 - `WEB_ADDONS_L10NPY`: Ruta a localización PY
