@@ -95,8 +95,8 @@ docker compose --env-file .env.local up -d
 ## ⚙️ Personalización
 
 ### Variables principales en `.env`
-- `WEB_PORT`: Puerto para Odoo (9090)
-- `DB_PORT`: Puerto para PostgreSQL (9091)
+- `WEB_PORT`: Puerto para Odoo (8069 por defecto)
+- `DB_PORT`: Puerto para PostgreSQL (5432 por defecto)
 - `DB_PASSWD`: Password de PostgreSQL
 - `WEB_ADDONS_CUSTOMIZE`: Ruta a addons personalizados
 - `WEB_ADDONS_L10NPY`: Ruta a localización PY
@@ -113,10 +113,10 @@ Ajustar en `config/odoo.conf`:
 ### 1. PostgreSQL no inicia
 ```bash
 # Verificar logs de PostgreSQL
-docker compose logs db9090
+docker compose logs db
 
 # Verificar permisos de volumen
-sudo chown -R 999:999 /home/docker/odoo9090/db-data
+sudo chown -R 999:999 ./odoo-db-data
 ```
 
 ### 2. Odoo no se conecta a PostgreSQL
@@ -125,16 +125,16 @@ sudo chown -R 999:999 /home/docker/odoo9090/db-data
 docker compose ps
 
 # Probar conexión manualmente
-docker compose exec db9090 pg_isready -U odoo -d odoo_prod_9090
+docker compose exec db pg_isready -U odoo -d odoo_production
 ```
 
 ### 3. Addons no se cargan
 ```bash
 # Verificar rutas en entrypoint
-docker compose logs web9090 | grep "Directorio de addons"
+docker compose logs web | grep "Directorio de addons"
 
 # Verificar permisos
-ls -la /opt/odoo/odoo9090/addons/
+ls -la ./addons/
 ```
 
 ## 📊 Monitoreo
@@ -142,14 +142,14 @@ ls -la /opt/odoo/odoo9090/addons/
 ### Health checks automáticos
 ```bash
 # Verificar health status
-docker inspect --format='{{.State.Health.Status}}' odoo_web_9090
-docker inspect --format='{{.State.Health.Status}}' db_odoo_9090
+docker inspect --format='{{.State.Health.Status}}' odoo_web
+docker inspect --format='{{.State.Health.Status}}' db_odoo
 ```
 
 ### Métricas básicas
 ```bash
 # Uso de recursos
-docker stats odoo_web_9090 db_odoo_9090
+docker stats odoo_web db_odoo
 
 # Logs en tiempo real
 docker compose logs -f --tail=100

@@ -49,11 +49,6 @@ if [ -z "$PGPASSWORD" ]; then
     log_error "PGPASSWORD no definida. La conexión a la base de datos puede fallar."
 fi
 
-if [ -z "$PGDATABASE" ]; then
-    log_warn "PGDATABASE no definido, usando valor por defecto: odoo_prod_9090"
-    export PGDATABASE="odoo_prod_9090"
-fi
-
 # ============================================
 # Esperar a que PostgreSQL esté listo
 # ============================================
