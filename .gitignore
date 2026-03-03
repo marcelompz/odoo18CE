@@ -1,0 +1,57 @@
+# Environment variables (contains passwords)
+.env
+.env.local
+.env.*.local
+
+# Docker volumes and data
+db-data/
+web-data/
+data/
+volumes/
+
+# Logs
+*.log
+logs/
+/var/log/
+
+# Temporary files
+*.pid
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+*.code-workspace
+
+# Odoo specific
+.odoo/
+.filestore/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Docker Compose override files
+docker-compose.override.yml
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# System files
+/tmp/
+temp/
