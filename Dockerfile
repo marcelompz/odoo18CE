@@ -17,10 +17,12 @@ RUN apt-get update && \
         jq \
         && \
     rm -rf /var/lib/apt/lists/*
+    
+# Copiar uv desde su imagen oficial
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
-# Instalar paquetes Python requeridos
-RUN pip install --upgrade --ignore-installed pip && \
-    pip install --ignore-installed \
+# Instalar paquetes con uv forzando la instalación a nivel sistema
+RUN uv pip install --system --break-system-packages \
         dropbox \
         pyncclient \
         nextcloud-api-wrapper \
@@ -36,6 +38,7 @@ RUN pip install --upgrade --ignore-installed pip && \
         redis \
         requests \
         gevent
+        openupgradelib\
 
 # Crear directorio para scripts personalizados
 RUN mkdir -p /opt/odoo/custom_scripts && \
