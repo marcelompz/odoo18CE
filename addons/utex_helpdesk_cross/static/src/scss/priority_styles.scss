@@ -1,0 +1,69 @@
+.my_priority_colors {
+    /* Apuntamos a la clase base de las flechas */
+    .o_arrow_button {
+
+        /* === PRIORIDAD URGENTE (ROJO) === */
+        &[data-value="3"] {
+            /* Estado ACTIVO (Seleccionado) */
+            &[aria-checked="true"],
+            &.o_arrow_button_current {
+                background-color: #dc3545 !important; /* Rojo */
+                border-color: #dc3545 !important;
+                color: #FFFFFF !important;
+                opacity: 1 !important;
+
+                /* Truco: Sobrescribir la variable CSS de Bootstrap si existe */
+                --btn-active-bg: #dc3545;
+                --btn-active-border-color: #dc3545;
+            }
+
+            /* Estado HOVER (Cuando pasas el mouse por encima sin seleccionar) */
+            &:hover:not([aria-checked="true"]) {
+                color: #dc3545 !important;
+                background-color: #f8d7da !important; /* Rojo clarito */
+            }
+        }
+
+        /* === PRIORIDAD ALTA (AMARILLO) === */
+        &[data-value="2"] {
+            /* Estado ACTIVO */
+            &[aria-checked="true"],
+            &.o_arrow_button_current {
+                background-color: #ffc107 !important; /* Amarillo */
+                border-color: #ffc107 !important;
+                color: #000000 !important; /* Texto negro para contraste */
+                opacity: 1 !important;
+            }
+
+            /* Estado HOVER */
+            &:hover:not([aria-checked="true"]) {
+                color: #856404 !important;
+                background-color: #fff3cd !important;
+            }
+        }
+
+        /* === PRIORIDAD MEDIA (VERDE) === */
+        &[data-value="1"] {
+            /* Estado ACTIVO */
+            &[aria-checked="true"],
+            &.o_arrow_button_current {
+                background-color: #39b984 !important; /* Gris */
+                border-color: #39b984 !important;
+                color: #FFFFFF !important;
+                opacity: 1 !important;
+            }
+        }
+
+        /* === PRIORIDAD BAJA (GRIS - Default) === */
+        &[data-value="0"] {
+            /* Estado ACTIVO */
+            &[aria-checked="true"],
+            &.o_arrow_button_current {
+                background-color: #6c757d !important; /* Gris */
+                border-color: #6c757d !important;
+                color: #FFFFFF !important;
+                opacity: 1 !important;
+            }
+        }
+    }
+}

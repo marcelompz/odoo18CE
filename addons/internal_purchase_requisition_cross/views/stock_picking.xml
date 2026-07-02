@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-12-04 13:41:16
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+    <record id="stock_picking_inherit_form" model="ir.ui.view">
+        <field name="name">stock.picking.inherit.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook//page[@name='operations']//field[@name='move_ids_without_package']/list/field[@name='quantity']" position="before">
+                <field name="product_length" readonly="1" optional="show" column_invisible="parent.picking_type_code not in ['incoming', 'internal']"/>
+                <field name="product_width" readonly="1" optional="show" column_invisible="parent.picking_type_code not in ['incoming', 'internal']"/>
+                <field name="product_grammar" readonly="1" optional="show" column_invisible="parent.picking_type_code not in ['incoming', 'internal']"/>
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

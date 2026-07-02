@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_server_report_contract_py" model="ir.actions.server">
+        <field name="name">Imprimir Contrato</field>
+        <field name="model_id" ref="hr_contract.model_hr_contract"/>
+        <field name="binding_model_id" ref="hr_contract.model_hr_contract"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+action = env.ref('l10n_py_hr_payroll_report.action_report_contract_py').report_action(records)
+        </field>
+    </record>
+
+    <record id="view_hr_contract_form_inherit_template" model="ir.ui.view">
+        <field name="name">hr.contract.form.inherit.template</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Agregar botón de imprimir contrato en el header -->
+            <xpath expr="//header" position="inside">
+                <button string="Imprimir Contrato" 
+                        name="%(action_server_report_contract_py)d"
+                        type="action"
+                        class="btn-primary"
+                        icon="fa-print"
+                        title="Generar PDF del Contrato Laboral"/>
+            </xpath>
+            <!-- Agregar pestaña "Documento del Contrato" en el notebook -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Documento del Contrato" name="contract_document">
+                    <group>
+                        <group string="Plantilla">
+                            <field name="contract_template_id" 
+                                   options="{'no_create': False, 'no_open': True}"
+                                   domain="[('active', '=', True)]"
+                                   help="Selecciona la plantilla de contrato. Al seleccionar una plantilla, su contenido HTML se copiará automáticamente al editor de abajo. Puedes usar variables como &lt;&lt;NOMBRE_EMPLEADO&gt;&gt; o {{ NOMBRE_EMPLEADO }} en la plantilla."/>
+                        </group>
+                    </group>
+                    <group string="Contenido HTML del Contrato">
+                        <field name="contract_html_content" widget="html" nolabel="1" 
+                               placeholder="El contenido HTML del contrato aparecerá aquí. Puedes editarlo después de seleccionar una plantilla o escribirlo manualmente."/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

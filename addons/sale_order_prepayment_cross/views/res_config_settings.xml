@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-08-15 17:55:05
+    @author: drojo
+-->
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.inherit.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//app[@name='sale_management']//block[@name='quotation_order_setting_container']" position="inside">
+                <setting id="id_prepayment_auto_reconcile" company_dependent="1" help="Conciliar automáticamente los anticipos con las facturas cuando se crean.">
+                    <field name="prepayment_auto_reconcile"/>
+                </setting>
+                <setting id="id_advance_approval_percentag" company_dependent="1" help="Porcentaje mínimo de aprobación para anticipos. Si el monto del anticipo es mayor o igual a este porcentaje del total del pedido, se continúa el proceso.">
+                    <field name="advance_approval_percentag" widget="percentage"/>
+                </setting>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

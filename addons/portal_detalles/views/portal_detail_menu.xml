@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú principal dentro de Ventas -->
+    <menuitem id="portal_detalles_sale_menu" 
+              name="Portal Detalles" 
+              parent="sale.sale_menu_root" 
+              sequence="100"
+              groups="sales_team.group_sale_manager"/>
+
+    <menuitem id="portal_detalles_sale_config_menu" 
+              name="Configuraciones Portal" 
+              parent="portal_detalles_sale_menu" 
+              action="portal_detail_config_action" 
+              sequence="10"/>
+
+    <menuitem id="portal_detalles_sale_list_menu" 
+              name="Listas Portal" 
+              parent="portal_detalles_sale_menu" 
+              action="portal_detail_list_action" 
+              sequence="20"/>
+
+    <!-- Acción contextual para crear configuración desde pedido -->
+    <record id="action_create_portal_config_from_order" model="ir.actions.act_window">
+        <field name="name">Crear Configuración Portal</field>
+        <field name="res_model">portal.detail.config</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_order_id': active_id}</field>
+    </record>
+
+    <!-- Acción contextual para ver listas de un pedido -->
+    <record id="action_view_portal_lists_from_order" model="ir.actions.act_window">
+        <field name="name">Listas Portal del Pedido</field>
+        <field name="res_model">portal.detail.list</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('order_id', '=', active_id)]</field>
+        <field name="context">{'default_order_id': active_id}</field>
+    </record>
+</odoo>

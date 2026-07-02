@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-07-02 17:18:59
+    @author: drojo
+-->
+<odoo>
+
+    <!-- menu -->
+
+    <menuitem
+        id="menu_aex_config"
+        name="AEX"
+        parent="contacts.res_partner_menu_config"
+        sequence="99"
+    />
+
+    <menuitem
+        id="menu_aex_city"
+        name="AEX Cities"
+        parent="delivery_aex.menu_aex_config"
+        action="delivery_aex.aex_city_action"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_aex_city_import_wizard"
+        name="Import AEX Cities"
+        parent="delivery_aex.menu_aex_config"
+        action="action_aex_city_import_wizard"
+        sequence="20"
+    />
+
+</odoo>

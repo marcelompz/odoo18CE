@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista formulario para agregar campos de tesorería -->
+        <record id="view_account_journal_form_inherit_tesoreria" model="ir.ui.view">
+            <field name="name">account.journal.form.inherit.tesoreria</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="es_tesoreria" widget="boolean_toggle"/>
+                    <field name="tipo_tesoreria" invisible="not es_tesoreria"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Vista tree para mostrar información adicional -->
+        <record id="view_account_journal_tree_inherit_tesoreria" model="ir.ui.view">
+            <field name="name">account.journal.tree.inherit.tesoreria</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="es_tesoreria" widget="boolean_toggle"/>
+                    <field name="tipo_tesoreria" invisible="not es_tesoreria"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Vista kanban para mostrar de forma visual los tipos de tesorería -->
+        <record id="view_account_journal_kanban_inherit_tesoreria" model="ir.ui.view">
+            <field name="name">account.journal.kanban.inherit.tesoreria</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.account_journal_view_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='col-6 ']" position="after">
+                    <div class="col-12" t-if="record.es_tesoreria.raw_value">
+                        <span class="badge badge-pill badge-info">
+                            <i class="fa fa-money" title="Tesorería"/> 
+                            <t t-esc="record.tipo_tesoreria.value"/>
+                        </span>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Filtros y grupos para facilitar la búsqueda -->
+        <record id="view_account_journal_search_inherit_tesoreria" model="ir.ui.view">
+            <field name="name">account.journal.search.inherit.tesoreria</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='dashboard']" position="after">
+                    <separator/>
+                    <filter name="tesoreria" string="Tesorería" domain="[('es_tesoreria', '=', True)]"/>
+                    <filter name="no_tesoreria" string="No Tesorería" domain="[('es_tesoreria', '=', False)]"/>
+                </xpath>
+                <xpath expr="//group[@expand='0']" position="inside">
+                    <filter string="Tipo Tesorería" name="group_tipo_tesoreria" context="{'group_by': 'tipo_tesoreria'}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

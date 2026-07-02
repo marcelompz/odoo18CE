@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_shift_dashboard" model="ir.actions.report">
+        <field name="name">Tablero por Turnos (PDF)</field>
+        <field name="model">hr.attendance.shift.export</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_attendance_shift_groups.report_shift_dashboard</field>
+        <field name="report_file">hr_attendance_shift_groups.report_shift_dashboard</field>
+        <field name="binding_model_id" ref="model_hr_attendance_shift_export"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+
+</odoo>

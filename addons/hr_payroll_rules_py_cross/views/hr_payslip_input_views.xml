@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sobrescribir columna 'amount' en la lista embebida de Otras entradas
+         para mostrarla como moneda (sin decimales, con simbolo) -->
+    <record id="view_hr_payslip_form_inherit_input_currency" model="ir.ui.view">
+        <field name="name">hr.payslip.form.input.currency.cn</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='input_line_ids']/list/field[@name='amount']" position="attributes">
+                <attribute name="widget">monetary</attribute>
+                <attribute name="options">{'currency_field': 'cn_currency_id'}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='input_line_ids']/list/field[@name='amount']" position="after">
+                <field name="cn_currency_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

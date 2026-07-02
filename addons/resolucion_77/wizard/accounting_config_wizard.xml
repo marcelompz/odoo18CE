@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista Form para Wizard de Configuración Contable -->
+        <record id="view_resolucion_77_accounting_config_wizard_form" model="ir.ui.view">
+            <field name="name">resolucion.77.accounting.config.wizard.form</field>
+            <field name="model">resolucion.77.accounting.config.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Configuración Contable Resolución 77">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nombre de la configuración..."/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group name="accounts" string="Cuentas Contables">
+                                <field name="account_asset_id"/>
+                                <field name="account_depreciation_id"/>
+                                <field name="account_depreciation_expense_id"/>
+                            </group>
+                            <group name="journal" string="Diario">
+                                <field name="journal_id"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group name="options" string="Opciones de Aplicación">
+                                <field name="apply_to_existing"/>
+                                <field name="create_assets"/>
+                                <field name="generate_moves"/>
+                            </group>
+                        </group>
+
+                        <div class="oe_clear">
+                            <p class="text-muted">
+                                <i class="fa fa-info-circle"/> 
+                                Configure las cuentas contables y el diario para integrar Resolución 77 con el módulo contable.
+                                <br/>
+                                <strong>Cuenta de Activo Fijo:</strong> Para registrar el valor inicial del bien.
+                                <br/>
+                                <strong>Cuenta de Depreciación Acumulada:</strong> Para registrar la depreciación acumulada.
+                                <br/>
+                                <strong>Cuenta de Gastos de Depreciación:</strong> Para registrar el gasto anual de depreciación.
+                                <br/>
+                                <strong>Diario:</strong> Para registrar los asientos contables de depreciación.
+                            </p>
+                        </div>
+                    </sheet>
+                    <footer>
+                        <button name="action_test_configuration" type="object" 
+                                string="Probar Configuración" class="btn-secondary"/>
+                        <button name="action_apply_configuration" type="object" 
+                                string="Aplicar Configuración" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para el Wizard -->
+        <record id="action_resolucion_77_accounting_config_wizard" model="ir.actions.act_window">
+            <field name="name">Configuración Contable</field>
+            <field name="res_model">resolucion.77.accounting.config.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Menú para el Wizard -->
+        <menuitem id="menu_resolucion_77_accounting_config_wizard" 
+                  name="Configuración Contable" 
+                  parent="resolucion_77.menu_resolucion_77_config" 
+                  sequence="30"
+                  action="action_resolucion_77_accounting_config_wizard"/>
+
+    </data>
+</odoo> 

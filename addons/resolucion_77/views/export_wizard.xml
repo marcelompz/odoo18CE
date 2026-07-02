@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista Form del Wizard de Exportación -->
+        <record id="view_resolucion_77_export_wizard_form" model="ir.ui.view">
+            <field name="name">resolucion.77.export.wizard.form</field>
+            <field name="model">resolucion.77.export.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Exportar Cuadro de Depreciación" class="o_form_readonly">
+                    <header>
+                        <!-- Agregar header con información de estado -->
+                        <div class="alert alert-info" role="alert">
+                            <i class="fa fa-info-circle"/> 
+                            <strong>Información:</strong> Este proceso puede tomar algunos minutos según la cantidad de datos.
+                            No cierre esta ventana hasta que la exportación se complete.
+                        </div>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nombre del reporte..." required="1"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group name="filters" string="Filtros de Datos">
+                                <field name="fecha_desde"/>
+                                <field name="fecha_hasta"/>
+                                <field name="incluir_activos"/>
+                                <field name="incluir_dados_baja"/>
+                                <field name="solo_incluir_en_reporte"/>
+                            </group>
+                            <group name="fiscal_config" string="Configuración Fiscal">
+                                <field name="ejercicio_fiscal" required="1"/>
+                                <field name="fecha_cierre_fiscal" required="1"/>
+                                <field name="currency_id" required="1"/>
+                                <field name="company_id" groups="base.group_multi_company" required="1"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group name="format_options" string="Opciones de Formato">
+                                <field name="incluir_totales"/>
+                                <field name="incluir_encabezado_empresa"/>
+                                <field name="incluir_fecha_generacion"/>
+                            </group>
+                            <group name="categories" string="Filtrar por Categorías">
+                                <field name="categoria_ids" widget="many2many_tags" 
+                                       options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Ayuda y Validaciones" name="help">
+                                <group>
+                                    <div class="oe_clear">
+                                        <div class="alert alert-warning" role="alert">
+                                            <h4><i class="fa fa-warning"/> Recomendaciones importantes:</h4>
+                                            <ul>
+                                                <li><strong>No cierre la ventana</strong> durante el proceso de exportación</li>
+                                                <li><strong>Espere</strong> a que aparezca el diálogo de descarga</li>
+                                                <li>Para consultas grandes, use <strong>filtros de fecha</strong> más restrictivos</li>
+                                                <li>Si experimenta problemas, <strong>recargue la página</strong> (Ctrl+F5) antes de reintentar</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="alert alert-info" role="alert">
+                                            <h4><i class="fa fa-info-circle"/> Información del proceso:</h4>
+                                            <p>
+                                                Este asistente generará el Cuadro de Depreciación en formato Excel 
+                                                compatible con los requerimientos de la Resolución General N° 77/2020 de la SET.
+                                            </p>
+                                            <p>
+                                                <strong>Formato generado:</strong> Excel (.xlsx)<br/>
+                                                <strong>Máximo de registros:</strong> 10,000 por exportación<br/>
+                                                <strong>Tiempo estimado:</strong> 30-60 segundos para 1,000 registros
+                                            </p>
+                                        </div>
+                                    </div>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <!-- Mejorar botones con confirmación y prevención de clics múltiples -->
+                        <button name="action_export_excel" type="object" 
+                                string="Exportar a Excel" 
+                                class="btn-primary o_export_btn"
+                                data-hotkey="q"
+                                confirm="¿Está seguro de que desea exportar con la configuración actual? Este proceso puede tomar varios minutos."
+                                />
+                        <button string="Cancelar" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción del Wizard de Exportación con configuración mejorada -->
+        <record id="action_resolucion_77_export_wizard" model="ir.actions.act_window">
+            <field name="name">Exportar Cuadro de Depreciación</field>
+            <field name="res_model">resolucion.77.export.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_resolucion_77_export_wizard_form"/>
+            <field name="target">new</field>
+            <field name="context">{
+                'default_company_id': False,
+                'default_currency_id': False,
+                'dialog_size': 'large'
+            }</field>
+        </record>
+
+    </data>
+</odoo> 

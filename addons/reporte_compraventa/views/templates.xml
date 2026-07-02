@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- 
+        Los reportes XLSX ahora se manejan a través de controladores HTTP
+        siguiendo el patrón moderno de Odoo 18.
+        Ver: controllers/main.py
+        -->
+    </data>
+</odoo>

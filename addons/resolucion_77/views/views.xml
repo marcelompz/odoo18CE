@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista Tree para Configuración -->
+        <record id="view_resolucion_77_config_tree" model="ir.ui.view">
+            <field name="name">resolucion.77.config.tree</field>
+            <field name="model">resolucion.77.config</field>
+            <field name="type">list</field>
+            <field name="arch" type="xml">
+                <list string="Configuraciones Resolución 77">
+                    <field name="name"/>
+                    <field name="fecha_cierre_fiscal"/>
+                    <field name="porcentaje_residual_default"/>
+                    <field name="active" widget="boolean_toggle"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista Form para Configuración -->
+        <record id="view_resolucion_77_config_form" model="ir.ui.view">
+            <field name="name">resolucion.77.config.form</field>
+            <field name="model">resolucion.77.config</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Configuración Resolución 77">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nombre de la configuración..."/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group name="general" string="Configuración General">
+                                <field name="fecha_cierre_fiscal"/>
+                                <field name="porcentaje_residual_default"/>
+                                <field name="active"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page name="depreciation_rates" string="Porcentajes de Depreciación">
+                                <group>
+                                    <group name="rates_left">
+                                        <field name="porcentaje_edificios"/>
+                                        <field name="porcentaje_maquinaria"/>
+                                        <field name="porcentaje_vehiculos"/>
+                                    </group>
+                                    <group name="rates_right">
+                                        <field name="porcentaje_muebles"/>
+                                        <field name="porcentaje_equipos_computo"/>
+                                        <field name="porcentaje_otros"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="useful_life" string="Vida Útil por Defecto">
+                                <group>
+                                    <group name="life_left">
+                                        <field name="vida_util_edificios"/>
+                                        <field name="vida_util_maquinaria"/>
+                                        <field name="vida_util_vehiculos"/>
+                                    </group>
+                                    <group name="life_right">
+                                        <field name="vida_util_muebles"/>
+                                        <field name="vida_util_equipos_computo"/>
+                                        <field name="vida_util_otros"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista Tree para Plantillas de Categorías -->
+        <record id="view_resolucion_77_category_template_tree" model="ir.ui.view">
+            <field name="name">resolucion.77.category.template.tree</field>
+            <field name="model">resolucion.77.category.template</field>
+            <field name="type">list</field>
+            <field name="arch" type="xml">
+                <list string="Plantillas de Categorías">
+                    <field name="codigo"/>
+                    <field name="name"/>
+                    <field name="porcentaje_depreciacion" widget="percentage"/>
+                    <field name="vida_util"/>
+                    <field name="activo" widget="boolean_toggle"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista Form para Plantillas de Categorías -->
+        <record id="view_resolucion_77_category_template_form" model="ir.ui.view">
+            <field name="name">resolucion.77.category.template.form</field>
+            <field name="model">resolucion.77.category.template</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Plantilla de Categoría">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nombre de la categoría..."/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="codigo"/>
+                                <field name="porcentaje_depreciacion"/>
+                                <field name="vida_util"/>
+                            </group>
+                            <group>
+                                <field name="activo"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <field name="descripcion" widget="text"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acciones -->
+        <record id="action_resolucion_77_config" model="ir.actions.act_window">
+            <field name="name">Configuración Resolución 77</field>
+            <field name="res_model">resolucion.77.config</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_resolucion_77_config_tree"/>
+        </record>
+
+        <record id="action_resolucion_77_category_template" model="ir.actions.act_window">
+            <field name="name">Plantillas de Categorías</field>
+            <field name="res_model">resolucion.77.category.template</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_resolucion_77_category_template_tree"/>
+        </record>
+
+        <!-- Submenús de configuración -->
+        <menuitem id="menu_resolucion_77_config_general" name="Configuración General" 
+                  parent="resolucion_77.menu_resolucion_77_config" sequence="10"
+                  action="action_resolucion_77_config"/>
+        
+        <menuitem id="menu_resolucion_77_category_templates" name="Plantillas de Categorías" 
+                  parent="resolucion_77.menu_resolucion_77_config" sequence="20"
+                  action="action_resolucion_77_category_template"/>
+
+    </data>
+</odoo> 

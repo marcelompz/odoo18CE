@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_picking_form_inherit_packinglist" model="ir.ui.view">
+        <field name="name">stock.picking.form.packinglist</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_packing_lists" type="object"
+                        class="oe_stat_button" icon="fa-file-text-o"
+                        invisible="not show_packing_list_button or packing_list_count == 0">
+                    <field name="packing_list_count" widget="statinfo" string="Packing Lists"/>
+                </button>
+                <button name="action_open_packing_list_wizard" type="object"
+                        class="oe_stat_button" icon="fa-plus-square"
+                        invisible="not show_packing_list_button or state != 'done'">
+                    <span>Nuevo Packing List</span>
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_export"/>
+                <field name="show_packing_list_button" invisible="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_picking_internal_search_inherit_export" model="ir.ui.view">
+        <field name="name">stock.picking.search.export</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter string="Exportaciones" name="filter_is_export"
+                        domain="[('is_export', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

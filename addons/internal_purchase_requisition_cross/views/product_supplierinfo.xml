@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-12-03 13:29:32
+    @author: drojo
+-->
+<odoo>
+
+    <!-- product supplierinfo form view -->
+    <record id="product_supplierinfo_inherit_form" model="ir.ui.view">
+        <field name="name">product.supplierinfo.inherit.form</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_form_view" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[@name='vendor']" position="inside">
+                <field name="product_length"/>
+                <field name="product_width"/>
+                <field name="product_grammar"/>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- product template form view -->
+    <record id="product_supplierinfo_tree_view_inherit_specs" model="ir.ui.view">
+        <field name="name">product.supplierinfo.tree.view.inherit.specs</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="purchase.product_supplierinfo_tree_view2"/>        
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="product_length" optional="show"/>
+                <field name="product_width" optional="show"/>
+                <field name="product_grammar" optional="show"/>
+            </xpath>
+
+            <xpath expr="//field[@name='price']" position="before">
+                <field name="price_meter" widget="monetary"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

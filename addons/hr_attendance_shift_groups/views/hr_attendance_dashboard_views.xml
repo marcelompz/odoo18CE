@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =================================================================== -->
+    <!--  Tablero (Dashboard) tipo planilla                                   -->
+    <!--  Basado en hr.attendance.shift.line con vista pivot dinamica         -->
+    <!-- =================================================================== -->
+
+    <record id="view_attendance_shift_line_pivot" model="ir.ui.view">
+        <field name="name">hr.attendance.shift.line.pivot</field>
+        <field name="model">hr.attendance.shift.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Tablero por Turnos" sample="1" display_quantity="1">
+                <field name="employee_id" type="row"/>
+                <field name="date" interval="day" type="row"/>
+                <field name="slot_id" type="col"/>
+                <field name="hours_worked" type="measure" widget="float_time"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_attendance_shift_line_graph" model="ir.ui.view">
+        <field name="name">hr.attendance.shift.line.graph</field>
+        <field name="model">hr.attendance.shift.line</field>
+        <field name="arch" type="xml">
+            <graph string="Horas por Franja" type="bar" stacked="1" sample="1">
+                <field name="slot_type"/>
+                <field name="employee_id"/>
+                <field name="hours_worked" type="measure" widget="float_time"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_attendance_shift_line_list" model="ir.ui.view">
+        <field name="name">hr.attendance.shift.line.list</field>
+        <field name="model">hr.attendance.shift.line</field>
+        <field name="arch" type="xml">
+            <list string="Distribucion por Franja" create="0" delete="0">
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="shift_group_id"/>
+                <field name="slot_id"/>
+                <field name="slot_type"/>
+                <field name="hours_worked" widget="float_time" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_attendance_shift_line_search" model="ir.ui.view">
+        <field name="name">hr.attendance.shift.line.search</field>
+        <field name="model">hr.attendance.shift.line</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Distribucion por Franja">
+                <field name="employee_id"/>
+                <field name="shift_group_id"/>
+                <field name="slot_id"/>
+                <!-- El campo date expone automaticamente filtros nativos:
+                     Hoy, Esta semana, Este mes, Este trimestre, Este anio,
+                     ademas de poder filtrar por rango personalizado. -->
+                <field name="date"/>
+                <separator/>
+                <filter string="Ordinario" name="filter_ordinary" domain="[('slot_type', '=', 'ordinary')]"/>
+                <filter string="Extra Diurno" name="filter_extra_day" domain="[('slot_type', '=', 'extra_day')]"/>
+                <filter string="Extra Nocturno" name="filter_extra_night" domain="[('slot_type', '=', 'extra_night')]"/>
+                <filter string="Descanso" name="filter_break" domain="[('slot_type', '=', 'break')]"/>
+                <group expand="1" string="Agrupar por">
+                    <filter string="Empleado" name="group_employee" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Grupo de Turno" name="group_shift" context="{'group_by': 'shift_group_id'}"/>
+                    <filter string="Franja" name="group_slot" context="{'group_by': 'slot_id'}"/>
+                    <filter string="Tipo" name="group_type" context="{'group_by': 'slot_type'}"/>
+                    <filter string="Dia" name="group_date_day" context="{'group_by': 'date:day'}"/>
+                    <filter string="Semana" name="group_date_week" context="{'group_by': 'date:week'}"/>
+                    <filter string="Mes" name="group_date_month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_attendance_shift_dashboard" model="ir.actions.act_window">
+        <field name="name">Tablero por Turnos</field>
+        <field name="res_model">hr.attendance.shift.line</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="view_attendance_shift_line_search"/>
+        <field name="context">{
+            'search_default_group_employee': 1,
+            'search_default_group_date_day': 1,
+            'pivot_measures': ['hours_worked'],
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tablero de Asistencia por Franjas
+            </p>
+            <p>
+                Distribucion de horas trabajadas por colaborador, dia y franja horaria.
+                Use el campo "Fecha" del buscador para acotar por periodo (Hoy / Esta semana / Este mes / rango personalizado).
+                Use el wizard "Exportar Planilla Excel" para obtener la planilla en formato modelo.
+            </p>
+        </field>
+    </record>
+
+
+    <!-- Crossnexion: server action para limpiar shift_lines del Tablero por Turnos (solo admin) -->
+    <record id="server_action_clear_shift_line_admin" model="ir.actions.server">
+        <field name="name">Borrar TODAS las lineas de turno (Admin)</field>
+        <field name="model_id" ref="hr_attendance_shift_groups.model_hr_attendance_shift_line"/>
+        <field name="binding_model_id" ref="hr_attendance_shift_groups.model_hr_attendance_shift_line"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="groups_id" eval="[(4, ref('base.group_system'))]"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_clear_all_admin()</field>
+    </record>
+
+</odoo>

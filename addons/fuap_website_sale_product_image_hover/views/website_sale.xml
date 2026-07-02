@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+    ============================================================================
+    Google Fonts - Inter
+    ============================================================================
+    -->
+    <template id="add_inter_font" inherit_id="website.layout" customize_show="False" name="Inter Font">
+        <xpath expr="//head" position="inside">
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+        </xpath>
+    </template>
+
+    <template id="add_dynamic_variant_selector" inherit_id="website.layout" customize_show="False" name="Dynamic Variant Selector">
+        <xpath expr="//body" position="inside">
+            <t t-call="fuap_website_sale_product_image_hover.dynamic_variant_selector"/>
+        </xpath>
+    </template>
+
+    <!--
+    ============================================================================
+    Template para insertar selectores de variantes dinámicamente
+    ============================================================================
+    -->
+    <template id="dynamic_variant_selector" name="Dynamic Variant Selector">
+        <div class="dynamic-variant-selector-container"></div>
+    </template>
+
+    <!--
+    ============================================================================
+    Template base para selectores de variantes
+    ============================================================================
+    -->
+    <template id="variant_selector_base" name="Variant Selector Base">
+        <t t-set="attributes" t-value="record._get_available_attributes()"/>
+        <t t-if="attributes">
+            <div class="size-selector">
+                <t t-foreach="attributes" t-as="attribute">
+                    <div class="attribute-group">
+                        <div class="attribute-label"><t t-esc="attribute['name']"/></div>
+                        <div class="attribute-values">
+                            <t t-foreach="attribute['values']" t-as="value">
+                                <button class="size-btn" t-att-data-attribute="attribute['name']" t-att-data-value="value['name']" t-att-data-value-id="value['id']">
+                                    <t t-esc="value['name']"/>
+                                </button>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!--
+    ============================================================================
+    Shop Page
+    ============================================================================
+    -->
+    <template id="add_hover_image_products_item" inherit_id="website_sale.products_item" customize_show="False" name="Hover Image">
+        <xpath expr="//div[hasclass('oe_product_image')]//span" position="after">
+            <t t-set="image_hover" t-value="product._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'preview_image': 'image_1920' if product_image_big else 'image_1920', 'itemprop': 'image'}"
+                    class="oe_product_image_img_wrapper d-flex h-100 justify-content-center align-items-center position-absolute oe_product_image_hover"/>
+            </t>
+        </xpath>
+        <xpath expr="//div[hasclass('product_price')]" position="inside">
+            <t t-set="attributes" t-value="product._get_available_attributes()"/>
+            <t t-set="total_attributes" t-value="product._get_total_attributes_count()"/>
+            <t t-set="unavailable_combinations" t-value="product._get_unavailable_combinations()"/>
+            <t t-if="attributes">
+                <div class="size-selector" 
+                    t-att-data-total-attributes="total_attributes"
+                    t-att-data-product-id="product.id"
+                    t-att-data-unavailable-combinations="unavailable_combinations">
+                    <t t-foreach="attributes" t-as="attribute">
+                        <div class="attribute-group">
+                            <div class="attribute-label"><t t-esc="attribute['name']"/></div>
+                            <div class="attribute-values">
+                                <t t-foreach="attribute['values']" t-as="value">
+                                    <button class="size-btn" 
+                                        t-att-data-attribute="attribute['name']" 
+                                        t-att-data-value="value['name']" 
+                                        t-att-data-value-id="value['id']"
+                                        t-att-data-display-type="attribute['display_type']"
+                                        t-att-data-html-color="value['html_color']"
+                                        t-att-class="'color-btn' if attribute['display_type'] == 'color' else 'size-btn'">
+                                        <t t-if="attribute['display_type'] == 'color' and value['html_color']">
+                                            <span class="color-circle" t-att-style="'background-color: ' + value['html_color']"></span>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="value['name']"/>
+                                        </t>
+                                    </button>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+   <!--
+    ============================================================================
+    Products dynamics
+    ============================================================================
+    -->
+    <template id="add_hover_image_borderless_1" inherit_id="website_sale.dynamic_filter_template_product_product_borderless_1" customize_show="False" name="Hover Image">
+        <xpath expr="//img[hasclass('card-img-top')]" position="after">
+            <t t-set="image_hover" t-value="record._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'class': 'card-img-top'}"
+                    class="oe_product_image_hover" loading="lazy"/>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="add_hover_image_product_borderless_2" inherit_id="website_sale.dynamic_filter_template_product_product_borderless_2" customize_show="False" name="Hover Image">
+        <xpath expr="//a[hasclass('o_carousel_product_img_link')]" position="inside">
+            <t t-set="image_hover" t-value="record._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'class': 'o_carousel_product_card_img_top card-img-top'}"
+                    class="oe_product_image_hover" loading="lazy"/>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="add_hover_image_product_add_to_cart" inherit_id="website_sale.dynamic_filter_template_product_product_add_to_cart" customize_show="False" name="Hover Image">
+        <xpath expr="//img[hasclass('card-img-top')]" position="after">
+            <t t-set="image_hover" t-value="record._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'class': 'card-img-top'}"
+                    class="oe_product_image_hover" loading="lazy"/>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="add_hover_image_product_view_detail" inherit_id="website_sale.dynamic_filter_template_product_product_view_detail" customize_show="False" name="Hover Image">
+        <xpath expr="//a[hasclass('o_carousel_product_img_link')]" position="inside">
+            <t t-set="image_hover" t-value="record._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'class': 'o_carousel_product_card_img_top card-img-top'}"
+                    class="oe_product_image_hover" loading="lazy"/>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="add_hover_image_product_banner" inherit_id="website_sale.dynamic_filter_template_product_product_banner" customize_show="False" name="Hover Image">
+        <xpath expr="//img[hasclass('img')]" position="after">
+            <t t-set="image_hover" t-value="record._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'class': 'img img-fluid mx-auto rounded'}"
+                    class="oe_product_image_hover" loading="lazy"/>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="add_hover_image_product_mini_image" inherit_id="website_sale.dynamic_filter_template_product_product_mini_image" customize_show="False" name="Hover Image">
+        <xpath expr="//a[hasclass('o_carousel_product_img_link')]" position="inside">
+            <t t-set="image_hover" t-value="record._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'class': 'o_carousel_product_card_img_top card-img-top'}"
+                    class="oe_product_image_hover" loading="lazy"/>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="add_hover_image_product_mini_price" inherit_id="website_sale.dynamic_filter_template_product_product_mini_price" customize_show="False" name="Hover Image">
+        <xpath expr="//a[hasclass('o_carousel_product_img_link')]" position="inside">
+            <t t-set="image_hover" t-value="record._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'class': 'o_carousel_product_card_img_top card-img-top'}"
+                    class="oe_product_image_hover" loading="lazy"/>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="add_hover_image_product_mini_name" inherit_id="website_sale.dynamic_filter_template_product_product_mini_name" customize_show="False" name="Hover Image">
+        <xpath expr="//a[hasclass('o_carousel_product_img_link')]" position="inside">
+            <t t-set="image_hover" t-value="record._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'class': 'o_carousel_product_card_img_top card-img-top'}"
+                    class="oe_product_image_hover" loading="lazy"/>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="add_hover_image_product_centered" inherit_id="website_sale.dynamic_filter_template_product_product_centered" customize_show="False" name="Hover Image">
+        <xpath expr="//a[hasclass('o_carousel_product_img_link')]" position="inside">
+            <t t-set="image_hover" t-value="record._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'class': 'o_carousel_product_card_img_top card-img-top'}"
+                    class="oe_product_image_hover" loading="lazy"/>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="add_hover_image_product_horizontal_card" inherit_id="website_sale.dynamic_filter_template_product_product_horizontal_card" customize_show="False" name="Hover Image">
+        <xpath expr="//a[hasclass('stretched-link')]" position="inside">
+            <t t-set="image_hover" t-value="record._get_image_hover()"/>
+            <t t-if="image_hover">
+                <span t-field="image_hover.image_1920"
+                    t-options="{'widget': 'image', 'class': 'img img-fluid mx-auto'}"
+                    class="oe_product_image_hover" loading="lazy"/>
+            </t>
+        </xpath>
+    </template>
+</odoo>

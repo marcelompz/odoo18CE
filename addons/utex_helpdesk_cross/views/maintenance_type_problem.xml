@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-12-05 16:20:06
+    @author: drojo
+-->
+<odoo>
+
+    <!-- list view -->
+    <record id="maintenance_type_problem_list" model="ir.ui.view">
+        <field name="name">maintenance.type.problem.list</field>
+        <field name="model">maintenance.type.problem</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" sample="1">
+                <field name="name" required="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- window action -->
+    <record id="maintenance_type_problem_action" model="ir.actions.act_window">
+        <field name="name">Tipos de problemas</field>
+        <field name="res_model">maintenance.type.problem</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Oops, Nada a se mostrado!</p>
+        </field>
+    </record>
+
+    <!-- menu -->
+    <menuitem
+        id="maintenance_type_problem_menu"
+        name="Tipos de problemas"
+        action="utex_helpdesk_cross.maintenance_type_problem_action"
+        parent="helpdesk.helpdesk_menu_config"
+        sequence="30"
+    />
+
+</odoo>

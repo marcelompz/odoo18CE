@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_packing_list_user,stock.packing.list user,model_stock_packing_list,stock.group_stock_user,1,0,0,0
+access_stock_packing_list_manager,stock.packing.list manager,model_stock_packing_list,stock.group_stock_manager,1,1,1,1
+access_stock_packing_list_account_invoice,stock.packing.list account invoice,model_stock_packing_list,account.group_account_invoice,1,0,0,0
+access_stock_packing_list_package_user,stock.packing.list.package user,model_stock_packing_list_package,stock.group_stock_user,1,0,0,0
+access_stock_packing_list_package_manager,stock.packing.list.package manager,model_stock_packing_list_package,stock.group_stock_manager,1,1,1,1
+access_stock_packing_list_package_account_invoice,stock.packing.list.package account invoice,model_stock_packing_list_package,account.group_account_invoice,1,0,0,0
+access_stock_packing_list_line_user,stock.packing.list.line user,model_stock_packing_list_line,stock.group_stock_user,1,0,0,0
+access_stock_packing_list_line_manager,stock.packing.list.line manager,model_stock_packing_list_line,stock.group_stock_manager,1,1,1,1
+access_stock_packing_list_line_account_invoice,stock.packing.list.line account invoice,model_stock_packing_list_line,account.group_account_invoice,1,0,0,0
+access_stock_packing_list_wizard_user,stock.packing.list.wizard user,model_stock_packing_list_wizard,stock.group_stock_user,1,1,1,1
+access_stock_packing_list_wizard_line_user,stock.packing.list.wizard.line user,model_stock_packing_list_wizard_line,stock.group_stock_user,1,1,1,1

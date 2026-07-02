@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cronograma_comercial" model="ir.ui.view">
+        <field name="name">cronograma.comercial</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Cronograma Comercial">
+                <field name="validity_date" type="row" interval="day"/>
+                <field name="order_customer" type="row"/>
+                <field name="product_category_id" type="col"/>
+                <field name="order_state" type="col"/>
+
+                <field name="product_uom_qty" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_cronograma_comercial" model="ir.actions.act_window">
+        <field name="name">Cronograma Comercial</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_cronograma_comercial"/>
+        <field name="domain">[("order_state", "!=", "cancel"), ("mostrar_en_reportes", "=", True)]</field>
+    </record>
+
+    <menuitem id="menu_cronograma_comercial"
+              name="Cronograma Comercial"
+              parent="sale.menu_sale_report"
+              action="action_cronograma_comercial"
+              sequence="20"/>
+</odoo> 

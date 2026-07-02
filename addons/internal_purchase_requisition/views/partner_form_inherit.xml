@@ -1,0 +1,27 @@
+<odoo>
+<record id="view_partner_form_inherit" model="ir.ui.view">
+    <field name="name">res.partner.form.inherit.contact.addresses</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+     <xpath expr="//form/sheet/notebook/page[1]" position="after">
+            <page string="Vendor Registration" name="vendor_registration">
+                <group>
+                    <field name="commercial_registration"/>
+                    <field name="municipal_license"/>
+                    <field name="computer_card"/>
+                    <field name="classification_certificate"/>
+                    <field name="tax_card"/>
+                    <field name="authorized_signatories_qid"/>
+                    <field name="company_profile"/>
+                    <field name="pre_qualification_form"/>
+                    <field name="moi_approved_documents"/>
+                    <field name="kahramaa_certificate"/>
+                    <field name="qcd_certificate"/>
+                    <field name="verified_partner"/>
+                </group>
+            </page>
+        </xpath>
+    </field>
+</record>
+</odoo>

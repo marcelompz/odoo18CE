@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_detail_es" model="ir.actions.report">
+        <field name="name">Detalle de Entradas/Salidas</field>
+        <field name="model">hr.attendance.detail.export</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_attendance_shift_groups.report_detail_es_doc</field>
+        <field name="report_file">hr_attendance_shift_groups.report_detail_es_doc</field>
+        <field name="print_report_name">'Detalle_ES_%s_%s' % (object.date_from, object.date_to)</field>
+    </record>
+
+    <template id="report_detail_es_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <t t-set="d" t-value="o._report_data()"/>
+                    <div class="page">
+                        <h2 class="text-center">Detalle de Entradas/Salidas</h2>
+                        <p class="text-center">
+                            <strong t-esc="o.env.company.name"/><br/>
+                            <span t-if="d['mode'] == 'raw'">Crudo del reloj</span>
+                            <span t-else="">Bloques Odoo (lo que se paga)</span>
+                            — Período: <span t-esc="d['date_from']"/> a <span t-esc="d['date_to']"/>
+                        </p>
+                        <t t-foreach="d['employees']" t-as="emp">
+                            <h4 style="margin-bottom:2px;">
+                                <span t-esc="emp['name']"/>
+                                <small class="text-muted">
+                                    — <span t-esc="emp['dept']"/>
+                                    <span t-if="emp['group']"> / <span t-esc="emp['group']"/></span>
+                                </small>
+                            </h4>
+                            <table class="table table-sm table-bordered" style="font-size:11px;">
+                                <thead>
+                                    <tr style="background-color:#B4C6E7;">
+                                        <th>Día</th>
+                                        <th>Entrada</th>
+                                        <th>Salida</th>
+                                        <t t-if="d['mode'] == 'blocks'">
+                                            <th class="text-end">Normal</th>
+                                            <th class="text-end">Extra Diurna</th>
+                                            <th class="text-end">Extra Nocturna</th>
+                                            <th class="text-end">Descanso</th>
+                                            <th class="text-end">a Descontar</th>
+                                            <th class="text-end">Tolerancia</th>
+                                            <th>Observacion</th>
+                                        </t>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="emp['rows']" t-as="row"
+                                        t-attf-style="#{'background-color:#F4CCCC;' if row['incompl'] else ''}">
+                                        <td t-esc="row['date']"/>
+                                        <td t-esc="row['entrada']"/>
+                                        <td t-esc="row['salida']"/>
+                                        <t t-if="d['mode'] == 'blocks'">
+                                            <td class="text-end" t-esc="row['normal']"/>
+                                            <td class="text-end" style="background-color:#C6EFCE;" t-esc="row['xd']"/>
+                                            <td class="text-end" style="background-color:#C6EFCE;" t-esc="row['xn']"/>
+                                            <td class="text-end" t-esc="row['br']"/>
+                                            <td class="text-end" style="background-color:#FFC7CE;" t-esc="row['ded']"/>
+                                            <td class="text-end" t-esc="row['tol']"/>
+                                            <td t-esc="row['obs']"/>
+                                        </t>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr style="background-color:#F2F2F2; font-weight:bold;">
+                                        <t t-if="d['mode'] == 'raw'">
+                                            <td colspan="2" class="text-end">Horas totales</td>
+                                            <td t-esc="emp['total']"/>
+                                        </t>
+                                        <t t-else="">
+                                            <td colspan="3" class="text-end">TOTAL</td>
+                                            <td class="text-end" t-esc="emp['tot_n']"/>
+                                            <td class="text-end" style="background-color:#A9D08E;" t-esc="emp['tot_xd']"/>
+                                            <td class="text-end" style="background-color:#A9D08E;" t-esc="emp['tot_xn']"/>
+                                            <td class="text-end" t-esc="emp['tot_br']"/>
+                                            <td class="text-end" style="background-color:#F4B0B0;" t-esc="emp['tot_ded']"/>
+                                            <td class="text-end" t-esc="emp['tot_tol']"/>
+                                            <td/>
+                                        </t>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

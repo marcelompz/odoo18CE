@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+	<!-- See LICENSE file for full copyright and licensing details. -->
+	<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+	<template id="look_book_temp" name="LookBook">
+		<t t-call="website.layout">
+			<div class="oe_structure">
+				<div class="shop_look_main container  mb-4">
+					<div class="row">
+						<div class="wk-banner-image-collection-controller">
+							<img  class="shop_look_banner" t-attf-src="data:image/*;base64,{{records.banner}}" />
+							<span class="text-on-image-collection-banner">
+								<t t-esc="records.banner_text"/>
+							</span>
+						</div>
+
+						<!-- Shop The Look Grid View  -->
+						<t t-if="records.display_type =='fixed'">
+							<div class="mt-2 text-center shop_look_grid_view">
+								<div class="d-flex row">
+									<t t-foreach="records.look_ids" t-as="l_ids" t-key="l_ids">
+										<div t-if="l_ids.is_published" class="col-md-4 col-lg-4 col-sm-12 fixed_prod_img" style="">
+											<div class="main_hotspot position-relative" >
+												<t t-if="l_ids.primary_image">
+													<img class="card-img  shop_look_grid_img" t-attf-src="data:image/*;base64,{{l_ids.primary_image}}" />
+												</t>
+												<t t-else="">
+												<img class="card-img p-1" src="/shop_the_look/static/img/placeholder.png" style="height:356px;"/>
+												</t>
+												<t t-foreach="l_ids.looks_ids" t-as="line" t-key="line">
+													<t t-if="line.hotspot_position_x">
+														<t t-set="base_url" t-value="line.product_tmpl_id.sudo().get_base_url()"/>
+														<t t-set="product_href" t-value="base_url + line.product_tmpl_id.sudo().website_url"/>
+														<div t-if="line.product_tmpl_id.sudo().is_published" class="hot-spot position-absolute" t-attf-style="top: {{line.hotspot_position_x}}%; left: {{line.hotspot_position_y}}%;" >
+															<div class="main-hotspot-div" >
+																<img class="img_hotspot_back position-absolute" src="/shop_the_look/static/src/images/plus-sign.png" style="height:25px; z-index:2" />
+																<img class="img_hotspot position-absolute" src="/shop_the_look/static/src/images/plus-sign.png"  style="height:25px; z-index:2"/>
+																<div class="tooltip" style="margin-left: -73px;">
+																	<div class="card card-block wk-tooltip">
+																		<div class="card-body">
+																			<div class="wk-tooltip-image">
+																				<a t-att-href="product_href" t-att-target="line.product_target">
+																					<i style="font-size:24px" t-att-target="line.product_target" class="fa open_in_new">&#xf08e;</i>
+																				</a>
+																				<img t-attf-src="data:image/*;base64,{{line.product_tmpl_id.sudo().image_1920}}" style="width:100%" alt="product image" class="card-img"/>
+																			</div>
+																			<div class="wk-tooltip-name">
+																				<span class="wk_product_name">
+																					<t t-esc="line.product_tmpl_id.sudo().name"/>
+																				</span>
+																			</div>
+																			<div class="wk-tooltip-price">
+																				<span class="wk_product_price">
+																						<t t-esc="line.get_look_price(request.website.currency_id)" t-options="{'widget':'monetary','display_currency':request.website.currency_id}"/>
+
+																				</span>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</t>
+												</t>
+											</div>
+
+											<h4 class="text_name p-1 text-light " >
+												<t t-esc="l_ids.name"/>
+											</h4>
+											<h6 class="product_count text-light" >
+												<t t-esc="len(l_ids.looks_ids)"/><span class="p-1">Products</span>
+											</h6>
+											<a t-attf-href="/lookbook/{{l_ids.id}}" class="explore_btn btn btn-primary" >
+												<t t-if="records.button_title">
+													<t t-esc="records.button_title" />
+												</t>
+												<t t-else="">
+													Explore
+												</t>
+											</a>
+										</div>
+									</t>
+								</div>
+							</div>
+						</t>
+
+						<!-- Shop The Look Carousel View  -->
+						<t t-if="records.display_type =='carousel'">
+							<div class="shop_the_look_main">
+								<div class="owl-carousel shop_look_carousel owl-theme mt-4" id="explore_div">
+									<t t-foreach="records.look_ids" t-as="l_ids" t-key="l_ids">
+										<div t-if="l_ids.is_published" class="item text-center">
+											<div class="col main_prod_img">
+												<div class="main_hotspot position-relative" >
+
+													<t t-if="l_ids.primary_image">
+														<img class="card-img explore_img rounded"  t-attf-src="data:image/*;base64,{{l_ids.primary_image}}" />
+													</t>
+													<t t-else="">
+														<img class="card-img rounded" src="/shop_the_look/static/img/placeholder.png" />
+													</t>
+													<t t-foreach="l_ids.looks_ids" t-as="line" t-key="line">
+														<t t-if="line.hotspot_position_x">
+															<t t-set="base_url" t-value="line.product_tmpl_id.sudo().get_base_url()"/>
+															<t t-set="product_href" t-value="base_url + line.product_tmpl_id.sudo().website_url"/>
+															<div t-if="line.product_tmpl_id.sudo().is_published" class="hot-spot position-absolute" t-attf-style="top: {{line.hotspot_position_x}}%; left: {{line.hotspot_position_y}}%;" >
+																<div class="main-hotspot-div" >
+																	<img class="img_hotspot_back position-absolute" src="/shop_the_look/static/src/images/plus-sign.png" style="height:25px; z-index:2" />
+																	<img class="img_hotspot position-absolute" src="/shop_the_look/static/src/images/plus-sign.png"  style="height:25px; z-index:2"/>
+																	<div class="tooltip" style="margin-left: -73px;">
+																		<div class="card card-block wk-tooltip">
+																			<div class="card-body">
+																				<div class="wk-tooltip-image">
+																					<a t-att-href="product_href" t-att-target="line.product_target">
+																						<i style="font-size:24px" t-att-target="line.product_target" class="fa open_in_new">&#xf08e;</i>
+																					</a>
+																					<img t-attf-src="data:image/*;base64,{{line.product_tmpl_id.sudo().image_1920}}" style="width:100%" alt="product image" class="card-img"/>
+																				</div>
+																				<div class="wk-tooltip-name">
+																					<span class="wk_product_name">
+																						<t t-esc="line.product_tmpl_id.sudo().name"/>
+																					</span>
+																				</div>
+																				<div class="wk-tooltip-price">
+																					<span class="wk_product_price">
+																							<t t-esc="line.get_look_price(request.website.currency_id)" t-options="{'widget':'monetary','display_currency':request.website.currency_id}"/>
+
+																					</span>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</t>
+													</t>
+												</div>
+
+													<h4 class="text_name p-1 text-light" >
+														<t t-esc="l_ids.name"/>
+													</h4>
+													<h6 class="product_count text-light" >
+														<t t-esc="len(l_ids.looks_ids)"/><span class="p-1">Products</span>
+													</h6>
+													<a t-attf-href="/lookbook/{{l_ids.id}}" t-attf-title="current_website" class="explore_btn btn btn-primary">
+														<t t-if="records.button_title">
+															<t t-esc="records.button_title" />
+														</t>
+														<t t-else="">
+															Explore
+														</t>
+													</a>
+											</div>
+										</div>
+									</t>
+								</div>
+							</div>
+						</t>
+
+						<!-- Shop The Look List View  -->
+						<t t-if="records.display_type =='list'">
+							<div class="shop_look_list_view mt-2">
+                                <table class="shop_look_table" >
+                                    <tbody>
+										<t t-foreach="records.look_ids" t-as="l_ids" t-key="l_ids">
+                                        <tr t-if="l_ids.is_published" class="list_view_tr" >
+                                            <td class="image_column" >
+												<div class="position-relative" >
+													<t t-if="l_ids.primary_image">
+														<img class="card-img rounded"  t-attf-src="data:image/*;base64,{{l_ids.primary_image}}" style="width:100%;height:315px;" />
+													</t>
+													<t t-else="">
+														<img class="card-img rounded" src="/shop_the_look/static/img/placeholder.png" style="width:100%;height:315px;"/>
+													</t>
+													<t t-foreach="l_ids.looks_ids" t-as="line" t-key="line">
+														<t t-if="line.hotspot_position_x">
+															<t t-set="base_url" t-value="line.product_tmpl_id.sudo().get_base_url()"/>
+															<t t-set="product_href" t-value="base_url + line.product_tmpl_id.sudo().website_url"/>
+															<div t-if="line.product_tmpl_id.sudo().is_published" class="hot-spot position-absolute" t-attf-style="top: {{line.hotspot_position_x}}%; left: {{line.hotspot_position_y}}%;" >
+																<div class="main-hotspot-div" >
+																	<img class="img_hotspot_back position-absolute" src="/shop_the_look/static/src/images/plus-sign.png" style="height:25px; z-index:2" />
+																	<img class="img_hotspot position-absolute" src="/shop_the_look/static/src/images/plus-sign.png"  style="height:25px; z-index:2"/>
+																	<div class="tooltip" style="margin-left: -73px;">
+																		<div class="card card-block wk-tooltip">
+																			<div class="card-body">
+																				<div class="wk-tooltip-image">
+																					<a t-att-href="product_href" t-att-target="line.product_target">
+																						<i style="font-size:24px" t-att-target="line.product_target" class="fa open_in_new">&#xf08e;</i>
+																					</a>
+																					<img t-attf-src="data:image/*;base64,{{line.product_tmpl_id.sudo().image_1920}}" style="width:100%" alt="product image" class="card-img"/>
+																				</div>
+																				<div class="wk-tooltip-name">
+																					<span class="wk_product_name">
+																						<t t-esc="line.product_tmpl_id.sudo().name"/>
+																					</span>
+																				</div>
+																				<div class="wk-tooltip-price">
+																					<span class="wk_product_price">
+																							<t t-esc="line.get_look_price(request.website.currency_id)" t-options="{'widget':'monetary','display_currency':request.website.currency_id}"/>
+
+																					</span>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</t>
+													</t>
+												</div>
+											</td>
+                                            <td>
+												<div class="table_list_content container px-4">
+													<h4 class="text_name  text-dark" >
+														<t t-esc="l_ids.name"/>
+													</h4>
+													<p><t t-esc="l_ids.description"/></p>
+													<h6 class="text-dark" >
+														<ul>
+															<li>
+																<t t-esc="len(l_ids.looks_ids)"/><span class="p-1">Products</span>
+															</li>
+														</ul>
+													</h6>
+												</div>
+												<div class="explore_lookbook_div text-end me-3">
+													<a t-attf-href="/lookbook/{{l_ids.id}}" class="explore_btn btn btn-primary mb-3 me-3" >
+													<t t-if="records.button_title">
+														<t t-esc="records.button_title" />
+													</t>
+													<t t-else="">
+														Explore Lookbook
+													</t>
+													</a>
+												</div>
+											</td>
+                                        </tr>
+										</t>
+                                    </tbody>
+                                </table>
+                            </div>
+						</t>
+					</div>
+				</div>
+			</div>
+		</t>
+	</template>
+
+	<template id="shop_the_look_temp" name="Shop Look">
+		<t t-call="website.layout">
+			<t t-if="records">
+			<div class="oe_structure shop_the_look_product">
+				<div class="container">
+					<div class="shop_look_template container">
+						<div class="row" >
+							<div class="wk-banner-image-collection-controller">
+								<t t-if="request.website.banner">
+									<img  class="shop_look_template_banner " t-attf-src="data:image/*;base64,{{request.website.banner}}"  />
+								</t>
+								<t t-else="">
+									<img class="card-img shop_look_template_banner" src="/shop_the_look/static/img/placeholder.png" style="height: 474px;"/>
+								</t>
+								<span class="text-on-image-collection-banner">
+									<t t-esc="request.website.banner_text"/>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="shop_look_temp_content_container container mt-1">
+						<t t-foreach="records" t-as="order" t-key="order">
+							<div class="row" id="product_detail_main" data-name="Product Page" data-image_width="50_pc" data-image_layout="carousel">
+								<div class="col-lg-6 mt-lg-4 o_wsale_product_images  position-relative">
+										<div id="o-carousel-product" class="carousel slide position-sticky mb-3 overflow-hidden o_carousel_product_left_indicators d-flex" data-bs-ride="true"  t-att-data-name="product_carousel_block_name">
+											<t t-set="product_images" t-value="records._get_images()"/>
+											<div t-ignore="True" t-attf-class="o_carousel_product_indicators {{indicators_div_class}}">
+												<ol t-if="len(product_images) > 1" t-attf-class="carousel-indicators {{indicators_list_class}} position-static pt-2 pt-lg-0 mx-auto my-0 text-start d-flex d-lg-block pe-2">
+													<li t-foreach="product_images" t-as="product_image" t-key="product_image"
+														t-attf-class="align-top position-relative {{'active' if product_image_first else ''}}"
+														data-bs-target="#o-carousel-product"
+														t-att-data-bs-slide-to="str(product_image_index)">
+
+														<div  t-if="product_image._name == 'product.image'" t-field="product_image.image_128" t-options='{"widget": "image", "qweb_img_responsive": False, "class": "o_image_64_cover", "alt-field": "name"}'/>
+														<div  t-else="" t-field="product_image.primary_image" t-options='{"widget": "image", "qweb_img_responsive": False, "class": "o_image_64_cover", "alt-field": "name"}'/>
+
+													</li>
+												</ol>
+											</div>
+											<div class="o_carousel_product_outer carousel-outer position-relative flex-grow-1">
+
+												<div class="carousel-inner h-100">
+													<t t-set="image_classes" t-value="'d-flex align-items-start justify-content-center position-relative h-100'"/>
+													<t t-foreach="product_images" t-as="product_image" t-key="product_image">
+
+														<div t-attf-class="carousel-item h-100#{' active' if product_image_first else ''}">
+															<!-- <t t-call="shop_the_look.shop_look_product_image"/> -->
+															<div t-if="product_image._name == 'product.image'" t-att-class="image_classes + ' ratio ratio-16x9'">
+																<t t-out="product_image.image_1920" t-options='{"widget": "image", "class": "oe_unmovable product_detail_img mh-100", "alt-field": "name"}'/>
+															</div>
+															<div t-else=""  t-att-class="image_classes + ' oe_unmovable' + ' ratio ratio-16x9' + ' position-relative'" >
+																<t class="carousel_primary_image" t-out="product_image.primary_image" t-options='{"widget": "image", "preview_image": "primary_image", "class": "oe_unmovable product_detail_img mh-100", "alt-field": "name"}'/>
+
+																<t t-foreach="order.looks_ids" t-as="line" t-key="line">
+																	<t t-if="line.hotspot_position_x">
+																		<t t-set="base_url" t-value="line.product_tmpl_id.sudo().get_base_url()"/>
+																		<t t-set="product_href" t-value="base_url + line.product_tmpl_id.sudo().website_url"/>
+																		<div t-if="line.product_tmpl_id.sudo().is_published" class="hot-spot position-absolute" t-attf-style="top: {{line.hotspot_position_x}}%; left: {{line.hotspot_position_y}}%;" >
+																			<div class="main-hotspot-div" >
+																				<!-- main -->
+																				<img class="img_hotspot_back position-absolute" src="/shop_the_look/static/src/images/plus-sign.png" style="height:25px; z-index:2" />
+																				<img class="img_hotspot_carousel position-absolute" src="/shop_the_look/static/src/images/plus-sign.png" style="height:25px; z-index:2" />
+																				<div class="tooltip tooltip_carousel" style="margin-left: -73px;">
+																					<div class="card card-block wk-tooltip">
+																						<div class="card-body">
+																							<div class="wk-tooltip-image">
+																								<a t-att-href="product_href" t-att-target="line.product_target">
+																									<i style="font-size:24px" t-att-target="line.product_target" class="fa open_in_new">&#xf08e;</i>
+																								</a>
+																								<img t-attf-src="data:image/*;base64,{{line.product_tmpl_id.sudo().image_1920}}" style="width:100%" alt="product image" class="card-img"/>
+																							</div>
+																							<div class="wk-tooltip-name">
+																								<span class="wk_product_name">
+																									<t t-esc="line.product_tmpl_id.sudo().name"/>
+																								</span>
+																							</div>
+																							<div class="wk-tooltip-price">
+																								<span class="wk_product_price">
+																										<t t-esc="line.get_look_price(request.website.currency_id)" t-options="{'widget':'monetary','display_currency':request.website.currency_id}"/>
+
+																								</span>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</t>
+																</t>
+															</div>
+														</div>
+													</t>
+												</div>
+												<t t-if="len(product_images) > 1">
+													<a class="carousel-control-prev" href="#o-carousel-product" role="button" data-bs-slide="prev">
+														<span class="fa fa-chevron-left fa-2x oe_unmovable" role="img" aria-label="Previous" title="Previous"/>
+													</a>
+													<a class="carousel-control-next" href="#o-carousel-product" role="button" data-bs-slide="next">
+														<span class="fa fa-chevron-right fa-2x oe_unmovable" role="img" aria-label="Next" title="Next"/>
+													</a>
+												</t>
+											</div>
+
+										</div>
+								</div>
+								<div class="shop_look_temp_content col-lg-6 mt-md-4">
+									<h1>
+										<t t-esc="order.name" />
+									</h1>
+									<p>
+										<t t-esc="order.description" />
+									</p>
+									<div id="o_wsale_cta_wrapper" class="">
+										<div  class="css_quantity input-group d-inline-flex me-4 mt-2 mb-2 align-middle input-group-lg">
+											<a class="btn btn-link js_add_cart_json " aria-label="Remove one" title="Remove one"  href="#">
+												<i class="fa fa-minus" />
+											</a>
+											<input type="text" class="form-control quantity text-center" data-min="1" name="add_qty" id="prod_qty" value="1" title="" />
+											<a class="btn btn-link float_left js_add_cart_json " aria-label="Add one" title="Add one" href="#">
+												<i class="fa fa-plus" />
+											</a>
+
+										</div>
+										<div id="add_to_cart_wrap" class=" mb-2">
+											<a role="button" data-bs-toggle="modal" data-bs-target="#shopModal" id="add_to_cart" href="#" class="btn btn-primary js_check_product a-submit flex-grow-1 btn-lg mt-3">
+												<i class="fa fa-shopping-cart me-2" />
+												<span style="font-weight: bold">
+													ADD LOOK TO CART
+												</span>
+											</a>
+										</div>
+										<div id="product_option_block" class="d-flex flex-wrap w-100"/>
+									</div>
+								</div>
+							</div>
+						</t>
+					</div>
+				</div>
+				<div class="container product_options_div mt-1">
+					<div class="container  hidden-xs">
+						<t t-if="records.looks_ids">
+							<div class="shop_gallery_name_div mt-4">
+								<h3>
+									<span class="wk_gallery_name">
+										Product Options
+									</span>
+								</h3>
+							</div>
+						</t>
+						<div class="owl-carousel shop_look_carousel owl-theme mt-2 mb-5">
+							<t t-foreach="records.looks_ids" t-as="order" t-key="order">
+								<div t-if="order.product_tmpl_id.sudo().is_published" class="col product_options_content text-center ">
+									<t t-if="order.product_tmpl_id.sudo().image_1920">
+										<img class="card-img" t-attf-src="data:image/*;base64,{{order.product_tmpl_id.sudo().image_1920}}" />
+									</t>
+									<t t-else="">
+										<img class="card-img" src="/shop_the_look/static/img/placeholder.png"/>
+									</t>
+
+									<div class="product_options_details pt-3">
+										<h6>
+											<t t-esc="order.display_name" />
+										</h6>
+										<h6>
+											<t t-esc="order.get_look_price(request.website.currency_id)" t-options="{'widget':'monetary','display_currency':request.website.currency_id}"/>
+										</h6>
+										<t t-if="order.prod_variant_ids">
+
+											<select name="order.prod_variant_ids" class=" variant_select text-center" >
+												<t t-foreach="order.prod_variant_ids" t-as="obj" t-key="obj">
+													<t t-set="custom" t-value="obj.product_template_attribute_value_ids.product_attribute_value_id.filtered(lambda x:x.is_custom)"/>
+													<t t-set="is_custom" t-value="obj.product_template_attribute_value_ids.product_attribute_value_id.filtered(lambda x:x.is_custom)"/>
+													<t t-if="custom">
+														<t t-set="is_custom" t-value="True"/>
+													</t>
+													<t t-else="">
+														<t t-set="is_custom" t-value="False"/>
+													</t>
+													<option t-att-value="obj.id"
+															t-att-data-value_name="custom.name"
+															t-att-data-value_id="custom.id"
+															t-att-data-combination="obj.product_template_attribute_value_ids.ids"
+															t-att-price="round(float(obj.lst_price),2)"
+															t-att-data-is_custom="is_custom" >
+														<t t-out="obj.display_name" />
+													</option>
+												</t>
+											</select>
+										</t>
+										<t t-else="">
+											<div style="height:54px;"></div>
+										</t>
+										<a type="button" class="w-100 btn-primary btn btn-default  recent-add"><i class="fa fa-shopping-cart me-2" />
+											<span style="font-weight: bold">
+												ADD TO CART
+											</span>
+										</a>
+									</div>
+								</div>
+							</t>
+						</div>
+					</div>
+
+					<!-- Modal -->
+					<div class="modal fade shop_look_modal" id="shopModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" style="max-width: 90%;max-height:100%">
+							<div class="modal-content">
+								<div class="picky-close-x-button popup-close-x-button" data-bs-dismiss="modal" style="background-color: rgb(0, 0, 0);"></div>
+								<div class="modal-body">
+									<div class="row p-1 modal-row">
+										<div class="col-12 col-sm-12 col-md-5 modal_look_img">
+											<div class="main_hotspot position-relative" >
+												<t t-foreach="records" t-as="order" t-key="order">
+													<t t-if="order.primary_image">
+													<img class="card-img-primary mt-1 mb-2" t-attf-src="data:image/*;base64,{{order.primary_image}}" />
+													</t>
+													<t t-else="">
+														<img class="card-img mt-1 mb-2" src="/shop_the_look/static/img/placeholder.png"/>
+													</t>
+													<t t-foreach="order.looks_ids" t-as="line" t-key="line">
+														<t t-if="line.hotspot_position_x">
+															<t t-set="base_url" t-value="line.product_tmpl_id.sudo().get_base_url()"/>
+															<t t-set="product_href" t-value="base_url + line.product_tmpl_id.sudo().website_url"/>
+															<div t-if="line.product_tmpl_id.sudo().is_published" class="hot-spot position-absolute" t-attf-style="top: {{line.hotspot_position_x}}%; left: {{line.hotspot_position_y}}%;" >
+																<div class="main-hotspot-div" >
+																	<img class="img_hotspot_back position-absolute" src="/shop_the_look/static/src/images/plus-sign.png" style="height:25px; z-index:2" />
+																	<img class="img_hotspot position-absolute" src="/shop_the_look/static/src/images/plus-sign.png"  style="height:25px; z-index:2"/>
+																	<div class="tooltip" style="margin-left: -73px;">
+																		<div class="card card-block wk-tooltip">
+																			<div class="card-body">
+																				<div class="wk-tooltip-image">
+																					<a t-att-href="product_href" t-att-target="line.product_target">
+																						<i style="font-size:24px" t-att-target="line.product_target" class="fa open_in_new">&#xf08e;</i>
+																					</a>
+																					<img t-attf-src="data:image/*;base64,{{line.product_tmpl_id.sudo().image_1920}}" style="width:100%" alt="product image" class="card-img"/>
+																				</div>
+																				<div class="wk-tooltip-name">
+																					<span class="wk_product_name">
+																						<t t-esc="line.product_tmpl_id.sudo().name"/>
+																					</span>
+																				</div>
+																				<div class="wk-tooltip-price">
+																					<span class="wk_product_price">
+																							<t t-esc="line.get_look_price(request.website.currency_id)" t-options="{'widget':'monetary','display_currency':request.website.currency_id}"/>
+
+																					</span>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</t>
+													</t>
+												</t>
+											</div>
+										</div>
+										<div class="col-12 col-md-7 col-sm-12">
+											<input type="hidden" class="current_pricelist" t-att-value="website.pricelist_id.id"/>
+											<div class=" owl-carousel shop_look_carousel modal_carousel_products owl-theme ">
+												<t t-foreach="records.looks_ids" t-as="order" t-key="order">
+													<div t-if="order.product_tmpl_id.is_published" class="col p-1 text-center modal_carousel_product">
+														<input type="hidden" class="product_template_id" t-att-value="order.product_tmpl_id.sudo().id"/>
+														<div class="img-box">
+														<t t-if="order.product_tmpl_id.sudo().image_1920">
+															<img class="card-img" t-attf-src="data:image/*;base64,{{order.product_tmpl_id.sudo().image_1920}}" />
+														</t>
+														<t t-else="">
+															<img class="card-img" src="/shop_the_look/static/img/placeholder.png"/>
+														</t>
+														</div>
+														<!-- <t t-esc="order.read()"/> -->
+														<div class="modal_product_options_details pt-3" t-att-data-id="order.product_tmpl_id.sudo().id">
+															<h6>
+																<t t-esc="order.name" />
+															</h6>
+															<h6>
+																<t t-esc="order.get_look_price(request.website.currency_id)" t-options="{'widget':'monetary','display_currency':request.website.currency_id}"/>
+															</h6>
+															<t t-if="order.prod_variant_ids">
+																<select name="order.prod_variant_ids" class="items_to_add  text-center">
+																	<t t-foreach="order.prod_variant_ids" t-as="obj" t-key="obj">
+																		<option t-att-value="obj.id"
+																				t-att-data-combination="obj.product_template_attribute_value_ids.ids"
+																				t-att-tmpl_id = "obj.product_tmpl_id.sudo().id"
+																			 	t-att-price="str(obj.lst_price)">
+																			<t t-esc="obj.display_name" />
+																		</option>
+																	</t>
+																</select>
+															</t>
+															<t t-else="">
+																<div style="height:54px;"></div>
+															</t>
+														</div>
+													</div>
+												</t>
+											</div>
+											<div id="o_wsale_cta_wrapper" class="flex-wrap align-items-center" >
+												<div contenteditable="false" class="css_quantity input-group d-inline-flex me-2 mb-2 align-middle input-group-lg">
+													<a class="btn btn-link js_add_cart_json " aria-label="Remove one" title="Remove one" data-oe-model="ir.ui.view" data-oe-id="1270" data-oe-field="arch" data-oe-xpath="/data/xpath[2]/div/a[1]" href="#">
+														<i class="fa fa-minus" />
+													</a>
+													<input type="text" class="form-control quantity text-center" data-min="1" id="modal_qty" name="add_qty" value="1" data-oe-model="ir.ui.view" data-oe-id="1270" data-oe-field="arch" data-oe-xpath="/data/xpath[2]/div/input[1]" title="" />
+													<a class="btn btn-link float_left js_add_cart_json " aria-label="Add one" title="Add one" data-oe-model="ir.ui.view" data-oe-id="1270" data-oe-field="arch" data-oe-xpath="/data/xpath[2]/div/a[2]" href="#">
+														<i class="fa fa-plus" />
+													</a>
+												</div>
+
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+												Close
+											</button>
+											<button type="button" id="add_all" class="btn btn-primary">
+												ADD ALL
+											</button>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+			</t>
+			<t t-else="">
+				<div class="container-fluid" >
+					<div class="empty-lookbook text-center">
+						<img src="/shop_the_look/static/img/empty-cart.png" class="empty-lookbook-icon" alt="LookBook is Empty"/>
+						<h2>The page you are looking for was not found.</h2>
+						<a  class="btn btn-primary btn-lg" href="/lookbook">LookBook</a>
+					</div>
+				</div>
+			</t>
+		</t>
+	</template>
+
+
+	<template id="shop_look_product_image">
+        <div t-if="product_image._name == 'product.image'" t-att-class="image_classes + ' ratio ratio-16x9'">
+            <t t-out="product_image.image_1920" t-options='{"widget": "image", "class": "oe_unmovable product_detail_img mh-100", "alt-field": "name"}'/>
+        </div>
+		<div t-else="" t-field="product_image.primary_image" t-att-class="image_classes + ' oe_unmovable'" t-options='{"widget": "image", "preview_image": "primary_image", "class": "oe_unmovable product_detail_img mh-100", "alt-field": "name"}'>
+		</div>
+    </template>
+</odoo>

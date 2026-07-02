@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="paperformat_payslip_funcionario" model="report.paperformat">
+        <field name="name">Recibo Funcionario - Mínimos Márgenes</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_payslip_funcionario" model="ir.actions.report">
+        <field name="name">Recibo de Pago de Sueldo - Funcionario</field>
+        <field name="model">hr.payslip</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_py_hr_payroll_report.report_payslip_funcionario</field>
+        <field name="report_file">l10n_py_hr_payroll_report.report_payslip_funcionario</field>
+        <field name="print_report_name">'Recibo_nro_%s_%s' % (object.number or object.id, object.date_to or '')</field>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_payslip_funcionario"/>
+    </record>
+</odoo>
+

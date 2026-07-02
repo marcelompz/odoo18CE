@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-12-18 15:23:03
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+    <record id="sale_order_template_inherit_form" model="ir.ui.view">
+        <field name="name">sale.order.template.inherit.form</field>
+        <field name="model">sale.order.template</field>
+        <field name="inherit_id" ref="sale_detalles.view_sale_order_template_form_inherit_code" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='code']" position="before">
+                <field name="product_model_id" options="{'no_create': 1}"/>
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

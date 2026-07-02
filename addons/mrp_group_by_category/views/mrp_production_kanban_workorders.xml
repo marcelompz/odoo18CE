@@ -1,0 +1,111 @@
+<odoo>
+    <record id="view_mrp_production_kanban_workorders" model="ir.ui.view">
+        <field name="name">mrp.production.kanban.workorders</field>
+        <field name="model">mrp.production</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column o_kanban_project_tasks" default_group_by="state">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="product_qty"/>
+                <field name="state"/>
+                <field name="workorder_ids"/>
+                <field name="sale_order_id"/>
+                <field name="product_summary"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div>
+                                <strong><field name="name"/></strong>
+                            </div>
+                            <div>
+                                <b>Producto:</b> <field name="product_id"/> (<field name="product_qty"/>)
+                            </div>
+                            <div>
+                                <b>Orden de Venta:</b> <field name="sale_order_id"/>
+                            </div>
+                            <div>
+                                <b>Vendedor:</b> <t t-if="record.sale_order_id and record.sale_order_id.user_id"><t t-esc="record.sale_order_id.user_id.display_name"/></t>
+                            </div>
+                            <div>
+                                <b>Fecha de Entrega:</b> <t t-if="record.sale_order_id and record.sale_order_id.validity_date"><t t-esc="record.sale_order_id.validity_date"/></t>
+                            </div>
+                            <div>
+                                <b>Total trabajos:</b>
+                                <t t-esc="record.workorder_ids.raw_value ? record.workorder_ids.raw_value.length : 0"/>
+                            </div>
+                            <div class="mt-2">
+                                <b>Trabajos:</b>
+                                <ul style="list-style: none; padding-left: 0;">
+                                    <t t-if="record.workorders_summary_json">
+                                        <t t-foreach="record.workorders_summary_json" t-as="wo">
+                                            <li class="d-flex align-items-center mb-1">
+                                                <span style="margin-right:8px;"><b>Trabajo:</b> <t t-esc="wo.name"/></span>
+                                                <span style="margin-right:8px;"><b>Centro:</b> <t t-esc="wo.workcenter"/></span>
+                                                <span style="margin-right:8px;"><b>Estado:</b> <t t-esc="wo.state"/></span>
+                                                <a role="button" class="btn btn-sm btn-outline-primary" style="margin-left:8px;"
+                                                   t-att-href="'/web#id=%s&amp;model=mrp.workorder&amp;view_type=form' % wo.id">
+                                                    Ver
+                                                </a>
+                                            </li>
+                                        </t>
+                                    </t>
+                                </ul>
+                            </div>
+                            <div class="mt-2">
+                                <b>Resumen de productos:</b>
+                                <div style="white-space: pre-line; font-size: 13px; margin-left: 10px;">
+                                    <t t-esc="record.product_summary.raw_value"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_mrp_production_calendar" model="ir.ui.view">
+        <field name="name">mrp.production.calendar</field>
+        <field name="model">mrp.production</field>
+        <field name="arch" type="xml">
+            <calendar string="Órdenes de Fabricación"
+                      date_start="date_start"
+                      date_stop="date_finished"
+                      color="state">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="sale_order_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_mrp_production_pivot" model="ir.ui.view">
+        <field name="name">mrp.production.pivot</field>
+        <field name="model">mrp.production</field>
+        <field name="arch" type="xml">
+            <pivot string="Análisis de Fabricación">
+                <field name="date_finished" interval="day" type="row" string="Día de Fin"/>
+                <field name="origin" type="col" string="Fuente"/>
+                <field name="product_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="product_qty" type="measure"/>
+                <field name="sale_order_id" type="row"/>
+                <field name="product_categ_id" type="row" string="Categoría de Producto"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_mrp_production_kanban_workorders" model="ir.actions.act_window">
+        <field name="name">Órdenes de Fabricación Kanban</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">kanban,calendar,pivot,form</field>
+        <field name="view_id" ref="view_mrp_production_kanban_workorders"/>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="menu_mrp_production_kanban_workorders" 
+              name="Órdenes de Fabricación Kanban" 
+              parent="mrp.menu_mrp_root" 
+              action="action_mrp_production_kanban_workorders" 
+              sequence="200"/>
+</odoo> 

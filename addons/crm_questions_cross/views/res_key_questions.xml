@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-05-19 10:27:15
+    @author: drojo
+-->
+<odoo>
+
+    <!-- tree view -->
+
+    <record id="res_key_questions_tree" model="ir.ui.view">
+        <field name="name">res.key.questions.tree</field>
+        <field name="model">res.key.questions</field>
+        <field name="arch" type="xml">
+            <list string="" editable="bottom">
+                <field name="name" required="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- window action -->
+
+    <record id="res_key_questions_action" model="ir.actions.act_window">
+        <field name="name">Preguntas claves</field>
+        <field name="res_model">res.key.questions</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Click en nuevo para agregar las nuevas preguntas</p>
+        </field>
+    </record>
+
+    <!-- menu -->
+
+    <menuitem
+        id="res_key_questions_menu"
+        name="Claves"
+        action="crm_questions_cross.res_key_questions_action"
+        parent="crm_questions_cross.res_questions_menu"
+        sequence="2"
+    />
+
+</odoo>

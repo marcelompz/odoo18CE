@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-06-30 21:10:30
+    @author: drojo
+-->
+<odoo>
+    <record id="aex_city_import_wizard_form" model="ir.ui.view">
+        <field name="name">aex.city.import.wizard.form</field>
+        <field name="model">aex.city.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import AEX Cities">
+                <p class="oe_grey">
+                    Click the button to import or update the list of cities available for shipping from the AEX API.
+                    This process may take a moment.
+                </p>
+                <footer>
+                    <button name="action_import_cities" string="Import / Update Cities" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aex_city_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import AEX Cities</field>
+        <field name="res_model">aex.city.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

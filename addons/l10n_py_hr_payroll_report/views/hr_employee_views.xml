@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_inherit_ips" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.ips</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='identification_id']" position="after">
+                <field name="ips_number"/>
+                <field name="dependent_count" widget="statinfo" string="Dependientes Activos"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Bonificaciones" name="bonifications">
+                    <group>
+                        <field name="bonification_category_ids" widget="many2many_tags" 
+                               options="{'no_create_edit': False}"/>
+                    </group>
+                </page>
+                <page string="DNIT" name="dnit">
+                    <group>
+                        <group>
+                            <field name="first_name"/>
+                            <field name="second_name"/>
+                            <field name="first_last_name"/>
+                            <field name="second_last_name"/>
+                        </group>
+                        <group>
+                            <field name="dnit_ruc"/>
+                            <field name="dnit_dv"/>
+                            <field name="dnit_payment_type"/>
+                            <field name="dnit_employee_type"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="dnit_department"/>
+                            <field name="dnit_district"/>
+                            <field name="dnit_locality"/>
+                            <field name="dnit_address"/>
+                        </group>
+                        <group>
+                            <field name="dnit_phone_prefix"/>
+                            <field name="dnit_phone_line"/>
+                            <field name="dnit_mobile_prefix"/>
+                            <field name="dnit_mobile_line"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

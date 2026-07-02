@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-06-17 20:32:18
+    @author: drojo
+-->
+<odoo>
+
+    <!-- tree view -->
+
+    <record id="product_type_fabric_tree" model="ir.ui.view">
+        <field name="name">product.type.fabric.tree</field>
+        <field name="model">product.type.fabric</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" sample="1">
+                <field name="name" required="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- window action -->
+
+    <record id="product_type_fabric_action" model="ir.actions.act_window">
+        <field name="name">Tipo de tela</field>
+        <field name="res_model">product.type.fabric</field>
+        <field name="view_mode">list</field>
+    </record>
+
+</odoo>

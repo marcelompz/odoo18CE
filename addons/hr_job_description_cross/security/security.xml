@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_hr_job_manual_approver" model="res.groups">
+        <field name="name">Aprobador de Manual de Funciones</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+        <field name="comment">Usuario autorizado a aprobar/rechazar manuales de funciones de puestos.</field>
+    </record>
+</odoo>

@@ -1,0 +1,26 @@
+/* Tema oscuro para la vista kanban de producción usando variables Bootstrap */
+.o_kanban_view {
+    background: var(--bs-dark, #181a1b) !important;
+    color: var(--bs-light, #f1f1f1) !important;
+}
+.o_kanban_view .oe_kanban_card {
+    background: var(--bs-secondary, #23272f) !important;
+    color: var(--bs-light, #f1f1f1) !important;
+    border-color: #444 !important;
+}
+.o_kanban_view .btn-outline-primary {
+    color: var(--bs-light, #f1f1f1);
+    border-color: #888;
+    background: var(--bs-secondary, #23272f);
+}
+.o_kanban_view .btn-outline-primary:hover {
+    background: #444;
+    color: #fff;
+}
+.o_kanban_view .oe_kanban_card b {
+    color: #e0e0e0;
+}
+.o_kanban_view .oe_kanban_card .d-flex.align-items-center.mb-1 span {
+    color: var(--bs-light, #f1f1f1);
+}
+/* Puedes personalizar más estilos según tus necesidades */ 

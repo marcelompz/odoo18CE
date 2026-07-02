@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú raíz -->
+    <menuitem id="menu_detalles_root"
+              name="Detalles"
+              parent="sale.sale_menu_root"
+              sequence="10"/>
+
+    <!-- Menú principal de ventas con vista de calendario -->
+    <menuitem id="menu_sale_order_main"
+              name="Órdenes de Venta"
+              action="sale_detalles.action_sale_order_main"
+              parent="sale.sale_menu_root"
+              sequence="5"/>
+
+    <!-- Menú para vista kanban de ventas -->
+    <menuitem id="menu_order_kanban"
+              name="Tablero de Ventas"
+              action="sale_detalles.action_order_kanban"
+              parent="menu_detalles_root"
+              sequence="5"/>
+
+
+
+
+
+    <!-- Menú para líneas de modelos -->
+    <menuitem id="menu_order_detail_model_lines"
+              name="Líneas de Modelos"
+              action="sale_detalles.action_view_models"
+              parent="menu_detalles_root"
+              sequence="15"/>
+
+    <!-- Menú para vista de calendario de órdenes -->
+    <menuitem id="menu_sale_order_calendar"
+              name="Calendario de Órdenes"
+              action="sale_detalles.action_sale_order_calendar"
+              parent="menu_detalles_root"
+              sequence="25"/>
+
+    <!-- Submenú de Configuración -->
+    <menuitem id="menu_detalles_configuration"
+              name="Configuración de Detalles"
+              parent="sale.menu_sale_config"
+              sequence="100"/>
+
+    <!-- Menú para tipos de modelos -->
+    <menuitem id="menu_model_type"
+              name="Tipos de Modelos"
+              action="sale_detalles.action_model_type"
+              parent="menu_detalles_configuration"
+              sequence="10"/>
+
+    <!-- Menú para etapas de venta -->
+    <menuitem id="menu_sale_stage"
+              name="Etapas de Venta"
+              action="sale_detalles.action_sale_stage"
+              parent="menu_detalles_configuration"
+              sequence="20"/>
+
+    <!-- Menú para preguntas técnicas -->
+    <menuitem id="menu_technical_info_question"
+              name="Preguntas Técnicas"
+              action="sale_detalles.action_technical_info_question"
+              parent="menu_detalles_configuration"
+              sequence="30"/>
+
+    <!-- Submenú de Ajustes -->
+    <menuitem id="menu_detalles_ajustes"
+              name="Ajustes"
+              parent="menu_detalles_root"
+              sequence="100"/>
+
+    <!-- Menú para configuración de sale detalles -->
+    <menuitem id="menu_sale_detalles_config"
+              name="Configuración del Módulo"
+              action="sale_detalles.action_sale_detalles_config"
+              parent="menu_detalles_ajustes"
+              sequence="10"/>
+</odoo> 

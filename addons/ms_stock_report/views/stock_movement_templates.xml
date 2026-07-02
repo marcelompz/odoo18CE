@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="stock_movement_general">
+			<div class="page">
+                <div align="center">
+                    <h2>
+                        <span>Stock Movement</span>
+                    </h2>
+                </div>
+                <t t-if="not wizard_id">
+                    <t t-set="wizard_id" t-value="docs"/>
+                </t>
+                <table class="table table-sm o_main_table table-bordered mt-4">
+                    <thead style="display: table-row-group">
+                        <tr>
+                            <th width="3%" class="text-center"><strong>No</strong></th>
+                            <th width="20%" class="text-center"><strong>Product</strong></th>
+                            <th width="10%" class="text-center"><strong>Category</strong></th>
+                            <th width="10%" class="text-center"><strong>Lot / SN</strong></th>
+                            <th width="15%" class="text-center"><strong>Source Location</strong></th>
+                            <th width="15%" class="text-center"><strong>Destination Location</strong></th>
+                            <th width="10%" class="text-center"><strong>Reference</strong></th>
+                            <th width="10%" class="text-center"><strong>Date of Transfer</strong></th>
+                            <th width="7%" class="text-center"><strong>Qty</strong></th>
+                        </tr>
+                    </thead>
+                    <t t-set="datas" t-value="wizard_id.get_stock_movement_data()"/>
+                    <tbody>
+                        <t t-set="total_qty" t-value="0"/>
+                        <t t-foreach="datas" t-as="data">
+                            <t t-set="total_qty" t-value="total_qty + data['qty']"/>
+
+                            <tr>
+                                <td>
+                                    <span t-esc="data['no']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="data['product_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="data['categ_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="data['lot_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="data['location_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="data['dest_location_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="data['reference']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="data['transfer_date']"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="'{:,.2f}'.format(data['qty'])"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+                            <span><strong>Grand Total</strong></span>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td class="text-end">
+                            <strong><span t-esc="'{:,.2f}'.format(total_qty)"/></strong>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </template>
+
+        <template id="stock_movement_document">
+            <t t-call="web.external_layout">
+                <t t-call="ms_stock_report.stock_movement_general"/>
+            </t>
+        </template>
+
+        <template id="stock_movement">
+		    <t t-call="web.html_container">
+		        <t t-call="ms_stock_report.stock_movement_document" />
+		    </t>
+		</template>
+		
+		<record id="report_stock_movement" model="ir.actions.report">
+            <field name="name">Stock Movement</field>
+            <field name="model">ms.stock.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ms_stock_report.stock_movement</field>
+            <field name="report_file">ms_stock_report.stock_movement</field>
+            <field name="print_report_name">'Stock Movement'</field>
+            <field name="binding_model_id" eval="False"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_euro_landscape"/>
+        </record>
+
+        <template id="stock_movement_template">
+            <t t-call="portal.portal_layout">
+                <t t-set="additional_title">Stock Movement</t>
+                <t t-call="ms_stock_report.stock_movement_general"/>
+            </t>
+        </template>
+
+    </data>
+</odoo>

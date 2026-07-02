@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_hr_advance_form" model="ir.ui.view">
+        <field name="name">hr.advance.form</field>
+        <field name="model">hr.advance</field>
+        <field name="arch" type="xml">
+            <form string="Anticipo de Sueldo">
+                <header>
+                    <button name="action_rrhh_approve" string="Aprobar (RRHH)"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"
+                            groups="hr_payroll.group_hr_payroll_user"/>
+                    <button name="action_finance_pay" string="Desembolsar (Finanzas)"
+                            type="object" class="btn-primary"
+                            invisible="state != 'rrhh_approved'"
+                            groups="account.group_account_manager"/>
+                    <button name="action_cancel" string="Cancelar"
+                            type="object" invisible="state in ('cancelled', 'paid', 'deducted')"/>
+                    <button name="action_back_to_draft" string="Volver a Borrador"
+                            type="object" invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,rrhh_approved,paid,deducted"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_payment" icon="fa-money"
+                                invisible="not payment_id">
+                            <span>Ver Pago</span>
+                        </button>
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_attachment" icon="fa-link"
+                                invisible="not salary_attachment_id">
+                            <span>Ver Attachment</span>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" readonly="state != 'draft'"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="amount" readonly="state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="description" readonly="state != 'draft'"/>
+                        </group>
+                        <group string="Configuracion contable">
+                            <field name="journal_id" readonly="state in ('paid', 'deducted', 'cancelled')"/>
+                            <field name="advance_account_id" readonly="state in ('paid', 'deducted', 'cancelled')"/>
+                            <field name="rrhh_approver_id" readonly="1" invisible="not rrhh_approver_id"/>
+                            <field name="finance_approver_id" readonly="1" invisible="not finance_approver_id"/>
+                            <field name="payment_id" readonly="1" invisible="not payment_id"/>
+                            <field name="salary_attachment_id" readonly="1" invisible="not salary_attachment_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_advance_list" model="ir.ui.view">
+        <field name="name">hr.advance.list</field>
+        <field name="model">hr.advance</field>
+        <field name="arch" type="xml">
+            <list string="Anticipos de Sueldo"
+                  decoration-info="state == 'rrhh_approved'"
+                  decoration-success="state in ('paid', 'deducted')"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="amount" sum="Total"/>
+                <field name="currency_id" optional="hide"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_advance_search" model="ir.ui.view">
+        <field name="name">hr.advance.search</field>
+        <field name="model">hr.advance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <filter string="Borrador" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Aprobado RRHH" name="rrhh" domain="[('state', '=', 'rrhh_approved')]"/>
+                <filter string="Desembolsado" name="paid" domain="[('state', '=', 'paid')]"/>
+                <filter string="Descontado" name="deducted" domain="[('state', '=', 'deducted')]"/>
+                <group string="Agrupar por">
+                    <filter string="Empleado" name="g_emp" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Estado" name="g_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hr_advance" model="ir.actions.act_window">
+        <field name="name">Anticipos de Sueldo</field>
+        <field name="res_model">hr.advance</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

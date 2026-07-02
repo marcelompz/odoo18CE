@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_payslip_form_inherit_attendance" model="ir.ui.view">
+        <field name="name">hr.payslip.form.attendance.tab.cn</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Marcaciones del periodo" name="cn_attendance_period">
+                    <div class="alert alert-info" role="alert">
+                        <p>Esta pestana muestra el detalle dia por dia del
+                        periodo segun el Tablero Diario. Si los datos parecen
+                        desactualizados haga click en
+                        <b>Recalcular Tablero del periodo</b> antes de
+                        recalcular la nomina.</p>
+                    </div>
+                    <button name="action_recalculate_attendance" type="object"
+                            string="Recalcular Tablero del periodo"
+                            class="btn-warning"
+                            confirm="Esto regenerara las filas del Tablero Diario para el periodo del recibo. Continuar?"/>
+                    <button name="action_request_falta_approval_period" type="object"
+                            string="Solicitar Aprobacion de FALTAS"
+                            class="btn-danger ms-2"
+                            icon="fa-paper-plane"
+                            help="Abre el wizard con todas las FALTAS del periodo. Podras deseleccionar las que no aplican antes de enviar al supervisor."/>
+                    <group col="4" class="mt8">
+                        <field name="attendance_present_days" readonly="1"/>
+                        <field name="attendance_absence_days" readonly="1"/>
+                        <field name="attendance_leave_days" readonly="1"/>
+                        <field name="attendance_rest_days" readonly="1"/>
+                    </group>
+                    <group col="4">
+                        <field name="attendance_total_hours" widget="float_time" readonly="1"/>
+                        <field name="attendance_currency_id" invisible="1"/>
+                        <field name="attendance_total_cost" readonly="1"
+                               widget="monetary" options="{'currency_field': 'attendance_currency_id'}"/>
+                    </group>
+                    <field name="attendance_report_ids" nolabel="1">
+                        <list create="0" delete="0" edit="0"
+                              decoration-danger="absence_status == 'absence'"
+                              decoration-warning="absence_status == 'leave'"
+                              decoration-info="absence_status == 'rest'"
+                              decoration-success="absence_status == 'present'">
+                            <header>
+                                <button name="action_request_falta_approval" type="object"
+                                        string="Solicitar Aprobacion de FALTAS seleccionadas"
+                                        class="btn-danger"
+                                        display="always"
+                                        help="Marque con checkbox los dias en estado FALTA y haga click aqui para enviar al supervisor."/>
+                            </header>
+                            <field name="date"/>
+                            <field name="absence_status" widget="badge"
+                                   decoration-danger="absence_status == 'absence'"
+                                   decoration-warning="absence_status == 'leave'"
+                                   decoration-info="absence_status == 'rest'"
+                                   decoration-success="absence_status == 'present'"/>
+                            <field name="leave_type_name"/>
+                            <field name="total_ordinary" widget="float_time" sum="Total"/>
+                            <field name="total_extra_day" widget="float_time" sum="Extra Diurno"/>
+                            <field name="total_extra_night" widget="float_time" sum="Extra Nocturno"/>
+                            <field name="total_break" widget="float_time" sum="Descanso"/>
+                            <field name="hours_total" widget="float_time" sum="Total Horas"/>
+                            <field name="daily_cost" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"
+                                   sum="Costo total"/>
+                            <field name="currency_id" invisible="1"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Detalle de marcaciones" name="cn_attendance_detail">
+                    <div class="alert alert-info" role="alert">
+                        <p>Detalle de cada marcacion (hr.attendance) registrada
+                        en el periodo. Las marcaciones <b>incompletas</b> se
+                        muestran en rojo (sin salida o sin entrada).</p>
+                        <p>Para <b>editar</b> entrada/salida y que se recalculen
+                        automaticamente las horas y el tablero, haga click en
+                        <b>"Editar marcaciones del periodo"</b>.</p>
+                    </div>
+                    <button name="action_open_attendances_period" type="object"
+                            string="Editar marcaciones del periodo"
+                            class="btn-primary"
+                            icon="fa-pencil"/>
+                    <button name="action_recalculate_attendance" type="object"
+                            string="Recalcular Tablero"
+                            class="btn-warning ms-2"
+                            icon="fa-refresh"/>
+                    <field name="attendance_ids_period" nolabel="1" class="mt16">
+                        <list create="0" delete="0" edit="0"
+                              decoration-danger="is_incomplete">
+                            <field name="employee_id"/>
+                            <field name="check_in"/>
+                            <field name="check_out"/>
+                            <field name="shift_group_id" optional="show"/>
+                            <field name="hours_ordinary" widget="float_time"
+                                   sum="Total" optional="show"/>
+                            <field name="hours_extra_day" widget="float_time"
+                                   sum="Extra Diurno" optional="show"/>
+                            <field name="hours_extra_night" widget="float_time"
+                                   sum="Extra Nocturno" optional="show"/>
+                            <field name="hours_break" widget="float_time"
+                                   sum="Descanso" optional="hide"/>
+                            <field name="worked_hours" widget="float_time"
+                                   sum="Total Horas" optional="show"/>
+                            <field name="is_incomplete" string="Incompleta"
+                                   optional="show"/>
+                            <field name="shift_date" optional="hide"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

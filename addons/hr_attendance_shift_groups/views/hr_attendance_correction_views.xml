@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =================================================================== -->
+    <!--  Vista de Correccion de Asistencias                                  -->
+    <!--  Lista editable + filtros para detectar marcaciones incompletas     -->
+    <!-- =================================================================== -->
+
+    <record id="view_hr_attendance_correction_list" model="ir.ui.view">
+        <field name="name">hr.attendance.correction.list</field>
+        <field name="model">hr.attendance</field>
+        <field name="arch" type="xml">
+            <list string="Correccion de Marcaciones"
+                  editable="bottom" multi_edit="1"
+                  decoration-warning="incomplete_reason == 'no_checkout' or incomplete_reason == 'no_group'"
+                  decoration-danger="incomplete_reason == 'no_checkin'"
+                  decoration-success="not is_incomplete"
+                  default_order="shift_date desc, employee_id, check_in">
+                <field name="employee_id" required="1"/>
+                <field name="shift_date" readonly="1" optional="show"/>
+                <field name="check_in" required="1"/>
+                <field name="check_out"/>
+                <field name="shift_group_id" optional="show"/>
+                <field name="hours_ordinary" widget="float_time" readonly="1" sum="Total" optional="show"/>
+                <field name="hours_extra_day" widget="float_time" readonly="1" sum="Total" optional="show"/>
+                <field name="hours_extra_night" widget="float_time" readonly="1" sum="Total" optional="show"/>
+                <field name="hours_break" widget="float_time" readonly="1" optional="hide"/>
+                <field name="incomplete_reason" widget="badge"
+                       decoration-warning="incomplete_reason == 'no_checkout' or incomplete_reason == 'no_group'"
+                       decoration-danger="incomplete_reason == 'no_checkin'"
+                       decoration-success="incomplete_reason == 'ok'"/>
+                <field name="is_incomplete" invisible="1"/>
+                <button name="action_complete_missing_checkout" type="object"
+                        string="Completar" icon="fa-check-circle"
+                        invisible="not is_incomplete or incomplete_reason == 'ok'"
+                        class="btn-link"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_attendance_correction_search" model="ir.ui.view">
+        <field name="name">hr.attendance.correction.search</field>
+        <field name="model">hr.attendance</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Asistencias">
+                <field name="employee_id"/>
+                <field name="shift_group_id"/>
+                <field name="shift_date"/>
+                <field name="check_in"/>
+                <separator/>
+                <filter string="Marcaciones Incompletas" name="filter_incomplete"
+                        domain="[('is_incomplete', '=', True)]"/>
+                <filter string="Sin Check-in" name="filter_no_checkin"
+                        domain="[('incomplete_reason', '=', 'no_checkin')]"/>
+                <filter string="Sin Check-out" name="filter_no_checkout"
+                        domain="[('incomplete_reason', '=', 'no_checkout')]"/>
+                <filter string="Sin Grupo de Turno" name="filter_no_group"
+                        domain="[('incomplete_reason', '=', 'no_group')]"/>
+                <separator/>
+                <filter string="Completas" name="filter_complete"
+                        domain="[('is_incomplete', '=', False)]"/>
+                <separator/>
+                <group expand="1" string="Agrupar por">
+                    <filter string="Empleado" name="group_employee" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Estado" name="group_state" context="{'group_by': 'incomplete_reason'}"/>
+                    <filter string="Grupo de Turno" name="group_shift" context="{'group_by': 'shift_group_id'}"/>
+                    <filter string="Fecha" name="group_date" context="{'group_by': 'shift_date'}"/>
+                    <filter string="Departamento" name="group_dept" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hr_attendance_correction" model="ir.actions.act_window">
+        <field name="name">Correccion de Marcaciones</field>
+        <field name="res_model">hr.attendance</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_hr_attendance_correction_list"/>
+        <field name="search_view_id" ref="view_hr_attendance_correction_search"/>
+        <field name="context">{
+            'search_default_filter_incomplete': 1,
+            'search_default_group_employee': 1,
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Correccion de Marcaciones de Asistencia
+            </p>
+            <p>
+                Use esta vista para detectar y corregir marcaciones incompletas:
+                olvidos de check-in, olvidos de check-out, asistencias sin grupo
+                de turno asignado. Los registros se pueden editar inline o usar
+                el boton "Completar" para corregir rapidamente.
+            </p>
+            <p>
+                Los colores indican el estado:
+                <ul>
+                    <li><b>Verde</b>: Asistencia completa y procesada.</li>
+                    <li><b>Amarillo</b>: Falta check-out o grupo de turno.</li>
+                    <li><b>Rojo</b>: Falta check-in.</li>
+                </ul>
+            </p>
+        </field>
+    </record>
+
+    <!-- =================================================================== -->
+    <!--  Vista PIVOT editable - tablero como el original pero permite       -->
+    <!--  abrir cualquier celda para editar la asistencia origen              -->
+    <!-- =================================================================== -->
+    <record id="view_hr_attendance_correction_pivot" model="ir.ui.view">
+        <field name="name">hr.attendance.correction.pivot</field>
+        <field name="model">hr.attendance</field>
+        <field name="arch" type="xml">
+            <pivot string="Tablero de Correccion" sample="1">
+                <field name="employee_id" type="row"/>
+                <field name="shift_date" interval="day" type="row"/>
+                <field name="hours_ordinary" type="measure" widget="float_time"/>
+                <field name="hours_extra_day" type="measure" widget="float_time"/>
+                <field name="hours_extra_night" type="measure" widget="float_time"/>
+                <field name="hours_break" type="measure" widget="float_time"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_hr_attendance_correction_pivot" model="ir.actions.act_window">
+        <field name="name">Tablero Editable</field>
+        <field name="res_model">hr.attendance</field>
+        <field name="view_mode">pivot,list,form</field>
+        <field name="search_view_id" ref="view_hr_attendance_correction_search"/>
+        <field name="context">{
+            'search_default_group_employee': 1,
+            'search_default_group_date': 1,
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tablero Editable de Asistencias
+            </p>
+            <p>
+                Vista pivot con totales por empleado y dia. Click en cualquier celda
+                para abrir las asistencias y editarlas.
+            </p>
+        </field>
+    </record>
+
+
+    <!-- Crossnexion: Dividir marcacion sospechosa (cruza dias) -->
+    <record id="server_action_split_orphan_checkout" model="ir.actions.server">
+        <field name="name">Dividir marcacion (separar check_in y check_out)</field>
+        <field name="model_id" ref="hr_attendance.model_hr_attendance"/>
+        <field name="binding_model_id" ref="hr_attendance.model_hr_attendance"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.action_split_orphan_checkout()
+        </field>
+    </record>
+
+</odoo>

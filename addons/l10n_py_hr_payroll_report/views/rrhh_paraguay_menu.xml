@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú principal RRHH Paraguay -->
+    <menuitem id="menu_rrhh_paraguay_root"
+              name="RRHH Paraguay"
+              parent="hr.menu_hr_root"
+              sequence="90"/>
+</odoo>
+

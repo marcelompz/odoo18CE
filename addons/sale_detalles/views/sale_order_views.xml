@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="total_products_count" widget="statinfo" string="Total Productos"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="client_order_ref" string="Referencia del cliente"/>
+                <field name="user_id" string="Vendedor"/>
+                <field name="manager_id" string="Gestor"/>
+                <field name="team_id" string="Equipo de ventas"/>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="stage_id" default="sale_detalles.stage_recabar_datos"/>
+            </xpath>
+            <xpath expr="//field[@name='stage_id']" position="after">
+                <field name="confirmation_date"/>
+                <field name="validity_date"/>
+                <field name="date_status" widget="badge" options="{'classes': {'pending': 'badge-warning', 'valid': 'badge-success', 'invalid': 'badge-danger', 'overdue': 'badge-danger'}}"/>
+            </xpath>
+            <xpath expr="//field[@name='date_status']" position="after">
+                <button name="action_date_management_wizard" 
+                        string="Gestión de Fechas" 
+                        type="object"
+                        class="btn btn-info"
+                        icon="fa-calendar"
+                        invisible="not id"/>
+                
+            </xpath>
+            <xpath expr="//field[@name='state']" position="after">
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Información Técnica" name="technical_info" sequence="1">
+                    <group>
+                        <field name="technical_info_ids" widget="one2many" readonly="locked">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="question_id"/>
+                                <field name="answer"/>
+                            </list>
+                        </field>
+                        <field name="general_description" widget="html"/>
+                    </group>
+                </page>
+                <page string="Líneas de Modelos" name="model_lines" sequence="2">
+                    
+                    <field name="model_line_ids" context="{'default_order_id': id}" readonly="locked">
+                        <list editable="bottom">
+                            <field name="model_type_id"/>
+                            <field name="image" widget="image" options="{'size': [100, 100]}"/>
+                            <field name="current_designer_id"/>
+                            <field name="work_type" readonly="1"/>
+                            <field name="product_ids" widget="many2many_tags"/>
+                            <button name="action_assign_designer" 
+                                    string="Asignar Diseñador" 
+                                    type="object" 
+                                    icon="fa-pencil"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Detalles de Tallas" name="order_detail_lines" sequence="3">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_import_detail_wizard)d" 
+                                string="Importar Detalles" 
+                                type="action"
+                                class="btn btn-primary"
+                                icon="fa-upload"/>
+                        <button name="action_reorder_sequences" 
+                                string="Reordenar" 
+                                type="object"
+                                class="btn btn-secondary"
+                                icon="fa-sort"
+                                context="{'default_order_id': id}"/>
+                    </div>
+                    <field name="order_detail_lines" context="{'default_order_id': id}" readonly="locked">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="customer_model"/>
+                            <field name="name_customer"/>
+                            <field name="number_customer"/>
+                            <field name="other_customer"/>
+                            <field name="quantity"/>
+                            <field name="product1_variant_id"/>
+                            <field name="product2_variant_id"/>
+                            <field name="product3_variant_id"/>
+                            <field name="product4_variant_id"/>
+                            <field name="product5_variant_id"/>
+                            <field name="price"/>
+                            <field name="subtotal"/>
+                        </list>
+                    </field>
+                    <div class="oe_right">
+                        <field name="total_general" string="Total General" widget="monetary" class="oe_subtotal_footer_separator"/>
+                    </div>
+                </page>
+                <xpath expr="//page[@name='order_lines']" position="attributes">
+                    <attribute name="sequence">4</attribute>
+                </xpath>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de lista de órdenes de venta -->
+    <record id="view_order_list_inherit" model="ir.ui.view">
+        <field name="name">sale.order.list.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="client_order_ref" string="Referencia del cliente"/>
+                <field name="user_id" string="Vendedor"/>
+                <field name="manager_id" string="Gestor"/>
+                <field name="team_id" string="Equipo de ventas"/>
+            </xpath>
+            <xpath expr="//field[@name='team_id']" position="after">
+                <field name="confirmation_date" string="Fecha de Confirmación"/>
+                <field name="validity_date" string="Fecha de Vencimiento"/>
+                <field name="date_status" string="Estado de Fechas" widget="badge" options="{'classes': {'pending': 'badge-warning', 'valid': 'badge-success', 'invalid': 'badge-danger', 'overdue': 'badge-danger'}}"/>
+                <field name="total_products_count" string="Total Productos"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista previa de la orden de venta -->
+    <record id="sale_order_portal_template" model="ir.ui.view">
+        <field name="name">sale.order.portal.template</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_portal_template"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_portal_sale_sidebar')]" position="after">
+                <div class="o_portal_sale_sidebar">
+                    <h4>Detalles por Tallas</h4>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Nombre</th>
+                                <th>Número</th>
+                                <th>Otros</th>
+                                <th>Cantidad</th>
+                                <th>Productos</th>
+                                <th>Precio</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="order.order_detail_lines" t-as="detail">
+                                <td><span t-esc="detail.customer_model"/></td>
+                                <td><span t-esc="detail.name_customer"/></td>
+                                <td><span t-esc="detail.number_customer"/></td>
+                                <td><span t-esc="detail.other_customer"/></td>
+                                <td><span t-esc="detail.quantity"/></td>
+                                <td>
+                                    <span t-esc="detail.product1_variant_id.name" t-if="detail.product1_variant_id"/><br/>
+                                    <span t-esc="detail.product2_variant_id.name" t-if="detail.product2_variant_id"/><br/>
+                                    <span t-esc="detail.product3_variant_id.name" t-if="detail.product3_variant_id"/><br/>
+                                    <span t-esc="detail.product4_variant_id.name" t-if="detail.product4_variant_id"/><br/>
+                                    <span t-esc="detail.product5_variant_id.name" t-if="detail.product5_variant_id"/>
+                                </td>
+                                <td><span t-esc="detail.price"/></td>
+                                <td><span t-esc="detail.subtotal"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda de órdenes de venta -->
+    <record id="view_order_search_inherit" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="manager_id"/>
+                <field name="stage_id"/>
+                <field name="confirmation_date"/>
+                <field name="validity_date"/>
+                <field name="date_status"/>
+            </xpath>
+            <xpath expr="//filter" position="after">
+                <filter string="Pendiente de Fechas" name="pending_dates" domain="[('date_status', '=', 'pending')]"/>
+                <filter string="Fechas Válidas" name="valid_dates" domain="[('date_status', '=', 'valid')]"/>
+                <filter string="Fechas Inválidas" name="invalid_dates" domain="[('date_status', '=', 'invalid')]"/>
+                <filter string="Vencidas" name="overdue_dates" domain="[('date_status', '=', 'overdue')]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter string="Estado de Fechas" name="group_date_status" context="{'group_by': 'date_status'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo> 

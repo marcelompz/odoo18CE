@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-08-15 15:30:04
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+    <record id="sale_advance_payment_wizard_form_view" model="ir.ui.view">
+        <field name="name">sale.advance.payment.wizard.form</field>
+        <field name="model">sale.advance.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="sale_order_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="amount"/>
+                    <field name="payment_date"/>
+                    <field name="journal_id" options="{'no_create': 1, 'no_open': 1}"/>
+                </group>
+                <footer>
+                    <button name="action_create_payment" string="Crear Pago" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

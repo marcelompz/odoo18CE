@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_producto_comercial" model="ir.actions.act_window">
+        <field name="name">Producto comercial</field>
+        <field name="res_model">producto.comercial</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear productos comerciales (nombre y precio) para usarlos en presupuestos rápidos.
+            </p>
+        </field>
+    </record>
+
+    <record id="menu_presupuesto_rapido" model="ir.ui.menu">
+        <field name="name">Presupuesto rápido</field>
+        <field name="parent_id" ref="sale.sale_menu_root"/>
+        <field name="sequence" type="int">50</field>
+    </record>
+
+    <record id="menu_producto_comercial" model="ir.ui.menu">
+        <field name="name">Producto comercial</field>
+        <field name="parent_id" ref="menu_presupuesto_rapido"/>
+        <field name="action" ref="action_producto_comercial"/>
+        <field name="sequence" type="int">10</field>
+    </record>
+
+    <record id="menu_presupuesto_config" model="ir.ui.menu">
+        <field name="name">Configuración</field>
+        <field name="parent_id" ref="menu_presupuesto_rapido"/>
+        <field name="action" ref="action_presupuesto_config"/>
+        <field name="sequence" type="int">20</field>
+    </record>
+
+</odoo>

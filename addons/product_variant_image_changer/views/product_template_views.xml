@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista de formulario para product.variant.image -->
+        <record id="product_variant_image_form_view" model="ir.ui.view">
+            <field name="name">product.variant.image.form</field>
+            <field name="model">product.variant.image</field>
+            <field name="arch" type="xml">
+                <form string="Imagen de Variante">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nombre de la imagen..."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="product_tmpl_id"/>
+                                <field name="product_variant_id" domain="[('product_tmpl_id', '=', product_tmpl_id)]"/>
+                                <field name="sequence"/>
+                            </group>
+                            <group>
+                                <field name="image" widget="image" class="oe_avatar"/>
+                                <field name="image_url" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de lista para product.variant.image -->
+        <record id="product_variant_image_tree_view" model="ir.ui.view">
+            <field name="name">product.variant.image.tree</field>
+            <field name="model">product.variant.image</field>
+            <field name="arch" type="xml">
+                <tree string="Imágenes de Variantes" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="product_variant_id"/>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Acción para product.variant.image -->
+        <record id="product_variant_image_action" model="ir.actions.act_window">
+            <field name="name">Imágenes de Variantes</field>
+            <field name="res_model">product.variant.image</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea tu primera imagen de variante
+                </p>
+                <p>
+                    Las imágenes de variantes permiten mostrar diferentes imágenes
+                    para cada variante de producto en la tienda online.
+                </p>
+            </field>
+        </record>
+
+        <!-- Herencia de la vista de formulario de product.template -->
+        <record id="product_template_form_view_inherit" model="ir.ui.view">
+            <field name="name">product.template.form.inherit.variant.images</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Imágenes de Variantes" name="variant_images">
+                        <field name="variant_image_ids" context="{'default_product_tmpl_id': active_id}">
+                            <tree editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="product_variant_id" domain="[('product_tmpl_id', '=', parent.id)]" options="{'no_create': True}"/>
+                                <field name="image" widget="image" class="oe_avatar"/>
+                                <field name="active"/>
+                            </tree>
+                            <form>
+                                <sheet>
+                                    <div class="oe_title">
+                                        <h1>
+                                            <field name="name" placeholder="Nombre de la imagen..."/>
+                                        </h1>
+                                    </div>
+                                    <group>
+                                        <group>
+                                            <field name="product_variant_id" domain="[('product_tmpl_id', '=', parent.id)]" options="{'no_create': True}"/>
+                                            <field name="sequence"/>
+                                            <field name="active"/>
+                                        </group>
+                                        <group>
+                                            <field name="image" widget="image" class="oe_avatar"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                        <div class="alert alert-info" role="alert">
+                            <strong>Información:</strong> Las imágenes de variantes se mostrarán como miniaturas en la página del producto.
+                            Los clientes podrán hacer clic en ellas para cambiar la imagen principal y ver el precio de la variante.
+                        </div>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Menú para acceder a las imágenes de variantes -->
+        <menuitem id="menu_product_variant_images"
+                  name="Imágenes de Variantes"
+                  parent="sale.prod_config_main"
+                  action="product_variant_image_action"
+                  sequence="20"/>
+
+    </data>
+</odoo>
+

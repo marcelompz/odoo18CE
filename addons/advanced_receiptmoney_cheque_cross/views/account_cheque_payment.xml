@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-07-31 13:45:20
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="account_cheque_payment_inherit_form" model="ir.ui.view">
+        <field name="name">account.cheque.payment.inherit.form</field>
+        <field name="model">account.cheque.payment</field>
+        <field name="inherit_id" ref="cheque_management_cross.account_cheque_payment_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button 
+                    name="action_create_receipt_money" 
+                    type="object" 
+                    string="Recibo de dinero"
+                    class="oe_highlight"
+                    invisible="count_receipt_payments != 0 or payment_type != 'receive_money' or state not in ['paid', 'done', 'registered','deposited']"
+                />
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="button_open_receipt_payments" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="count_receipt_payments == 0">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_text">
+                            <field name="count_receipt_payments"/>
+                            <span> Recibos de dinero</span>
+                        </span>
+                    </div>
+                </button>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- tree view -->
+
+    <record id="account_cheque_payment_inherit_tree" model="ir.ui.view">
+        <field name="name">account.cheque.payment.inherit.tree</field>
+        <field name="model">account.cheque.payment</field>
+        <field name="inherit_id" ref="cheque_management_cross.account_cheque_payment_tree" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//list" position="inside">
+                <header>
+                    <button name="action_create_receipt_payment_group" type="object" string="Recibo de dinero"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="receipt_payment_id" invisible="1"/>
+                <button name="button_open_receipt_payments" type="object" string="" icon="fa-file-text-o" invisible="not receipt_payment_id"/>
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

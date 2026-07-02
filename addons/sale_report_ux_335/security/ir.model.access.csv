@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_presupuesto_config_user,presupuesto.rapido.config.user,model_presupuesto_rapido_config,sales_team.group_sale_salesman,1,1,1,1
+access_producto_comercial_user,producto.comercial.user,model_producto_comercial,sales_team.group_sale_salesman,1,1,1,1
+access_producto_comercial_manager,producto.comercial.manager,model_producto_comercial,sales_team.group_sale_manager,1,1,1,1
+access_sale_order_presupuesto_line_user,sale.order.presupuesto.line.user,model_sale_order_presupuesto_line,sales_team.group_sale_salesman,1,1,1,1
+access_sale_order_presupuesto_line_manager,sale.order.presupuesto.line.manager,model_sale_order_presupuesto_line,sales_team.group_sale_manager,1,1,1,1

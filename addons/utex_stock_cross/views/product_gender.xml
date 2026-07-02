@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-05-27 16:05:15
+    @author: drojo
+-->
+<odoo>
+
+    <!-- tree view -->
+    
+    <record id="product_gender_tree" model="ir.ui.view">
+        <field name="name">product.gender.tree</field>
+        <field name="model">product.gender</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="product_template_ids" widget="many2many_tags" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- form view -->
+
+    <record id="product_gender_form" model="ir.ui.view">
+        <field name="name">product.gender.form</field>
+        <field name="model">product.gender</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title mb24">
+                        <h1>
+                            <field name="name" class="text-break" default_focus="1" placeholder="Ej.: Masculino" required="1"/>
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page name="product_related" string="Productos relacionados">
+                            <field name="product_template_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- window action -->
+
+    <record id="product_gender_action" model="ir.actions.act_window">
+        <field name="name">Género del producto</field>
+        <field name="res_model">product.gender</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- menu -->
+
+    <menuitem
+        id="product_gender_menu"
+        name="Género del producto"
+        action="utex_stock_cross.product_gender_action"
+        parent="stock.menu_product_in_config_stock"
+        sequence="66"
+    />
+
+</odoo>

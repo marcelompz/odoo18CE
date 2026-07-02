@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de lista para bonificaciones -->
+    <record id="view_hr_bonification_tree" model="ir.ui.view">
+        <field name="name">hr.bonification.tree</field>
+        <field name="model">hr.bonification</field>
+        <field name="arch" type="xml">
+            <list string="Bonificaciones">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="amount_type"/>
+                <field name="amount"/>
+                <field name="salary_rule_id" invisible="1"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para bonificaciones -->
+    <record id="view_hr_bonification_form" model="ir.ui.view">
+        <field name="name">hr.bonification.form</field>
+        <field name="model">hr.bonification</field>
+        <field name="arch" type="xml">
+            <form string="Bonificación">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="Ej: Bonificación por Día del Trabajador"/>
+                            <field name="category_id" options="{'no_create': False, 'no_open': True}"/>
+                            <field name="salary_rule_id" readonly="1" 
+                                   help="Regla salarial asociada (siempre será BONIFICACIONES)"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="amount_type"/>
+                            <field name="amount" required="amount_type != False"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para bonificaciones -->
+    <record id="view_hr_bonification_search" model="ir.ui.view">
+        <field name="name">hr.bonification.search</field>
+        <field name="model">hr.bonification</field>
+        <field name="arch" type="xml">
+            <search string="Bonificaciones">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="amount_type"/>
+                <filter string="Activas" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactivas" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Monto Fijo" name="fixed" domain="[('amount_type', '=', 'fixed')]"/>
+                <filter string="Porcentaje" name="percentage" domain="[('amount_type', '=', 'percentage')]"/>
+                <separator/>
+                <filter string="Vigentes" name="current" 
+                        domain="[('date_from', '&lt;=', context_today()), ('date_to', '&gt;=', context_today())]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de ventana para bonificaciones -->
+    <record id="action_hr_bonification" model="ir.actions.act_window">
+        <field name="name">Bonificaciones</field>
+        <field name="res_model">hr.bonification</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_hr_bonification_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea tu primera bonificación
+            </p>
+            <p>
+                Las bonificaciones se aplican automáticamente en los payslips si:
+                <ul>
+                    <li>La fecha del payslip está dentro del rango de fechas de la bonificación</li>
+                    <li>El empleado tiene activada la categoría de la bonificación</li>
+                </ul>
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú -->
+    <menuitem id="menu_hr_bonification"
+              name="Bonificaciones"
+              parent="l10n_py_hr_payroll_report.menu_rrhh_paraguay_root"
+              action="action_hr_bonification"
+              sequence="21"/>
+</odoo>
+

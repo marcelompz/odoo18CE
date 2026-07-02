@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="paperformat_contract_py" model="report.paperformat">
+        <field name="name">Contrato Laboral PY - A4</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">20</field>
+        <field name="margin_right">20</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_contract_py" model="ir.actions.report">
+        <field name="name">Contrato Laboral - Paraguay</field>
+        <field name="model">hr.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_py_hr_payroll_report.report_contract_py</field>
+        <field name="report_file">l10n_py_hr_payroll_report.report_contract_py</field>
+        <field name="print_report_name">'Contrato_%s' % (object.employee_id.name or object.name or '')</field>
+        <field name="binding_model_id" ref="hr_contract.model_hr_contract"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_contract_py"/>
+    </record>
+</odoo>
+

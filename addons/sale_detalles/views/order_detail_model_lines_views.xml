@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ======================================== -->
+    <!-- VISTA PARA DISEÑADORES - SOLO MODELOS E INFO TÉCNICA -->
+    <!-- ======================================== -->
+    
+    <!-- Vista de formulario para diseñadores - Solo Modelos e Información Técnica -->
+    <record id="view_order_detail_form" model="ir.ui.view">
+        <field name="name">order.detail.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Ocultar notebook original solo en vista diseñador -->
+            <xpath expr="//notebook" position="attributes">
+                <attribute name="invisible">context.get('force_designer_view')</attribute>
+            </xpath>
+            
+            <!-- Notebook alterno solo para vista diseñador -->
+            <xpath expr="//notebook" position="after">
+                <notebook invisible="not context.get('force_designer_view')">
+                    <page string="Información Técnica" name="designer_technical_info" sequence="1">
+                        <group>
+                            <field name="technical_info_ids" widget="one2many" readonly="state == 'sale'">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="question_id"/>
+                                    <field name="answer"/>
+                                </list>
+                            </field>
+                            <field name="general_description" widget="html"/>
+                        </group>
+                    </page>
+                    <page string="Líneas de Modelos" name="designer_model_lines" sequence="2">
+                        <field name="model_line_ids" context="{'default_order_id': id}" readonly="state == 'sale'">
+                            <list editable="bottom">
+                                <field name="model_type_id"/>
+                                <field name="image" widget="image" options="{'size': [100, 100]}"/>
+                                <field name="current_designer_id"/>
+                                <field name="work_type" readonly="1"/>
+                                <field name="product_ids" widget="many2many_tags"/>
+                                <button name="action_assign_designer" 
+                                        string="Asignar Diseñador" 
+                                        type="object" 
+                                        icon="fa-pencil"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Vista de lista para presupuestos de diseñadores -->
+    <record id="view_order_detail_list" model="ir.ui.view">
+        <field name="name">order.detail.list</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <list string="Presupuestos - Modelos e Información Técnica">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date_order"/>
+                <field name="amount_total"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+
+
+    <!-- ======================================== -->
+    <!-- VISTA ORIGINAL PARA COMERCIALES - COMPLETA -->
+    <!-- ======================================== -->
+    
+    <!-- Vista de formulario para agregar/editar líneas de modelo (ORIGINAL) -->
+    <record id="view_order_detail_model_lines_form" model="ir.ui.view">
+        <field name="name">order.detail.model.lines.form</field>
+        <field name="model">order.detail.model.lines</field>
+        <field name="arch" type="xml">
+            <form string="Agregar/Editar Modelo">
+                <sheet>
+                    <!-- Información de la orden (solo lectura) -->
+                    <div class="oe_title">
+                        <h3>Información de la Orden</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="order_id" string="Orden"/>
+                                <field name="order_id" readonly="1"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="partner_name" string="Cliente"/>
+                                <field name="partner_name" readonly="1"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Información del modelo -->
+                    <group string="Información del Modelo">
+                        <group>
+                            <field name="model_type_id" placeholder="Seleccione un tipo de modelo" required="1"/>
+                            <field name="quantity" required="1"/>
+                            <field name="designer_id" placeholder="Seleccione un diseñador"/>
+                        </group>
+                        <group>
+                            <field name="image" widget="image" class="oe_avatar" options="{'size': [150, 150]}"/>
+                        </group>
+                    </group>
+                    
+                    <!-- Productos relacionados -->
+                    <group string="Productos Relacionados">
+                        <field name="product_ids" widget="many2many_tags" 
+                               placeholder="Seleccione productos relacionados"
+                               help="Seleccione los productos que están relacionados con este modelo"/>
+                    </group>
+                    
+                    <!-- Notas adicionales -->
+                    <group string="Notas y Comentarios">
+                        <field name="notes" placeholder="Agregue notas adicionales sobre el modelo, especificaciones técnicas, requerimientos especiales..."/>
+                    </group>
+                    
+                    <!-- Historial de diseño -->
+                    <group string="Historial de Diseño" invisible="not design_history_ids">
+                        <field name="design_history_ids" readonly="1">
+                            <list>
+                                <field name="date"/>
+                                <field name="designer_id"/>
+                                <field name="work_type"/>
+                                <field name="notes"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_save_and_close" 
+                            type="object" 
+                            string="Guardar"
+                            class="btn-primary"
+                            icon="fa-save"/>
+                    <button name="action_save_and_new" 
+                            type="object" 
+                            string="Guardar y Nuevo"
+                            class="btn-success"
+                            icon="fa-plus"/>
+                    <button string="Cancelar" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de lista para las líneas de modelo (ORIGINAL) -->
+    <record id="view_order_detail_model_lines_list" model="ir.ui.view">
+        <field name="name">order.detail.model.lines.list</field>
+        <field name="model">order.detail.model.lines</field>
+        <field name="arch" type="xml">
+            <list string="Líneas de Modelos">
+                <field name="model_type_id"/>
+                <field name="quantity"/>
+                <field name="current_designer_id"/>
+                <field name="work_type"/>
+                <field name="product_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+</odoo> 

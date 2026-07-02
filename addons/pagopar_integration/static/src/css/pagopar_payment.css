@@ -1,0 +1,663 @@
+/* Pagopar Payment Integration Styles - Odoo 18 Compatible */
+
+/* Payment Provider Logo */
+.payment_provider_pagopar {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTAwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjMDA3QkZGIi8+Cjx0ZXh0IHg9IjUwIiB5PSIyNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UGFnb3BhcjwvdGV4dD4KPHN2Zz4K');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 40px;
+}
+
+/* Payment Form Styles */
+.pagopar-payment-form {
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+}
+
+.pagopar-payment-form h4 {
+    color: #007BFF;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.pagopar-payment-form .mb-3 {
+    margin-bottom: 15px !important;
+}
+
+.pagopar-payment-form .btn-primary {
+    background-color: #007BFF;
+    border-color: #007BFF;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.pagopar-payment-form .btn-primary:hover {
+    background-color: #0056CC;
+    border-color: #0056CC;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Payment Method Icons */
+.pagopar-payment-methods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.pagopar-payment-method {
+    display: inline-block;
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.pagopar-payment-method.active {
+    background: #007BFF;
+    color: white;
+    border-color: #007BFF;
+}
+
+/* Alert Styles - Bootstrap 5 Compatible */
+.pagopar-alert {
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagopar-alert.alert-info {
+    background-color: #cff4fc;
+    color: #055160;
+    border-left: 4px solid #0dcaf0;
+}
+
+.pagopar-alert.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border-left: 4px solid #dc3545;
+}
+
+.pagopar-alert.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border-left: 4px solid #198754;
+}
+
+.pagopar-alert.alert-warning {
+    background-color: #fff3cd;
+    color: #664d03;
+    border-left: 4px solid #ffc107;
+}
+
+/* Loading Spinner */
+.pagopar-loading {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.pagopar-loading .spinner-border {
+    width: 40px;
+    height: 40px;
+    color: #007BFF;
+    margin: 0 auto 20px;
+}
+
+/* Legacy spinner support */
+.pagopar-loading .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007BFF;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Status Checker Widget */
+.pagopar-status-checker {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.pagopar-status-checker .btn-check-status {
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+    color: white;
+    font-weight: bold;
+}
+
+.pagopar-status-checker .btn-check-status:hover {
+    background-color: #31d2f2;
+    border-color: #25cff2;
+}
+
+/* Payment Result Pages */
+.payment-result-card {
+    max-width: 600px;
+    margin: 50px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.payment-result-card .card-header {
+    padding: 25px;
+    text-align: center;
+    border: none;
+}
+
+.payment-result-card .card-header h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.payment-result-card .card-header i {
+    font-size: 28px;
+    margin-right: 10px;
+}
+
+.payment-result-card .card-body {
+    padding: 30px;
+}
+
+.payment-result-card .transaction-details {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.payment-result-card .transaction-details .detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.payment-result-card .transaction-details .detail-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.payment-result-card .action-buttons {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.payment-result-card .action-buttons .btn {
+    margin: 0 10px;
+    padding: 12px 25px;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+/* Configuration Views */
+.pagopar-config-header {
+    background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+}
+
+.pagopar-config-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.pagopar-config-stat {
+    text-align: center;
+}
+
+.pagopar-config-stat .stat-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007BFF;
+}
+
+.pagopar-config-stat .stat-label {
+    font-size: 14px;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+/* Webhook Security */
+.webhook-security-info {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.webhook-security-info .security-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.webhook-security-info .security-item i {
+    color: #664d03;
+    margin-right: 10px;
+    width: 20px;
+}
+
+/* Payment Provider Configuration */
+.provider-test-connection {
+    background: #d1e7dd;
+    border: 1px solid #badbcc;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.provider-test-connection .btn {
+    margin: 0 10px;
+}
+
+/* Transaction List Enhancements */
+.transaction-pagopar {
+    border-left: 4px solid #007BFF;
+}
+
+.transaction-pagopar .pagopar-badge {
+    background-color: #007BFF;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* Website Integration Styles */
+.pagopar-payment-widget {
+    border: 2px solid #007BFF;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pagopar-payment-widget:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+    border-color: #0056CC;
+}
+
+.pagopar-payment-widget.selected {
+    background: linear-gradient(135deg, #e8f2ff 0%, #d1e7dd 100%);
+    border-color: #198754;
+    box-shadow: 0 4px 15px rgba(25, 135, 84, 0.2);
+}
+
+.payment-provider-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.payment-logo {
+    height: 40px;
+    margin-right: 15px;
+}
+
+.payment-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007BFF;
+}
+
+.payment-description {
+    color: #6c757d;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.payment-methods-icons {
+    margin-top: 10px;
+}
+
+.payment-methods-icons i {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #007BFF;
+}
+
+/* Portal Layout Styles */
+.portal-pagopar-header {
+    background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
+    color: white;
+    padding: 30px 0;
+    margin-bottom: 30px;
+}
+
+.portal-pagopar-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.portal-payment-card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.portal-payment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.payment-status-badge {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.payment-status-badge.badge-pending {
+    background-color: #fff3cd;
+    color: #664d03;
+    border: 1px solid #ffeaa7;
+}
+
+.payment-status-badge.badge-completed {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+.payment-status-badge.badge-cancelled {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
+
+/* Bootstrap 5 Badge Compatibility */
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.badge.bg-success {
+    background-color: #198754 !important;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+/* Checkout Page Styles */
+.checkout-pagopar {
+    min-height: 600px;
+    padding: 30px 0;
+}
+
+.order-summary-card {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.order-summary-card h5 {
+    color: #495057;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.order-summary-table th {
+    background: #007BFF;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.order-summary-table td {
+    border-color: #dee2e6;
+    vertical-align: middle;
+}
+
+.order-total-row {
+    background: #e9ecef;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.payment-security-features {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.security-feature {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.security-feature i {
+    color: #198754;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* Filter and Sort Controls */
+.payment-controls {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+}
+
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 2px solid #dee2e6;
+    background: white;
+    color: #6c757d;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: #007BFF;
+    color: white;
+    border-color: #007BFF;
+    text-decoration: none;
+}
+
+.sort-group {
+    display: flex;
+    gap: 5px;
+}
+
+.sort-btn {
+    padding: 6px 12px;
+    border: 1px solid #dee2e6;
+    background: white;
+    color: #6c757d;
+    border-radius: 5px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.sort-btn:hover,
+.sort-btn.active {
+    background: #6c757d;
+    color: white;
+    border-color: #6c757d;
+    text-decoration: none;
+}
+
+/* Transaction Detail Page */
+.transaction-detail-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 25px;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 3px solid #007BFF;
+}
+
+.transaction-detail-header h4 {
+    margin: 0;
+    color: #495057;
+    font-weight: bold;
+}
+
+.transaction-status {
+    float: right;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.transaction-info-table th {
+    background: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    font-size: 13px;
+    width: 40%;
+    padding: 12px 15px;
+}
+
+.transaction-info-table td {
+    padding: 12px 15px;
+    font-size: 14px;
+}
+
+.transaction-actions {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 0 0 10px 10px;
+}
+
+/* Bootstrap 5 Close Button Compatibility */
+.btn-close {
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    padding: 0.25em 0.25em;
+    color: #000;
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='m.232 1.418 5.819 5.82 5.83-5.83a1 1 0 0 1 1.415 1.416L7.465 8.665l5.83 5.83a1 1 0 0 1-1.415 1.415L5.051 10.08.233 14.898a1 1 0 0 1-1.415-1.415L4.636 7.665.232 1.833a1 1 0 0 1 1.415-1.415z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+    border: 0;
+    border-radius: 0.375rem;
+    opacity: 0.5;
+}
+
+.btn-close:hover {
+    color: #000;
+    text-decoration: none;
+    opacity: 0.75;
+}
+
+/* Responsive Design Improvements */
+@media (max-width: 768px) {
+    .payment-provider-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .payment-logo {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .filter-group,
+    .sort-group {
+        justify-content: center;
+    }
+    
+    .portal-pagopar-header {
+        padding: 20px 0;
+    }
+    
+    .portal-pagopar-header h1 {
+        font-size: 24px;
+    }
+    
+    .checkout-pagopar {
+        padding: 15px 0;
+    }
+    
+    .order-summary-card {
+        padding: 15px;
+    }
+    
+    .transaction-detail-header {
+        padding: 15px;
+    }
+    
+    .transaction-status {
+        float: none;
+        display: block;
+        margin-top: 10px;
+    }
+    
+    .payment-result-card .action-buttons .btn {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .pagopar-payment-widget {
+        padding: 15px;
+    }
+    
+    .payment-name {
+        font-size: 16px;
+    }
+    
+    .payment-description {
+        font-size: 13px;
+    }
+    
+    .filter-btn,
+    .sort-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+} 

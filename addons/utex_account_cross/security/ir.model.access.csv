@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_delinquent_customer_report_cross_all,access_delinquent_customer_report_cross_all,model_delinquent_customer_report_cross,,1,1,1,1
+access_delinquent_customer_report_line_cross_all,access_delinquent_customer_report_line_cross_all,model_delinquent_customer_report_line_cross,,1,1,1,1

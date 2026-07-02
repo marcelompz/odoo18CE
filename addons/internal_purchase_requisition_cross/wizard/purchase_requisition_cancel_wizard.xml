@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2026-01-23 13:19:46
+    @author: drojo
+-->
+<odoo>
+
+    <!-- wizard view -->
+    <record id="purchase_requisition_cancel_wizard_form" model="ir.ui.view">
+        <field name="name">purchase.requisition.cancel.wizard.form</field>
+        <field name="model">purchase.requisition.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cancelar Requisición">
+                <p class="text-muted">
+                    Por favor, indique el motivo por el cual está cancelando esta requisición.
+                </p>
+                <group>
+                    <field name="requisition_id" invisible="1"/>
+                    <field name="reason" placeholder="Escriba el motivo aquí..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm_cancel" string="Confirmar Cancelación" type="object" class="btn-danger"/>
+                    <button string="Descartar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+</odoo>

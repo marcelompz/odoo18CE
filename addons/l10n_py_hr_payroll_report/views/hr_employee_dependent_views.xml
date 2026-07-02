@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_employee_dependent_tree" model="ir.ui.view">
+        <field name="name">hr.employee.dependent.list</field>
+        <field name="model">hr.employee.dependent</field>
+        <field name="arch" type="xml">
+            <list string="Dependientes" editable="bottom">
+                <field name="name" required="1"/>
+                <field name="identification_id"/>
+                <field name="birth_date" required="1"/>
+                <field name="age" readonly="1"/>
+                <field name="relationship"/>
+                <field name="is_student"/>
+                <field name="is_dependent" readonly="1"/>
+                <field name="is_active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_employee_dependent_form" model="ir.ui.view">
+        <field name="name">hr.employee.dependent.form</field>
+        <field name="model">hr.employee.dependent</field>
+        <field name="arch" type="xml">
+            <form string="Dependiente">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id" invisible="1"/>
+                            <field name="name"/>
+                            <field name="identification_id"/>
+                            <field name="birth_date"/>
+                            <field name="age" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="relationship"/>
+                            <field name="is_student"/>
+                            <field name="is_dependent" readonly="1"/>
+                            <field name="is_active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

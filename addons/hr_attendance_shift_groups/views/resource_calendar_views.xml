@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Boton "Cargar feriados Paraguay" en el form de resource.calendar -->
+    <record id="view_resource_calendar_form_inherit_py" model="ir.ui.view">
+        <field name="name">resource.calendar.form.py.holidays</field>
+        <field name="model">resource.calendar</field>
+        <field name="inherit_id" ref="resource.resource_calendar_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_load_paraguay_holidays" type="object"
+                            string="Cargar feriados Paraguay"
+                            class="btn-primary"
+                            confirm="Esto creara los feriados nacionales de Paraguay (2024-2030) en este calendario. Si ya existen no se duplicaran. Continuar?"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Server actions: aparecen en el menu "Acciones" cuando se seleccionan registros -->
+    <record id="server_action_load_py_holidays" model="ir.actions.server">
+        <field name="name">Cargar feriados Paraguay (en calendarios seleccionados)</field>
+        <field name="model_id" ref="resource.model_resource_calendar"/>
+        <field name="binding_model_id" ref="resource.model_resource_calendar"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_load_paraguay_holidays()</field>
+    </record>
+
+    <record id="server_action_load_py_holidays_leaves" model="ir.actions.server">
+        <field name="name">Cargar/Actualizar feriados Paraguay (todos los calendarios)</field>
+        <field name="model_id" ref="resource.model_resource_calendar_leaves"/>
+        <field name="binding_model_id" ref="resource.model_resource_calendar_leaves"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = model.action_load_py_holidays_all()</field>
+    </record>
+
+    <!-- Action accesible desde un menu dedicado (mas visible que la accion ligada) -->
+    <record id="action_load_py_holidays_global" model="ir.actions.server">
+        <field name="name">Actualizar Feriados Paraguay</field>
+        <field name="model_id" ref="resource.model_resource_calendar_leaves"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_load_py_holidays_all()</field>
+    </record>
+
+    <!-- Menu dedicado "Actualizar Feriados PY" bajo Configuracion de Asistencias -->
+    <menuitem id="menu_update_py_holidays_attendance"
+              name="Actualizar Feriados Paraguay"
+              parent="hr_attendance.menu_hr_attendance_settings"
+              action="action_load_py_holidays_global"
+              sequence="99"
+              groups="base.group_user"/>
+
+    <!-- Menu tambien bajo Configuracion de Tiempo Personal (hr_holidays) -->
+    <menuitem id="menu_update_py_holidays_holidays"
+              name="Actualizar Feriados Paraguay"
+              parent="hr_holidays.menu_hr_holidays_configuration"
+              action="action_load_py_holidays_global"
+              sequence="99"
+              groups="base.group_user"/>
+
+</odoo>

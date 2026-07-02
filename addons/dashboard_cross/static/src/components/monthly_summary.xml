@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="dashboard_cross.monthly_summary_dashboard" owl="1">
+        <div class="o_dashboard_cross_container o_pd_container o_pf antialiased"
+             style="height: 100%; overflow: hidden;">
+
+            <t t-if="state.loading">
+                <div class="flex h-full w-full items-center justify-center">
+                    <div class="text-xl font-bold animate-pulse" style="color:#1c3d6e;">Cargando Resumen Mensual...</div>
+                </div>
+            </t>
+
+            <t t-else="">
+                <!-- Filtros: franja delgada que se despliega al pasar el mouse -->
+                <div class="o_filter_hoverbar">
+                    <div class="o_filter_hoverbar__handle"></div>
+                    <div class="o_filter_hoverbar__panel">
+                        <div class="px-4 py-3 flex items-center gap-4 flex-wrap" style="max-width:1280px;margin:0 auto;">
+                            <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;">Período:</span>
+                            <div class="flex items-center" style="gap:6px;">
+                                <t t-foreach="['3m','6m','9m','12m']" t-as="pr" t-key="pr">
+                                    <button t-on-click="() => this.setPreset(pr)"
+                                            t-attf-style="padding:4px 12px;border-radius:6px;font-weight:700;font-size:12px;border:none;cursor:pointer; #{state.filters.preset == pr ? 'background:#1c3d6e;color:#fff;' : 'background:#eef2f7;color:#46536b;'}">
+                                        <t t-esc="pr.replace('m',' meses')"/>
+                                    </button>
+                                </t>
+                            </div>
+                            <span style="font-size:12px;color:#64748b;">
+                                <span style="font-weight:600;color:#334155;"><t t-esc="state.data.period.date_from"/></span>
+                                →
+                                <span style="font-weight:600;color:#334155;"><t t-esc="state.data.period.date_to"/></span>
+                            </span>
+                            <t t-if="(state.companies || []).length > 1">
+                                <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;">Cía:</span>
+                                <label t-foreach="state.companies" t-as="co" t-key="co.id" class="inline-flex items-center" style="gap:3px;font-size:12px;color:#46536b;cursor:pointer;">
+                                    <input type="checkbox" t-att-checked="isCompanySelected(co.id)" t-on-change="() => this.toggleCompany(co.id)" style="accent-color:#1c3d6e;"/>
+                                    <span><t t-esc="co.name"/></span>
+                                </label>
+                            </t>
+                            <label style="display:inline-flex;align-items:center;font-size:12px;color:#475569;cursor:pointer;">
+                                <input type="checkbox" t-model="state.showRangeCaption" style="margin-right:6px;"/>
+                                Rango bajo gráficos
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Encabezado Perfipar -->
+                <div class="o_pf_header">
+                    <div class="o_pf_logo">
+                        <t t-if="state.data.company &amp;&amp; state.data.company.logo">
+                            <img t-att-src="'data:image/png;base64,' + state.data.company.logo" alt="logo"/>
+                        </t>
+                        <t t-else="">
+                            <span class="o_pf_logo_text"><t t-esc="state.data.company.name || 'Perfipar'"/></span>
+                        </t>
+                    </div>
+                    <div class="o_pf_title">Resumen Mensual</div>
+                    <span class="o_pf_live">Live</span>
+                </div>
+
+                <!-- Contenido -->
+                <div class="o_pf_page" style="overflow-y: auto; height: calc(100% - 82px);">
+                    <div class="o_pf_stack" style="padding:16px; max-width:100%; margin:0 auto; padding-bottom:32px;">
+
+                        <!-- Evolución + Total período -->
+                        <div class="o_pf_grid o_pf_cols_3_1">
+                            <div class="o_pf_card">
+                                <div style="padding:12px 16px 0;">
+                                    <h2 style="font-weight:800;color:#1c3d6e;text-transform:uppercase;font-size:14px;letter-spacing:.03em;">Evolución del Total Mensual (Gs.)</h2>
+                                    <p style="font-size:11px;color:#8a93a6;margin-top:2px;">Click en un punto abre las facturas del mes.</p>
+                                </div>
+                                <div class="o_pf_chart_box" style="padding:12px 16px 16px; height:360px;">
+                                    <canvas style="width:100%;height:100%;" id="msEvolutionCanvas"></canvas>
+                                </div>
+                                <p style="text-align:center;font-size:11px;color:#9aa3b2;margin:0 0 10px;" t-if="state.showRangeCaption"><t t-esc="rangeLabel()"/></p>
+                            </div>
+                            <div class="o_pf_total_period">
+                                <div class="lbl">Total Período</div>
+                                <div class="val"><t t-esc="formatNumberPlain(state.data.totals.total_period)"/></div>
+                                <div class="cur">Gs.</div>
+                                <div class="note">
+                                    <i class="fa fa-line-chart" style="margin-right:6px;"></i>
+                                    <t t-esc="state.data.period.months"/> meses analizados
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabla mensual por gerencia -->
+                        <div class="o_pf_card">
+                            <div class="o_pf_scroll_x">
+                                <table class="o_pf_table">
+                                    <thead class="o_pf_thead">
+                                        <tr>
+                                            <th class="o_pf_th_first">Gerencia</th>
+                                            <t t-foreach="state.data.months.labels || []" t-as="ml" t-key="ml_index">
+                                                <th><t t-esc="ml"/></th>
+                                            </t>
+                                            <th class="o_pf_th_total">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="state.data.rows || []" t-as="row" t-key="row.id">
+                                            <tr class="o_pf_row" t-on-click="() => this.drillManager(row.id, row.name)">
+                                                <td class="o_pf_td_first">
+                                                    <span class="o_pf_sq" t-attf-style="background-color: #{mgrColor(row_index)};"></span>
+                                                    <span style="font-weight:600;color:#1f2a44;"><t t-esc="row.name"/></span>
+                                                </td>
+                                                <t t-foreach="row.monthly || []" t-as="amt" t-key="amt_index">
+                                                    <td>
+                                                        <t t-if="amt &gt; 0"><t t-esc="formatNumberPlain(amt)"/></t>
+                                                        <t t-else=""><span class="o_pf_muted">-</span></t>
+                                                    </td>
+                                                </t>
+                                                <td class="o_pf_td_total">
+                                                    <div><t t-esc="formatNumberPlain(row.total)"/></div>
+                                                    <div class="o_pf_td_pct"><t t-esc="row.pct.toFixed(1)"/>%</div>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <tr class="o_pf_totalrow">
+                                            <td class="o_pf_td_first">Total</td>
+                                            <t t-foreach="state.data.monthly_total || []" t-as="mt" t-key="mt_index">
+                                                <td><t t-esc="formatNumberPlain(mt)"/></td>
+                                            </t>
+                                            <td class="o_pf_td_total">
+                                                <div><t t-esc="formatNumberPlain(state.data.totals.total_period)"/></div>
+                                                <div style="font-size:11px;color:#cdd8e8;">100%</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- KPIs -->
+                        <div class="o_pf_grid o_pf_cols_4">
+                            <div class="o_pf_card o_pf_kpi">
+                                <div class="o_pf_kpi_icon"><i class="fa fa-bar-chart"></i></div>
+                                <div>
+                                    <div class="k_lbl">Promedio Mensual</div>
+                                    <div class="k_val"><t t-esc="formatNumberPlain(state.data.totals.avg_month)"/></div>
+                                    <div class="k_sub">Gs.</div>
+                                </div>
+                            </div>
+                            <div class="o_pf_card o_pf_kpi">
+                                <div class="o_pf_kpi_icon" style="background:#2e7d44;"><i class="fa fa-arrow-up"></i></div>
+                                <div t-if="state.data.totals.best_month">
+                                    <div class="k_lbl">Mejor Mes</div>
+                                    <div class="k_sub" style="font-weight:600;color:#1f2a44;"><t t-esc="state.data.totals.best_month.label"/></div>
+                                    <div class="k_val" style="color:#2e7d44;"><t t-esc="formatNumberPlain(state.data.totals.best_month.amount)"/></div>
+                                </div>
+                            </div>
+                            <div class="o_pf_card o_pf_kpi">
+                                <div class="o_pf_kpi_icon" style="background:#c0392b;"><i class="fa fa-arrow-down"></i></div>
+                                <div t-if="state.data.totals.worst_month">
+                                    <div class="k_lbl">Menor Mes</div>
+                                    <div class="k_sub" style="font-weight:600;color:#1f2a44;"><t t-esc="state.data.totals.worst_month.label"/></div>
+                                    <div class="k_val" style="color:#c0392b;"><t t-esc="formatNumberPlain(state.data.totals.worst_month.amount)"/></div>
+                                </div>
+                            </div>
+                            <div class="o_pf_card o_pf_kpi">
+                                <div class="o_pf_kpi_icon" style="background:#b8902a;"><i class="fa fa-calendar"></i></div>
+                                <div>
+                                    <div class="k_lbl">Período Analizado</div>
+                                    <div class="k_sub" style="font-weight:600;color:#1f2a44;"><t t-esc="state.data.period.date_from"/></div>
+                                    <div class="k_sub" style="font-weight:600;color:#1f2a44;">→ <t t-esc="state.data.period.date_to"/></div>
+                                    <div class="k_sub"><t t-esc="state.data.period.months"/> meses</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

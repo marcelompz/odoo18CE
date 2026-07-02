@@ -1,0 +1,17 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fuap_website_sale_product_image_hover
+#
+# Translators:
+# Alejandro Molina, 2025
+#
+
+#. module: fuap_website_sale_product_image_hover
+#: model:ir.model.fields,field_description:fuap_website_sale_product_image_hover.field_product_image__hover
+msgid "Image hover"
+msgstr "Immagine sopra"
+
+#. module: fuap_website_sale_product_image_hover
+#: model:ir.model.fields,help:fuap_website_sale_product_image_hover.field_product_image__hover
+msgid "Enable this option to define that this image will be displayed when hovering over the product image"
+msgstr "Attivare questa opzione per definire che l'immagine verrà visualizzata quando si passa il mouse sull'immagine del prodotto."

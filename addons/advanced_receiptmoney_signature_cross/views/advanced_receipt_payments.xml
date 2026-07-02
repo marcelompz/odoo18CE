@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-11 09:14:53
+    @author: drojo
+-->
+<odoo>
+
+    <!-- tree view -->
+
+    <record id="advanced_receipt_payments_inherit_tree" model="ir.ui.view">
+        <field name="name">advanced.receipt.payments.inherit.tree</field>
+        <field name="model">advanced.receipt.payments</field>
+        <field name="inherit_id" ref="advanced_receiptmoney_cross.advanced_receipt_payments_tree" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//list//field[@name='partner_id']" position="after">
+                <field name="employee_id" widget="many2one_avatar_employee" options="{'no_create': 1, 'no_open': 1}"/>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- form view -->
+
+    <record id="advanced_receipt_payments_inherit_form" model="ir.ui.view">
+        <field name="name">advanced.receipt.payments.inherit.form</field>
+        <field name="model">advanced.receipt.payments</field>
+        <field name="inherit_id" ref="advanced_receiptmoney_cross.advanced_receipt_payments_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='payment_date']" position="after">
+                <field name="employee_id" widget="many2one_avatar_employee" options="{'no_create': 1}"/>
+                <field name="employee_signature" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning oe_edit_only text-center" role="alert" invisible="not employee_id or employee_signature">
+                    El empleado seleccionado no tiene firma.
+                </div>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- search view -->
+
+    <record id="advanced_receipt_payments_inherit_search" model="ir.ui.view">
+        <field name="name">advanced.receipt.payments.inherit.search</field>
+        <field name="model">advanced.receipt.payments</field>
+        <field name="inherit_id" ref="advanced_receiptmoney_cross.advanced_receipt_payments_search" />
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="employee_id"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='groupby_partner']" position="after">
+                <filter name="groupby_employee" string="Empleados" context="{'group_by': 'employee_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

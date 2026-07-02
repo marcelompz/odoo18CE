@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fondo de empresa a página completa en todos los reportes que usen este layout 
+         (Deshabilitado / Borrado porque el reporte `report_sale_order_ux_335` 
+          maneja el fondo por sí solo sin recortarse)
+    -->
+    <template id="external_layout_standard_fullpage_background" inherit_id="web.external_layout_standard">
+        <xpath expr="(//div)[1]" position="before">
+            <!-- Vacio para evitar conflicto de imagenes repetidas -->
+        </xpath>
+    </template>
+</odoo>

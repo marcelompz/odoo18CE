@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_report_purchase_wizard_form" model="ir.ui.view">
+        <field name="name">report.purchase.wizard.form</field>
+        <field name="model">report.purchase.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generar Reporte de Compras">
+                <group>
+                    <field name="date_from" string="Fecha Desde"/>
+                    <field name="date_to" string="Fecha Hasta"/>
+                </group>
+                <footer>
+                    <button name="action_generate_report" string="Generar Reporte" type="object" class="btn-primary"/>
+                    <button string="Cancelar" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_report_purchase_wizard" model="ir.actions.act_window">
+        <field name="name">Actualizar Rango de Fechas</field>
+        <field name="res_model">report.purchase.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-12-05 15:52:26
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+    <record id="maintenance_equipment_inherit_form" model="ir.ui.view">
+        <field name="name">maintenance.equipment.inherit.form</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook//page[@name='product_information']//field[@name='serial_no']" position="after">
+                <field name="label_number"/>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- search view -->
+    <record id="maintenance_equipment_inherit_search" model="ir.ui.view">
+        <field name="name">maintenance.equipment.inherit.search</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_search" />
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='name']" position="replace">
+                <field 
+                    string="Equipo" name="name" 
+                    filter_domain="['|', '|', '|', '|',
+                        ('name', 'ilike', self), ('model', 'ilike', self), ('serial_no', 'ilike', self), ('partner_ref', 'ilike', self), ('label_number', 'ilike', self)]"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

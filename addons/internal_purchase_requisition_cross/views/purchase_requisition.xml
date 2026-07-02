@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-12-01 15:32:05
+    @author: drojo
+-->
+<odoo>
+
+    <!-- list view -->
+    <record id="purchase_requisition_inherit_tree" model="ir.ui.view">
+        <field name="name">purchase.requisition.inherit.tree</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="internal_purchase_requisition.view_purchase_requisition_tree" />
+        <field name="arch" type="xml">
+
+            <!-- order to -->
+            <xpath expr="//list" position="attributes">
+                <attribute name="default_order">id desc</attribute>
+            </xpath>
+
+            <xpath expr="//list" position="inside">
+                <field name="purchase_order_id" optional="show"/>
+                <field 
+                    name="priority_level" 
+                    widget="badge" 
+                    decoration-muted="priority_level == 'low'" 
+                    decoration-warning="priority_level == 'medium'" 
+                    decoration-danger="priority_level == 'high'"
+                    optional="show"
+                />
+                <field name="products_list" optional="show"/>
+            </xpath>
+
+            <xpath expr="//field[@name='requested_by']" position="attributes">
+                <attribute name="string">Area de</attribute>
+            </xpath>
+
+            <!-- campo res_partner -->
+            <xpath expr="//field[@name='requested_by']" position="after">
+                <field name="partner_id" optional="show"/>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- form view PO -->
+    <record id="view_purchase_order_form_inherit_requisition_inherit" model="ir.ui.view">
+        <field name="name">purchase.requisition.inherit.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="internal_purchase_requisition.view_purchase_order_form_inherit_requisition" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[]</attribute>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- form view PR -->
+    <record id="view_purchase_requisition_form_inherit" model="ir.ui.view">
+        <field name="name">view.purchase.requisition.form.inherit</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="internal_purchase_requisition.view_purchase_requisition_form" />
+        <field name="arch" type="xml">
+
+            <!-- campos de cabecera -->
+            <xpath expr="//sheet//group" position="replace">
+                <group>
+                    <group name="left_group">
+                        <field name="name"/>
+                        <field name="is_manager" invisible="1"/>
+                        <field name="department_id" readonly="approval_status not in ['draft', 'submitted']"/>
+                        <field name="department_manager_id"/>
+                        <field name="requested_by" string="Area de" readonly="approval_status not in ['draft', 'submitted']"/>
+                        <field name="current_user_allowed_partners" invisible="1"/>
+                        <field 
+                            name="partner_id" 
+                            class="field_partner_id" 
+                            domain="[('id', 'in', current_user_allowed_partners)]" 
+                            widget="radio"
+                            required="1"
+                        />
+                        <field name="date" readonly="approval_status not in ['draft', 'submitted']"/>
+                    </group>
+                    <group name="right_group">
+                        <field name="deadline_date" readonly="approval_status not in ['draft', 'submitted']"/>
+                        <field name="subject" readonly="approval_status not in ['draft', 'submitted']"/>
+                        <field name="cc_users" widget="many2many_tags" readonly="approval_status not in ['draft', 'submitted']"/>
+                        <field name="priority_level" 
+                            widget="statusbar" 
+                            options="{'clickable': '1'}" 
+                            statusbar_visible="low,medium,high"
+                            class="my_priority_colors"
+                            readonly="approval_status not in ['draft', 'submitted']"
+                        />
+                        <field name="origin" readonly="approval_status not in ['draft', 'submitted']"/>
+                        <field name="purchase_order_id" readonly="1"/>
+                    </group>
+                </group>
+            </xpath>
+
+            <!-- botones -->
+            <xpath expr="//header" position="inside">
+                <button name="approve_in_one_step" type="object" string="Aprobar en un paso" class="oe_highlight" invisible="approval_status not in ['submitted', 'procurement_officer_approved']" groups="internal_purchase_requisition_cross.group_authorizate_purchase_requisition"/>
+            </xpath>
+
+            <xpath expr="//button[@name='action_create_purchase_order']" position="attributes">
+                <attribute name="invisible">approval_status not in ['approved', 'done']</attribute>
+            </xpath>
+
+            <!-- campo precio -->
+            <xpath expr="//notebook//page[@name='requisition_line_ids']//field[@name='requisition_line_ids']/list/field[@name='price']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+
+            <!-- campo largo -->
+            <xpath expr="//notebook//page[@name='requisition_line_ids']//field[@name='requisition_line_ids']/list/field[@name='quantity']" position="before">
+                <field name="product_length" optional="show"/>
+            </xpath>
+
+            <!-- campo allowed_department_product_ids -->
+            <xpath expr="//notebook//page[@name='requisition_line_ids']//field[@name='requisition_line_ids']/list" position="inside">
+                <field name="allowed_department_product_ids" column_invisible="1"/>
+            </xpath>
+
+            <!-- campo product_packaging_id -->
+            <xpath expr="//notebook//page[@name='requisition_line_ids']//field[@name='requisition_line_ids']/list/field[@name='description']" position="before">
+                <field name="product_packaging_id" groups="product.group_stock_packaging" optional="show"/>
+                <field name="product_packaging_qty" groups="product.group_stock_packaging" optional="show"/>
+                <field name="product_packaging_linear_meter" groups="product.group_stock_packaging" optional="show"/>
+                <field name="product_packaging_linear_meter_total" groups="product.group_stock_packaging" optional="show"/>
+            </xpath>
+
+            <!-- campo supplier_id -->
+            <xpath expr="//notebook//page[@name='requisition_line_ids']//field[@name='requisition_line_ids']/list/field[@name='description']" position="after">
+                <field name="supplier_id" options="{'no_create': 1}" optional="show"/>
+                <field name="refused"/>
+                <field name="refused_reason" optional="show"/>
+                <field name="create_quick_purchase"/>
+                <field name="purchase_order_id"/>
+                <field name="purchase_order_line_id" column_invisible="1"/>
+                <button name="unlink" 
+                    type="object" 
+                    icon="fa-trash" 
+                    title="Eliminar línea"
+                    class="btn-secondary text-danger"
+                    invisible="parent.approval_status not in ['draft', 'submitted']"/>
+            </xpath>
+
+            <!-- <xpath expr="//notebook//page[@name='requisition_line_ids']//field[@name='requisition_line_ids']/list" position="after">
+                <form>
+                    <group>
+                        <field name="product_id" options="{'no_create': 1}"/>
+                        <field name="product_packaging_id" invisible="not product_id" context="{'default_product_id': product_id, 'list_view_ref':'product.product_packaging_tree_view', 'form_view_ref':'product.product_packaging_form_view'}" groups="product.group_stock_packaging" options="{'no_create': 1}"/>
+                        <field name="product_packaging_qty" invisible="not product_id or not product_packaging_id" groups="product.group_stock_packaging"/>
+                        <label for="product_packaging_linear_meter" invisible="not product_id or not product_packaging_id" groups="product.group_stock_packaging"/>
+                        <div class="o_row" invisible="not product_id or not product_packaging_id" groups="product.group_stock_packaging">
+                            <field name="product_packaging_linear_meter"/><span>en Total </span>
+                            <field name="product_packaging_linear_meter_total"/>
+                        </div>
+                        <field name="apply_weight_product" invisible="1"/>
+                        <label for="quantity" invisible="apply_weight_product"/>
+                        <div class="o_row" invisible="apply_weight_product">
+                            <field name="quantity"/>
+                            <field name="product_uom"/>
+                        </div>
+                        <field name="product_length" invisible="not apply_weight_product"/>
+                        <field name="price" invisible="1"/>
+                        <field name="description"/>
+                        <field name="supplier_id" options="{'no_create': 1}"/>
+                    </group>                                        
+                </form>
+            </xpath> -->
+
+            <!-- formulario del campo requisition_line_ids -->
+            <xpath expr="//notebook//page[@name='requisition_line_ids']//field[@name='requisition_line_ids']/list" position="after">
+                <form>
+                    <field name="company_id" invisible="1"/>                    
+                    <group>
+                        <field name="product_id" 
+                            options="{'no_create': 1}"
+                            readonly="parent.approval_status not in ['draft', 'submitted']"/>
+                            
+                        <field name="product_packaging_id" 
+                            invisible="not product_id" 
+                            readonly="parent.approval_status not in ['draft', 'submitted']"
+                            ontext="{'default_product_id': product_id, 'list_view_ref':'product.product_packaging_tree_view', 'form_view_ref':'product.product_packaging_form_view'}"
+                            groups="product.group_stock_packaging" 
+                            options="{'no_create': 1}"/>
+                            
+                        <field name="product_packaging_qty" 
+                            invisible="not product_id or not product_packaging_id" 
+                            readonly="parent.approval_status not in ['draft', 'submitted']"
+                            groups="product.group_stock_packaging"/>
+                            
+                        <label for="product_packaging_linear_meter" invisible="not product_id or not product_packaging_id" groups="product.group_stock_packaging"/>
+                        <div class="o_row" invisible="not product_id or not product_packaging_id" groups="product.group_stock_packaging">
+                            <field name="product_packaging_linear_meter" readonly="parent.approval_status not in ['draft', 'submitted']"/>
+                            <span>en Total </span>
+                            <field name="product_packaging_linear_meter_total" readonly="1"/>
+                        </div>
+                        <field name="apply_weight_product" invisible="1"/>
+                        <label for="quantity" invisible="apply_weight_product"/>
+                        <div class="o_row" invisible="apply_weight_product">
+                            <field name="quantity" readonly="parent.approval_status not in ['draft', 'submitted']"/>
+                            <field name="product_uom" readonly="parent.approval_status not in ['draft', 'submitted']" options="{'no_open': 1, 'no_create': 1}"/>
+                        </div>
+                        <field name="product_length" 
+                            invisible="not apply_weight_product"
+                            readonly="parent.approval_status not in ['draft', 'submitted']"/>
+                        <field name="price" invisible="1"/>
+                        <field name="description" readonly="parent.approval_status not in ['draft', 'submitted']"/>
+                        <field name="supplier_id" options="{'no_create': 1}"/>
+                        <field name="refused"/>
+                        <field name="refused_reason" required="refused"/>
+                        <label for="create_quick_purchase"/>
+                        <div class="o_row">
+                            <field name="create_quick_purchase" readonly="0"/>
+                            <span class="text-muted ms-2" invisible="not purchase_order_id"> Orden de Compra: </span>
+                            <field name="purchase_order_id" invisible="not purchase_order_id" nolabel="1"/>
+                        </div>
+                    </group>                                        
+                </form>
+            </xpath>
+            
+            <!-- atributo del campo requisition_line_ids -->
+            <xpath expr="//notebook//page[@name='requisition_line_ids']//field[@name='requisition_line_ids']" position="attributes">
+                <attribute name="readonly">approval_status in ['cancel', 'done']</attribute>
+            </xpath>
+
+            <!-- ocultamos el boton de eliminar -->
+            <xpath expr="//notebook//page[@name='requisition_line_ids']//field[@name='requisition_line_ids']/list" position="attributes">
+                <attribute name="delete">0</attribute>
+            </xpath>
+
+            <!-- boton de agregar varios productos -->
+            <xpath expr="//notebook//page[@name='requisition_line_ids']//field[@name='requisition_line_ids']" position="before">
+                <button string="Agregar multiples productos" name="purchase_requisition_select_product" type="object" class="oe_highlight" invisible ="approval_status != 'draft'"/>
+            </xpath>
+
+            <!-- botones, se agregan permisos -->
+            <xpath expr="//header//button[@name='action_approve_by_manager']" position="attributes">
+                <attribute name="groups">internal_purchase_requisition_cross.group_authorizate_purchase_requisition</attribute>
+            </xpath>
+            <xpath expr="//header//button[@name='action_approve_by_procurement_officer']" position="attributes">
+                <attribute name="groups">internal_purchase_requisition_cross.group_authorizate_purchase_requisition</attribute>
+            </xpath>
+
+            <xpath expr="//header//button[@name='action_reject']" position="attributes">
+                <attribute name="groups">internal_purchase_requisition_cross.group_authorizate_purchase_requisition</attribute>
+            </xpath>
+
+            <!-- campo motivo de cancelacion -->
+            <xpath expr="//notebook" position="inside">
+                <page name="reason_cancellation" string="Motivo de la Cancelación" invisible="approval_status not in ['cancel']">
+                    <field name="cancellation_reason" readonly="approval_status in ['cancel']"/>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- windows action new record -->
+    <record id="action_create_purchase_requisition" model="ir.actions.act_window">
+        <field name="name">Nueva Requisición de Compra</field>
+        <field name="res_model">purchase.requisition</field>
+        <field name="view_mode">form</field> 
+        <field name="target">current</field>
+    </record>
+
+    <!-- menu root -->
+    <menuitem
+        id="create_purchase_requisition_menu_root" 
+        name="Nueva Requisición de Compra"
+        sequence="20"
+        action="action_create_purchase_requisition" 
+        web_icon="internal_purchase_requisition_cross,static/description/new-requisition-icon.png"
+    />
+
+    <!-- search view -->
+    <record id="purchase_requisition_search" model="ir.ui.view">
+        <field name="name">purchase.requisition.search</field>
+        <field name="model">purchase.requisition</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="requested_by" string="Area de"/>
+                <field name="partner_id" string="Cliente"/>
+                <filter name="priority_low" string="Prioridad baja" domain="[('priority_level', '=', 'low')]" />
+                <filter name="priority_medium" string="Prioridad media" domain="[('priority_level', '=', 'medium')]" />
+                <filter name="priority_high" string="Prioridad alta" domain="[('priority_level', '=', 'high')]" />
+                <filter name="groupby_priority_level" string="Prioridad" context="{'group_by': 'priority_level'}" />
+                <filter name="groupby_approval_status" string="Estado" context="{'group_by': 'approval_status'}" />
+                <filter name="groupby_department_id" string="Departamento" context="{'group_by': 'department_id'}" />
+            </search>
+        </field>
+    </record>
+
+</odoo>

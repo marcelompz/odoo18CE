@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_aguinaldo_wizard_form" model="ir.ui.view">
+        <field name="name">hr.aguinaldo.wizard.form</field>
+        <field name="model">hr.aguinaldo.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generar Aguinaldo Anual Paraguay">
+                <div class="alert alert-info" role="alert">
+                    <p><b>Aguinaldo Anual - Paraguay (Art. 243 Codigo Laboral):</b>
+                    el aguinaldo equivale a 1/12 de las remuneraciones brutas
+                    percibidas durante el ano (Salario Bruto + Bonificaciones).
+                    Se descuenta IPS 9%. Debe pagarse antes del 31 de diciembre.</p>
+                    <p>Este wizard crea un recibo separado por cada empleado
+                    seleccionado con la estructura "Aguinaldo Anual - Paraguay".</p>
+                </div>
+                <group>
+                    <group>
+                        <field name="year"/>
+                        <field name="select_all"/>
+                    </group>
+                </group>
+                <group string="Empleados (si no marca 'Todos los activos')"
+                       invisible="select_all">
+                    <field name="employee_ids" nolabel="1"
+                           widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object"
+                            string="Generar Recibos de Aguinaldo"
+                            class="btn-primary"
+                            confirm="Esto creara un recibo de Aguinaldo por cada empleado seleccionado. Los empleados que ya tienen recibo de aguinaldo del mismo anio se omiten. Continuar?"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_aguinaldo_wizard" model="ir.actions.act_window">
+        <field name="name">Generar Aguinaldo Anual</field>
+        <field name="res_model">hr.aguinaldo.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu en Nomina -->
+    <menuitem id="menu_hr_aguinaldo"
+              name="Aguinaldo Anual (Paraguay)"
+              parent="hr.menu_hr_root"
+              action="action_hr_aguinaldo_wizard"
+              sequence="50"
+              />
+
+</odoo>

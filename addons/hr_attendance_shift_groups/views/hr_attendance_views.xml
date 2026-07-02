@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_attendance_form_inherit_shift" model="ir.ui.view">
+        <field name="name">hr.attendance.form.inherit.shift</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Distribucion por Franja" name="shift_distribution">
+                    <group>
+                        <field name="shift_group_id"/>
+                        <field name="shift_date"/>
+                    </group>
+                    <group>
+                        <field name="hours_ordinary" widget="float_time"/>
+                        <field name="hours_extra_day" widget="float_time"/>
+                        <field name="hours_extra_night" widget="float_time"/>
+                        <field name="hours_break" widget="float_time"/>
+                    </group>
+                    <field name="shift_line_ids" colspan="4" nolabel="1" readonly="1">
+                        <list>
+                            <field name="slot_id"/>
+                            <field name="slot_type"/>
+                            <field name="hours_worked" widget="float_time" sum="Total"/>
+                        </list>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_attendance_recompute_shift_lines" model="ir.actions.server">
+        <field name="name">Recalcular distribucion por franja</field>
+        <field name="model_id" ref="hr_attendance.model_hr_attendance"/>
+        <field name="binding_model_id" ref="hr_attendance.model_hr_attendance"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+records._recompute_shift_lines()
+action = {
+    'type': 'ir.actions.client',
+    'tag': 'display_notification',
+    'params': {
+        'title': 'Recalculo completado',
+        'message': 'Se recalcularon %d asistencias.' % len(records),
+        'type': 'success',
+        'sticky': False,
+    }
+}
+        </field>
+    </record>
+
+</odoo>

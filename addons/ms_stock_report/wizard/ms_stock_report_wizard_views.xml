@@ -1,0 +1,83 @@
+<odoo>
+	<data>
+	
+	    <record id="ms_stock_report_wizard_form_view" model="ir.ui.view">
+			<field name="name">ms.stock.report.wizard.form</field>
+			<field name="model">ms.stock.report.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+
+				<form>
+					<sheet>
+						<group>
+							<field name="type"/>
+						</group>
+						<group string="Current Stock Filters" invisible="type != 'current_stock'">
+							<group>
+								<field name="product_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type', '=', 'product')]"/>
+								<field name="lot_ids" widget="many2many_tags" options="{'no_create': True}"/>
+							</group>
+							<group>
+								<field name="date_end"/>
+								<field name="location_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('usage', 'in', ['internal', 'transit'])]"/>
+							</group>
+						</group>
+						<group string="Stock Card Detail Filters" invisible="type != 'stock_card_detail'">
+							<group>
+								<field name="date_start"/>
+								<field name="product_id" options="{'no_create': True}" domain="[('type', '=', 'product')]" required="type == 'stock_card_detail'"/>
+								<field name="product_tracking" invisible="1"/>
+								<field name="lot_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('product_id', '=', product_id)]" invisible="product_tracking not in ['serial', 'lot']"/>
+							</group>
+							<group>
+								<field name="date_end"/>
+								<field name="location_id" options="{'no_create': True}" domain="[('usage', 'in', ['internal', 'transit'])]" required="type == 'stock_card_detail'"/>
+							</group>
+						</group>
+						<group string="Stock Card Summary Filters" invisible="type != 'stock_card_summary'">
+							<group>
+								<field name="date_start"/>
+								<field name="product_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type', '=', 'product')]"/>
+								<field name="lot_ids" widget="many2many_tags" options="{'no_create': True}"/>
+							</group>
+							<group>
+								<field name="date_end"/>
+								<field name="location_id" options="{'no_create': True}" domain="[('usage', 'in', ['internal', 'transit'])]" required="type == 'stock_card_summary'"/>
+							</group>
+						</group>
+						<group string="Stock Movement Filters" invisible="type != 'stock_movement'">
+							<group>
+								<field name="date_start"/>
+								<field name="product_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type', 'in', ['product', 'consu'])]"/>
+								<field name="lot_ids" widget="many2many_tags" options="{'no_create': True}"/>
+							</group>
+							<group>
+								<field name="date_end"/>
+								<field name="location_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('usage', 'in', ['internal', 'transit'])]"/>
+							</group>
+						</group>
+						<footer>
+							<button name="action_view" string="View" type="object" class="oe_highlight"/>
+							<button name="action_export_excel" string="Export to Excel" type="object" class="oe_highlight"/>
+							<button name="action_export_pdf" string="Export to PDF" type="object" class="oe_highlight"/>
+							<button string="Cancel" class="oe_link" special="cancel"/>
+						</footer>
+					</sheet>
+				</form>
+
+	    	</field>
+	    </record>
+		
+	    <record id="ms_stock_report_wizard_action" model="ir.actions.act_window">
+			<field name="name">All In One Stock Reports</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">ms.stock.report.wizard</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="ms_stock_report_wizard_form_view"/>
+			<field name="target">new</field>
+	    </record>
+
+		<menuitem id="ms_stock_report_wizard_menu" parent="stock.menu_warehouse_report" action="ms_stock_report_wizard_action" sequence="10"/>
+	
+	</data>
+</odoo>

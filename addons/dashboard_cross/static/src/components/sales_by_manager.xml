@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="dashboard_cross.sales_by_manager_dashboard" owl="1">
+        <div class="o_dashboard_cross_container o_pd_container o_pf antialiased"
+             style="height: 100%; overflow: hidden;">
+
+            <t t-if="state.loading">
+                <div class="flex h-full w-full items-center justify-center">
+                    <div class="text-xl font-bold animate-pulse" style="color:#1c3d6e;">Cargando Ventas por días...</div>
+                </div>
+            </t>
+
+            <t t-else="">
+                <!-- Filtros: franja delgada que se despliega al pasar el mouse -->
+                <div class="o_filter_hoverbar">
+                    <div class="o_filter_hoverbar__handle"></div>
+                    <div class="o_filter_hoverbar__panel">
+                        <div class="px-4 py-3 flex items-center gap-3 flex-wrap" style="max-width:1280px;margin:0 auto;">
+                            <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;">Año:</span>
+                            <select t-model="state.filters.year" t-on-change="() => this.setYear(state.filters.year)"
+                                    style="border:1px solid #cbd5e1;border-radius:6px;font-size:13px;padding:4px 8px;">
+                                <t t-foreach="[state.filters.year - 2, state.filters.year - 1, state.filters.year, state.filters.year + 1]" t-as="y" t-key="y">
+                                    <option t-att-value="y"><t t-esc="y"/></option>
+                                </t>
+                            </select>
+
+                            <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-left:6px;">Desde:</span>
+                            <input type="date" t-model="state.filters.date_from" t-on-change="() => this.onRangeChange()"
+                                   style="border:1px solid #cbd5e1;border-radius:6px;font-size:13px;padding:4px 8px;"/>
+                            <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;">Hasta:</span>
+                            <input type="date" t-model="state.filters.date_to" t-on-change="() => this.onRangeChange()"
+                                   style="border:1px solid #cbd5e1;border-radius:6px;font-size:13px;padding:4px 8px;"/>
+
+                            <t t-if="(state.companies || []).length > 1">
+                                <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-left:6px;">Cía:</span>
+                                <label t-foreach="state.companies" t-as="co" t-key="co.id" class="inline-flex items-center" style="gap:3px;font-size:12px;color:#46536b;cursor:pointer;">
+                                    <input type="checkbox" t-att-checked="isCompanySelected(co.id)" t-on-change="() => this.toggleCompany(co.id)" style="accent-color:#1c3d6e;"/>
+                                    <span><t t-esc="co.name"/></span>
+                                </label>
+                            </t>
+
+                            <div class="flex items-center" style="gap:4px;margin-left:6px;" title="Elegí uno o varios meses (arman el rango)">
+                                <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12]" t-as="m" t-key="m">
+                                    <button t-on-click="() => this.toggleMonth(m)"
+                                            t-attf-style="font-size:11px;font-weight:700;padding:4px 8px;border-radius:5px;border:none;cursor:pointer; #{isMonthSelected(m) ? 'background:#1c3d6e;color:#fff;' : 'background:#eef2f7;color:#46536b;'}">
+                                        <t t-esc="['E','F','M','A','M','J','J','A','S','O','N','D'][m-1]"/>
+                                    </button>
+                                </t>
+                            </div>
+                            <span style="font-size:12px;color:#64748b;margin-left:auto;">
+                                <span style="font-weight:600;color:#334155;"><t t-esc="state.data.period.date_from"/></span>
+                                →
+                                <span style="font-weight:600;color:#334155;"><t t-esc="state.data.period.date_to_data"/></span>
+                            </span>
+                            <label style="display:inline-flex;align-items:center;font-size:12px;color:#475569;cursor:pointer;">
+                                <input type="checkbox" t-model="state.showRangeCaption" style="margin-right:6px;"/>
+                                Rango bajo gráficos
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Encabezado Perfipar -->
+                <div class="o_pf_header">
+                    <div class="o_pf_logo">
+                        <t t-if="state.data.company &amp;&amp; state.data.company.logo">
+                            <img t-att-src="'data:image/png;base64,' + state.data.company.logo" alt="logo"/>
+                        </t>
+                        <t t-else="">
+                            <span class="o_pf_logo_text"><t t-esc="state.data.company.name || 'Perfipar'"/></span>
+                        </t>
+                    </div>
+                    <div class="o_pf_title">Ventas Perfipar</div>
+                    <span class="o_pf_live">Live</span>
+                </div>
+
+                <!-- Contenido -->
+                <div class="o_pf_page" style="overflow-y: auto; height: calc(100% - 82px);">
+                    <div class="o_pf_stack" style="padding:16px; max-width:100%; margin:0 auto; padding-bottom:32px;">
+
+                        <!-- Tabla diaria por gerencia -->
+                        <div class="o_pf_card">
+                            <div class="o_pf_scroll_x">
+                                <table class="o_pf_table">
+                                    <thead class="o_pf_thead">
+                                        <tr>
+                                            <th class="o_pf_th_first">Gerencia</th>
+                                            <t t-foreach="state.data.daily_table.labels || []" t-as="day" t-key="day_index">
+                                                <th><t t-esc="day"/></th>
+                                            </t>
+                                            <th class="o_pf_th_total">Total</th>
+                                            <th class="o_pf_th_gold">Dólares</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="state.data.daily_table.rows || []" t-as="row" t-key="row.id">
+                                            <tr class="o_pf_row" t-on-click="() => this.drillManager(row.id, row.name)">
+                                                <td class="o_pf_td_first">
+                                                    <span class="o_pf_sq" t-attf-style="background-color: #{mgrColor(row_index)};"></span>
+                                                    <span style="font-weight:600;color:#1f2a44;"><t t-esc="row.name"/></span>
+                                                </td>
+                                                <t t-foreach="row.amounts || []" t-as="amt" t-key="amt_index">
+                                                    <td>
+                                                        <t t-if="amt &gt; 0"><t t-esc="formatNumberPlain(amt)"/></t>
+                                                        <t t-else=""><span class="o_pf_muted">-</span></t>
+                                                    </td>
+                                                </t>
+                                                <td class="o_pf_td_total"><t t-esc="formatNumberPlain(row.total)"/></td>
+                                                <td class="o_pf_td_gold"><t t-esc="formatNumberPlain(row.total_usd)"/></td>
+                                            </tr>
+                                        </t>
+                                        <tr class="o_pf_totalrow">
+                                            <td class="o_pf_td_first">Total</td>
+                                            <t t-foreach="state.data.daily_table.total_per_day || []" t-as="dt" t-key="dt_index">
+                                                <td><t t-esc="formatNumberPlain(dt)"/></td>
+                                            </t>
+                                            <td class="o_pf_td_total"><t t-esc="formatNumberPlain(state.data.totals.total_gs)"/></td>
+                                            <td class="o_pf_td_gold"><t t-esc="formatNumberPlain(state.data.totals.total_usd)"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Fila de 4 paneles -->
+                        <t t-set="cq" t-value="state.data.comparative_quarter"/>
+                        <t t-set="proj" t-value="state.data.projection"/>
+                        <div class="o_pf_grid o_pf_cols_4">
+
+                            <!-- Comparativo (mini-tabla) -->
+                            <div class="o_pf_card">
+                                <div class="o_pf_panel_head">Comparativo vs Año Anterior</div>
+                                <div style="padding:14px 16px;">
+                                    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;">
+                                        <span style="color:#5b6678;"><t t-esc="cq.previous_label"/></span>
+                                        <span style="font-weight:700;color:#334155;"><t t-esc="formatNumberPlain(cq.previous_total)"/></span>
+                                    </div>
+                                    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:12px;">
+                                        <span style="color:#5b6678;"><t t-esc="cq.current_label"/></span>
+                                        <span style="font-weight:700;color:#1c3d6e;"><t t-esc="formatNumberPlain(cq.current_total)"/></span>
+                                    </div>
+                                    <div style="display:flex;justify-content:flex-end;">
+                                        <span t-if="cq.prev_incomplete" class="o_pf_badge" style="background:#9aa3b2;" title="El período anterior no tiene datos suficientes (carga incompleta). El % de variación no es representativo.">
+                                            <i class="fa fa-exclamation-triangle"></i> per. anterior incompleto
+                                        </span>
+                                        <span t-else="" class="o_pf_badge" t-attf-style="#{cq.change_pct >= 0 ? 'background:#46a04a;' : 'background:#c0392b;'}">
+                                            <t t-if="cq.change_pct &gt;= 0">+</t><t t-esc="cq.change_pct.toFixed(0)"/>%
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comparativo (chart) -->
+                            <div class="o_pf_card">
+                                <div class="o_pf_panel_head">Comparativo (gráfico)</div>
+                                <div class="o_pf_chart_box" style="padding:12px;height:180px;">
+                                    <canvas style="width:100%;height:100%;" id="sbmComparativoCanvas"></canvas>
+                                </div>
+                                <p style="text-align:center;font-size:11px;color:#9aa3b2;margin:0 0 8px;" t-if="state.showRangeCaption"><t t-esc="rangeLabel()"/></p>
+                            </div>
+
+                            <!-- Proyección -->
+                            <div class="o_pf_card">
+                                <div class="o_pf_panel_head">Proyección</div>
+                                <t t-if="!proj.applies">
+                                    <div style="padding:18px;text-align:center;color:#8a93a6;font-size:12px;line-height:1.5;">
+                                        <i class="fa fa-info-circle"></i>
+                                        La proyección solo aplica a un <b>mes en curso</b>. En rangos multi-mes o períodos cerrados no se muestra (evita el "100% / iguala el total").
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                <div class="o_pf_scroll_x">
+                                    <table class="o_pf_table" style="font-size:12px;">
+                                        <thead class="o_pf_thead">
+                                            <tr>
+                                                <th class="o_pf_th_first">Gerencia</th>
+                                                <th>Proyección</th>
+                                                <th class="o_pf_th_gold">USD</th>
+                                                <th><t t-esc="proj.prev_month_label"/></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="proj.by_manager || []" t-as="bm" t-key="bm.id">
+                                                <tr>
+                                                    <td class="o_pf_td_first"><t t-esc="bm.name"/></td>
+                                                    <td><t t-esc="formatNumberPlain(bm.projection)"/></td>
+                                                    <td class="o_pf_td_gold"><t t-esc="formatNumberPlain(bm.projection_usd)"/></td>
+                                                    <td><t t-esc="formatNumberPlain(bm.prev_month_usd)"/></td>
+                                                </tr>
+                                            </t>
+                                            <tr class="o_pf_totalrow">
+                                                <td class="o_pf_td_first">Total</td>
+                                                <td><t t-esc="formatNumberPlain(proj.projection_total)"/></td>
+                                                <td class="o_pf_td_gold"><t t-esc="formatNumberPlain(proj.projection_total_usd)"/></td>
+                                                <td><t t-esc="formatNumberPlain(proj.prev_month_total_usd)"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="padding:8px 12px;display:flex;justify-content:flex-end;align-items:center;gap:8px;">
+                                    <span style="font-size:11px;color:#8a93a6;">Proy. vs <t t-esc="proj.prev_month_label"/></span>
+                                    <span class="o_pf_badge o_pf_badge_green" style="font-size:13px;padding:4px 10px;"><t t-esc="proj.ratio_pct.toFixed(0)"/>%</span>
+                                </div>
+                                </t>
+                            </div>
+
+                            <!-- Participación -->
+                            <div class="o_pf_card">
+                                <div class="o_pf_panel_head">Participación por Gerencia</div>
+                                <div class="o_pf_chart_box" style="padding:12px;height:180px;">
+                                    <canvas style="width:100%;height:100%;" id="sbmParticipacionCanvas"></canvas>
+                                </div>
+                                <p style="text-align:center;font-size:11px;color:#9aa3b2;margin:2px 0 0;" t-if="state.showRangeCaption"><t t-esc="rangeLabel()"/></p>
+                                <div style="padding:0 14px 12px;">
+                                    <t t-foreach="state.data.participation" t-as="part" t-key="part.id">
+                                        <div style="display:flex;justify-content:space-between;font-size:11px;margin-top:3px;">
+                                            <span style="display:flex;align-items:center;gap:6px;min-width:0;">
+                                                <span t-attf-style="background-color:#{mgrColor(part_index)};width:9px;height:9px;border-radius:2px;display:inline-block;flex-shrink:0;"></span>
+                                                <span style="color:#5b6678;"><t t-esc="part.name"/></span>
+                                            </span>
+                                            <span style="font-weight:700;color:#334155;"><t t-esc="part.pct.toFixed(0)"/>%</span>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Informe de Ventas (barras apiladas) -->
+                        <div class="o_pf_card">
+                            <div class="o_pf_panel_head">Informe de Ventas (Gs.)</div>
+                            <div class="o_pf_chart_box" style="padding:16px;height:360px;">
+                                <canvas style="width:100%;height:100%;" id="sbmInformeVentasCanvas"></canvas>
+                            </div>
+                            <p style="text-align:center;font-size:11px;color:#9aa3b2;margin:0 0 10px;" t-if="state.showRangeCaption"><t t-esc="rangeLabel()"/></p>
+                        </div>
+
+                        <!-- Footer totales -->
+                        <div class="o_pf_footer">
+                            <div style="display:flex;align-items:center;">
+                                <span class="o_pf_footer_ico"><i class="fa fa-line-chart" style="color:#f1c75a;"></i></span>
+                                <span>Ventas totales del período: <span class="gold">Gs. <t t-esc="formatNumberPlain(state.data.totals.total_gs)"/></span></span>
+                            </div>
+                            <div>Equivalente en Dólares: <span class="gold">USD <t t-esc="formatNumberPlain(state.data.totals.total_usd)"/></span></div>
+                        </div>
+
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

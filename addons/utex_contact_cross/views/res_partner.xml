@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-11-24 14:20:32
+    @author: drojo
+-->
+<odoo>
+
+    <record id="res_partner_inherit_form" model="ir.ui.view">
+        <field name="name">res.partner.inherit.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[1]//group[1]" position="inside">
+                <label for="date_of_birth" string="Fecha de nacimiento" />
+                <div>
+                    <field name="date_of_birth" class="oe_inline" nolabel="1" />
+                    <field name="patient_age" class="oe_inline" nolabel="1" can_create="true" can_write="true"/>
+                </div>
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

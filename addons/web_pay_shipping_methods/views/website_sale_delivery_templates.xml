@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Xpath expression para insertar los métodos de envío en la página de payment -->
+    <template id="payment_delivery_inherit" inherit_id="website_sale.payment">
+        <xpath expr="//div[@id='oe_structure_website_sale_payment_1']" position="after">
+            <div class="oe_structure clearfix mt-3 mb-4">
+                <t t-call="website_sale.delivery_form">
+                    <t t-set="selected_dm_id" t-value="order.carrier_id.id"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

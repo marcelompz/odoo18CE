@@ -1,0 +1,81 @@
+<odoo>
+
+
+        <record model="ir.ui.view" id="reporte_compraventa_venta_wizard">
+            <field name="name">Libro de Ventas</field>
+            <field name="model">reporte_compraventa.wizardventa</field>
+            <field name="arch" type="xml">
+
+                <form string="Libro de Ventas">
+                    <group>
+                        <group>
+                            <field name="fecha_inicio" autocomplete="off"/>                            
+                        </group>
+                        <group>
+                            <field name="fecha_fin" autocomplete="off"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report_xlsx" string="Exportar a xlsx" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="reporte_compraventa_compra_wizard">
+            <field name="name">Libro de Compras</field>
+            <field name="model">reporte_compraventa.wizardcompra</field>
+            <field name="arch" type="xml">
+                <form string="Libro de Compras">
+                    <group>
+                        <group>
+                            <field name="fecha_inicio" autocomplete="off"/>
+                        </group>
+                        <group>
+                            <field name="fecha_fin" autocomplete="off"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report_xlsx" string="Exportar a xlsx" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- model.name action window -->
+        <record id="llamar_reporte_compra" model="ir.actions.act_window">
+            <field name="name">Libro de Compras</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">reporte_compraventa.wizardcompra</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+            </field>
+        </record>
+
+        <!-- model.name action window -->
+        <record id="llamar_reporte_venta" model="ir.actions.act_window">
+            <field name="name">Libro de Ventas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">reporte_compraventa.wizardventa</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="wizard_libro_compras" parent="account.menu_finance_payables" name="Libro de Compras" sequence="12"
+                action="llamar_reporte_compra"/>
+
+        <menuitem id="wizard_libro_ventas" parent="account.menu_finance_receivables" name="Libro de Ventas" sequence="12" 
+                action="llamar_reporte_venta"/>
+
+</odoo>

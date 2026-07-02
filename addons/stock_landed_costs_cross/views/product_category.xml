@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-03-26 10:28:12
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="product_category_inherit_form" model="ir.ui.view">
+        <field name="name">product.category.inherit.form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view" />
+        <field name="arch" type="xml">
+            
+            <!-- campo margen de ganancia -->
+            <xpath expr="//group[@name='first']" position="after">
+                <group name="cross_margin_gain" col="2">
+                    <group string="Margen de ganancia" >
+                        <field name="margin_gain" class="oe_inline" widget="percentage"/>
+                    </group>
+                </group>
+            </xpath>
+            
+        </field>
+    </record>
+
+</odoo>

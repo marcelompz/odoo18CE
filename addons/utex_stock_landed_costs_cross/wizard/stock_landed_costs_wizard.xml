@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-04-22 14:00:08
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="stock_landed_costs_wizard_form" model="ir.ui.view">
+        <field name="name">stock.landed.costs.wizard.form</field>
+        <field name="model">stock.landed.costs.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="line_ids">
+                        <list create="false" delete="false" editable="bottom" decoration-danger="coefficient_value &lt; suggested_value">
+                            <field name="product_id" readonly="1"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="coefficient_value"/>
+                            <field name="suggested_value"/>
+                        </list>
+                    </field>
+                </sheet>
+                <footer>
+                    <button string="Aceptar" type="object" name="action_done" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+</odoo>

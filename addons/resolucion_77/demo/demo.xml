@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Datos de demostración para Resolución 77 -->
+        <record id="demo_bien_computadora" model="resolucion.77.line">
+            <field name="name">Computadora Dell OptiPlex 7090</field>
+            <field name="codigo">EQ-COMP-001</field>
+            <field name="fecha_adquisicion" eval="(datetime.datetime.now() - datetime.timedelta(days=365)).strftime('%Y-%m-%d')"/>
+            <field name="valor_inicial">1500000</field>
+            <field name="porcentaje_depreciacion">25.0</field>
+            <field name="vida_util">4</field>
+            <field name="categoria_activo">equipos_computo</field>
+            <field name="numero_factura">001-001-0000123</field>
+            <field name="incluir_en_reporte">1</field>
+            <field name="activo">1</field>
+        </record>
+
+        <record id="demo_bien_vehiculo" model="resolucion.77.line">
+            <field name="name">Toyota Hilux 4x4 CD</field>
+            <field name="codigo">VH-001</field>
+            <field name="fecha_adquisicion" eval="(datetime.datetime.now() - datetime.timedelta(days=730)).strftime('%Y-%m-%d')"/>
+            <field name="valor_inicial">45000000</field>
+            <field name="porcentaje_depreciacion">20.0</field>
+            <field name="vida_util">5</field>
+            <field name="categoria_activo">vehiculos</field>
+            <field name="numero_factura">001-001-0000124</field>
+            <field name="incluir_en_reporte">1</field>
+            <field name="activo">1</field>
+        </record>
+
+        <record id="demo_bien_maquinaria" model="resolucion.77.line">
+            <field name="name">Compresor de Aire Industrial</field>
+            <field name="codigo">MAQ-001</field>
+            <field name="fecha_adquisicion" eval="(datetime.datetime.now() - datetime.timedelta(days=1095)).strftime('%Y-%m-%d')"/>
+            <field name="valor_inicial">8500000</field>
+            <field name="porcentaje_depreciacion">10.0</field>
+            <field name="vida_util">10</field>
+            <field name="categoria_activo">maquinaria</field>
+            <field name="numero_factura">001-001-0000125</field>
+            <field name="incluir_en_reporte">1</field>
+            <field name="activo">1</field>
+        </record>
+
+        <record id="demo_bien_muebles" model="resolucion.77.line">
+            <field name="name">Escritorio Ejecutivo con Sillas</field>
+            <field name="codigo">MUE-001</field>
+            <field name="fecha_adquisicion" eval="(datetime.datetime.now() - datetime.timedelta(days=180)).strftime('%Y-%m-%d')"/>
+            <field name="valor_inicial">750000</field>
+            <field name="porcentaje_depreciacion">10.0</field>
+            <field name="vida_util">10</field>
+            <field name="categoria_activo">muebles</field>
+            <field name="numero_factura">001-001-0000126</field>
+            <field name="incluir_en_reporte">1</field>
+            <field name="activo">1</field>
+        </record>
+
+        <record id="demo_bien_dados_baja" model="resolucion.77.line">
+            <field name="name">Computadora Antigua HP</field>
+            <field name="codigo">EQ-COMP-OLD-001</field>
+            <field name="fecha_adquisicion" eval="(datetime.datetime.now() - datetime.timedelta(days=2190)).strftime('%Y-%m-%d')"/>
+            <field name="valor_inicial">800000</field>
+            <field name="porcentaje_depreciacion">25.0</field>
+            <field name="vida_util">4</field>
+            <field name="categoria_activo">equipos_computo</field>
+            <field name="numero_factura">001-001-0000100</field>
+            <field name="incluir_en_reporte">0</field>
+            <field name="activo">0</field>
+            <field name="baja_definitiva">1</field>
+            <field name="fecha_baja" eval="(datetime.datetime.now() - datetime.timedelta(days=30)).strftime('%Y-%m-%d')"/>
+        </record>
+
+    </data>
+</odoo> 

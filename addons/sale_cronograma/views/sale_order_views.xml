@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_mostrar_reportes" model="ir.ui.view">
+        <field name="name">sale.order.form.mostrar.reportes</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="date_order" position="after">
+                <field name="mostrar_en_reportes"/>
+            </field>
+        </field>
+    </record>
+</odoo>
+

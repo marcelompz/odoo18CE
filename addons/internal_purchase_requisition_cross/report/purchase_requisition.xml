@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-12-01 15:50:40
+    @author: drojo
+-->
+<odoo>
+
+    <!-- report template -->
+    <template id="report_purchase_requisition_pdf_inherit" inherit_id="internal_purchase_requisition.report_purchase_requisition_pdf">
+
+        <xpath expr="//header" position="replace">
+            <h1 class="text-center">Requisición de compra</h1>
+        </xpath>
+
+    </template>
+
+    <!-- report actions -->
+    <record id="internal_purchase_requisition.purchase_requisition_report" model="ir.actions.report">
+        <field name="paperformat_id" ref="internal_purchase_requisition_cross.A4_purchase_requisition_pdf"/>
+    </record>
+
+</odoo>

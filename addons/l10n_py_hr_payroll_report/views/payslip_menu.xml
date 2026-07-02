@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_payslip_funcionario_wizard" model="ir.actions.act_window">
+        <field name="name">Recibo de Pago de Sueldo - Funcionario</field>
+        <field name="res_model">hr.payslip</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', 'in', ['done', 'paid'])]</field>
+        <field name="context">{'search_default_group_by_employee': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay recibos de nómina disponibles
+            </p>
+            <p>
+                Seleccione un recibo de nómina y use el botón Imprimir para generar el reporte "Recibo de Pago de Sueldo - Funcionario".
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_report_payslip_funcionario"
+              name="Recibo de Pago - Funcionario"
+              parent="l10n_py_hr_payroll_report.menu_rrhh_paraguay_root"
+              action="action_report_payslip_funcionario_wizard"
+              sequence="10"/>
+</odoo>
+

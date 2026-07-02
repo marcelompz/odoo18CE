@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-04-22 13:17:11
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view product.template -->
+
+    <record id="product_template_inherit_form" model="ir.ui.view">
+        <field name="name">product.template.inherit.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='list_price_uom']" position="after">
+                <label for="coefficient_value"/>
+                <div name="div_coefficient_value">
+                    <field name="coefficient_value"
+                        class="oe_inline"
+                        widget="monetary"
+                        options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                </div>
+                <field name="margin_gain" widget="percentage"/>
+                <label for="suggested_value"/>
+                <div name="div_suggested_value">
+                    <field name="suggested_value"
+                        class="oe_inline"
+                        widget="monetary"
+                        options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- form view product.product -->
+
+    <record id="product_product_inherit_normal_form" model="ir.ui.view">
+        <field name="name">product.product.inherit.normal.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='list_price_uom']" position="after">
+                <label for="coefficient_value"/>
+                <div name="div_coefficient_value">
+                    <field name="coefficient_value"
+                        class="oe_inline"
+                        widget="monetary"
+                        options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                </div>
+                <label for="suggested_value"/>
+                <div name="div_suggested_value">
+                    <field name="suggested_value"
+                        class="oe_inline"
+                        widget="monetary"
+                        options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                </div>
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

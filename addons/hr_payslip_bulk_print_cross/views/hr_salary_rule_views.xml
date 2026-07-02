@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--
+      Reemplaza completamente el campo estandar 'appears_on_payslip' por
+      nuestros 4 flags especificos (IPS / Interno / Bonificacion / Vacaciones).
+      El valor de appears_on_payslip se preserva en BD pero ya no aparece
+      en el formulario. La migracion 18.0.1.2.8 copio el valor previo a
+      appears_on_ips_receipt.
+    -->
+    <record id="view_hr_salary_rule_form_inherit_receipts" model="ir.ui.view">
+        <field name="name">hr.salary.rule.form.inherit.receipts.cn</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+        <field name="arch" type="xml">
+            <field name="appears_on_payslip" position="replace">
+                <field name="appears_on_ips_receipt"/>
+                <field name="appears_on_internal_payslip"/>
+                <field name="appears_on_bonification_receipt"/>
+                <field name="appears_on_vacation_receipt"/>
+            </field>
+        </field>
+    </record>
+</odoo>

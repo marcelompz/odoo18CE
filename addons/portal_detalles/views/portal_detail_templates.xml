@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Formulario de Carga de Detalles -->
+        <template id="portal_upload_form_template" name="Portal Upload Form">
+            <t t-call="website.layout">
+                <t t-set="title">Cargar Lista de Productos</t>
+                <section class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10 col-lg-12">
+                            <div class="card shadow rounded-3 border-0">
+                                <div class="card-body p-4">
+                                    <h3 class="mb-4 text-center">Cargar Lista de Productos</h3>
+                                    <p class="text-muted text-center">
+                                        Complete el formulario tipo tabla para cargar múltiples detalles de productos de una vez.
+                                    </p>
+
+                                    <!-- Información del Pedido -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label"><strong>Pedido:</strong></label>
+                                                <input type="text" class="form-control" t-att-value="order.name" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label"><strong>Cliente:</strong></label>
+                                                <input type="text" class="form-control" t-att-value="customer.name" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label"><strong>Comercial:</strong></label>
+                                                <input type="text" class="form-control" t-att-value="config.commercial_id.name" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Formulario Principal -->
+                                    <form action="/portal/upload-details/submit" method="post" id="portal-details-form" t-att-data-categories="json.dumps([{'id': c.id, 'name': c.name} for c in categories])" t-att-data-sizes="json.dumps([{'id': s.id, 'name': s.name} for s in sizes])">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <input type="hidden" name="order_id" t-att-value="order.id"/>
+                                        <input type="hidden" name="token" t-att-value="order.access_token"/>
+                                        <input type="hidden" name="rows_data" id="rows_data"/>
+
+                                        <!-- Tabla de Productos -->
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0">Lista de Productos</h5>
+                                                <div>
+                                                    <button type="button" class="btn btn-sm btn-success" id="add-row-btn">
+                                                        <i class="fa fa-plus"></i> Agregar Fila
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-danger" id="clear-table-btn">
+                                                        <i class="fa fa-trash"></i> Limpiar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-hover" id="products-table">
+                                                        <thead class="table-dark">
+                                                            <tr>
+                                                                <th>Modelo *</th>
+                                                                <th>Nombre</th>
+                                                                <th>Número</th>
+                                                                <th>Otros</th>
+                                                                <th>Cantidad</th>
+                                                                <th>Producto 1 *</th>
+                                                                <th>Talle 1 *</th>
+                                                                <th>Producto 2</th>
+                                                                <th>Talle 2</th>
+                                                                <th>Producto 3</th>
+                                                                <th>Talle 3</th>
+                                                                <th>Producto 4</th>
+                                                                <th>Talle 4</th>
+                                                                <th>Producto 5</th>
+                                                                <th>Talle 5</th>
+                                                                <th width="50">Acción</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="products-tbody">
+                                                            <!-- Las filas se agregarán dinámicamente -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Observaciones -->
+                                        <div class="form-group mt-4">
+                                            <label class="form-label"><strong>Observaciones del Cliente</strong></label>
+                                            <textarea name="customer_notes" class="form-control" rows="3" placeholder="Observaciones adicionales..."></textarea>
+                                        </div>
+
+                                        <!-- Botones -->
+                                        <div class="form-group mt-4 text-center">
+                                            <button type="submit" class="btn btn-primary btn-lg">
+                                                <i class="fa fa-save"></i> Enviar Lista
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                
+            </t>
+        </template>
+
+        <!-- Página de Éxito -->
+        <template id="portal_success_template" name="Portal Success">
+            <t t-call="website.layout">
+                <t t-set="title">Lista Enviada Correctamente</t>
+                <div class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card shadow rounded-3 border-0">
+                                <div class="card-body p-4 text-center">
+                                    <i class="fa fa-check-circle text-success fa-4x mb-4"></i>
+                                    <h3 class="text-success">¡Lista Enviada Correctamente!</h3>
+                                    <p class="text-muted">
+                                        Su lista de productos ha sido enviada correctamente.
+                                    </p>
+                                    <div class="alert alert-info">
+                                        <strong>Detalles:</strong><br/>
+                                        Lista: <span t-esc="detail_list.name"/><br/>
+                                        Pedido: <span t-esc="order.name"/><br/>
+                                        Items: <span t-esc="detail_list.item_count"/><br/>
+                                        Fecha: <span t-esc="detail_list.submitted_date"/>
+                                    </div>
+                                    <p class="text-muted">
+                                        Recibirá notificación cuando sea procesada por el comercial.
+                                    </p>
+                                    <a href="/" class="btn btn-primary">Volver al Inicio</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Página de Estado -->
+        <template id="portal_status_template" name="Portal Status">
+            <t t-call="website.layout">
+                <t t-set="title">Estado de Lista</t>
+                <div class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card shadow rounded-3 border-0">
+                                <div class="card-body p-4">
+                                    <h3 class="mb-4 text-center">Estado de su Lista</h3>
+                                    
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <strong>Lista:</strong> <span t-esc="detail_list.name"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Pedido:</strong> <span t-esc="order.name"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <strong>Estado:</strong> 
+                                            <span t-if="list.state == 'submitted'" class="badge badge-warning">Enviada</span>
+                                            <span t-elif="list.state == 'reviewed'" class="badge badge-info">Revisada</span>
+                                            <span t-elif="list.state == 'processed'" class="badge badge-success">Procesada</span>
+                                            <span t-elif="list.state == 'rejected'" class="badge badge-danger">Rechazada</span>
+                                            <span t-else="" class="badge badge-secondary" t-esc="list.state"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Items:</strong> <span t-esc="detail_list.item_count"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <strong>Fecha Envío:</strong> <span t-esc="detail_list.submitted_date"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Fecha Revisión:</strong> <span t-esc="detail_list.reviewed_date"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="alert alert-info" t-if="detail_list.commercial_notes">
+                                        <strong>Observaciones del Comercial:</strong><br/>
+                                        <span t-esc="detail_list.commercial_notes"/>
+                                    </div>
+
+                                    <div class="text-center mt-4">
+                                        <a href="/" class="btn btn-primary">Volver al Inicio</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Página de Error - Sin Configuración -->
+        <template id="portal_no_config_template" name="Portal No Config">
+            <t t-call="website.layout">
+                <t t-set="title">Error de Acceso</t>
+                <div class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card shadow rounded-3 border-0">
+                                <div class="card-body p-4 text-center">
+                                    <i class="fa fa-exclamation-triangle text-warning fa-4x mb-4"></i>
+                                    <h3 class="text-warning">Acceso No Disponible</h3>
+                                    <p class="text-muted">
+                                        No hay configuraciones activas disponibles para mostrar el formulario.
+                                    </p>
+                                    <a href="/" class="btn btn-primary">Volver al Inicio</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

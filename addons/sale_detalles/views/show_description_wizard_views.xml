@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_show_description_wizard_form" model="ir.ui.view">
+        <field name="name">show.description.wizard.form</field>
+        <field name="model">show.description.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Descripción General de la Orden">
+                <sheet>
+                    <field name="general_description" readonly="1" widget="html"/>
+                    <field name="technical_info_html" readonly="1" widget="html"/>
+                </sheet>
+                <footer>
+                    <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo> 

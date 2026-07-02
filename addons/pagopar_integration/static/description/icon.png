@@ -1,0 +1,41 @@
+# Icono del Módulo Pagopar
+
+Para completar la presentación del módulo en el App Store de Odoo, necesitará crear un icono en formato PNG con las siguientes especificaciones:
+
+## Especificaciones del Icono
+
+- **Formato**: PNG
+- **Tamaño**: 128x128 píxeles
+- **Fondo**: Transparente o blanco
+- **Colores**: Azul (#007BFF) y blanco para mantener consistencia con la marca
+
+## Elementos Sugeridos
+
+1. **Logo de Pagopar** (si está disponible públicamente)
+2. **Icono de tarjeta de crédito** o símbolo de pago
+3. **Bandera de Paraguay** (pequeña, en una esquina)
+4. **Texto "PAY"** o símbolo de dinero
+
+## Herramientas Recomendadas
+
+- **GIMP** (gratuito)
+- **Photoshop**
+- **Canva** (online)
+- **Figma** (online)
+
+## Ubicación
+
+El archivo debe guardarse como:
+```
+static/description/icon.png
+```
+
+## Alternativa Temporal
+
+Si no puede crear un icono personalizado inmediatamente, puede usar el icono por defecto de Odoo o descargar un icono de pago genérico de sitios como:
+
+- Flaticon
+- Icons8
+- FontAwesome
+
+**Nota**: Asegúrese de respetar los derechos de autor y licencias al usar iconos de terceros. 

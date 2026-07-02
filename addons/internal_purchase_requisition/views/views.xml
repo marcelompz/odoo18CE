@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <record id="group_procurement_officer" model="res.groups">
+            <field name="name">Procurement Officer</field>
+        </record>
+
+        <record id="action_create_purchase_order_from_requisition" model="ir.actions.server">
+            <field name="name">Create Purchase Order from Requisition</field>
+            <field name="model_id" ref="internal_purchase_requisition.model_purchase_requisition"/>
+            <field name="binding_model_id" ref="internal_purchase_requisition.model_purchase_requisition"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = model.create_purchase_order_from_requisition()
+            </field>
+        </record>
+
+         <!-- Archive Action -->
+        <record id="action_archive_requisition" model="ir.actions.server">
+            <field name="name">Archive Requisition</field>
+            <field name="model_id" ref="internal_purchase_requisition.model_purchase_requisition"/>
+            <field name="binding_model_id" ref="internal_purchase_requisition.model_purchase_requisition"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = model.action_archive()
+            </field>
+        </record>
+
+        <!-- Unarchive Action -->
+        <record id="action_unarchive_requisition" model="ir.actions.server">
+            <field name="name">Unarchive Requisition</field>
+            <field name="model_id" ref="internal_purchase_requisition.model_purchase_requisition"/>
+            <field name="binding_model_id" ref="internal_purchase_requisition.model_purchase_requisition"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = model.action_unarchive()
+            </field>
+        </record>
+
+    </data>
+</odoo>

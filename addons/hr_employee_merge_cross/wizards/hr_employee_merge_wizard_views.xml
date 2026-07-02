@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_employee_merge_wizard_form" model="ir.ui.view">
+        <field name="name">hr.employee.merge.wizard.form</field>
+        <field name="model">hr.employee.merge.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Fusionar empleados duplicados">
+                <field name="summary" invisible="not summary" widget="html" readonly="1"/>
+                <group invisible="summary">
+                    <group>
+                        <field name="master_employee_id"
+                               domain="[('id', 'not in', duplicate_employee_ids)]"
+                               options="{'no_create': True}"/>
+                        <field name="copy_missing_fields"/>
+                    </group>
+                    <group>
+                        <field name="archive_duplicates"/>
+                    </group>
+                </group>
+                <group string="Empleados a fusionar (duplicados)" invisible="summary">
+                    <field name="duplicate_employee_ids" nolabel="1"
+                           options="{'no_create': True}"
+                           widget="many2many_tags"/>
+                </group>
+                <div class="alert alert-warning" role="alert" invisible="summary">
+                    <p><b>Atencion:</b> esta operacion redirige TODAS las referencias
+                    (asistencias, nominas, contratos, vacaciones, mensajes, etc.)
+                    de los empleados duplicados al MAESTRO, y luego los archiva.</p>
+                    <p>La accion no se puede deshacer automaticamente. Se recomienda
+                    realizar una copia de seguridad antes de continuar.</p>
+                </div>
+                <footer invisible="summary">
+                    <button name="action_merge" type="object"
+                            string="Fusionar" class="btn-danger"
+                            confirm="Esta seguro? Esta operacion modifica multiples registros y archiva los duplicados. Continuar?"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+                <footer invisible="not summary">
+                    <button name="action_open_master" type="object"
+                            string="Abrir empleado maestro" class="btn-primary"/>
+                    <button special="cancel" string="Cerrar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_employee_merge_wizard" model="ir.actions.act_window">
+        <field name="name">Fusionar empleados duplicados</field>
+        <field name="res_model">hr.employee.merge.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_view_types">list</field>
+    </record>
+
+</odoo>

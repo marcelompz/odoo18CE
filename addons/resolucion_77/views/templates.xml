@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Plantilla web básica -->
+        <template id="index" name="Resolución 77 Index">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container">
+                        <h1>Resolución 77 - Depreciación de Activos Fijos</h1>
+                        <p>Módulo para gestionar el Cuadro de Depreciación según la Resolución General N° 77/2020 de la SET</p>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo> 

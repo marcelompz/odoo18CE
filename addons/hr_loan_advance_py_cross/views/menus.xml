@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--
+        Menu raiz propio "Anticipos y Prestamos".
+        No referenciamos hr_payroll.menu_hr_payroll_root porque su XML ID
+        varia entre versiones/forks.
+    -->
+    <menuitem id="menu_hr_loan_advance_root"
+              name="Anticipos y Prestamos"
+              sequence="80"
+              web_icon="hr_loan_advance_py_cross,static/description/icon.png"/>
+
+    <menuitem id="menu_hr_advance"
+              name="Anticipos"
+              parent="menu_hr_loan_advance_root"
+              action="action_hr_advance"
+              sequence="10"/>
+
+    <menuitem id="menu_hr_loan"
+              name="Prestamos"
+              parent="menu_hr_loan_advance_root"
+              action="action_hr_loan"
+              sequence="20"/>
+
+</odoo>

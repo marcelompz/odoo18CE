@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Odoo E-commerce Application Builder </title>
+      <!-- Font Awesome CDN for Icons -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+      <style>
+         /* General Styles */
+         body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9fbff;
+         }
+      </style>
+   </head>
+
+   <body>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+      <div class="main-body">
+         <section class="container text-center">
+            <div class="row">
+               <h2 class="slogan" style="color:#884964;font-weight: 500;">Employee Purchase Requisition Module for
+                  Streamlined Purchase
+                  Approvals</h2>
+               <p style="text-align: center;font-size: 20px;color:#3e3938">
+                  The Employee Purchase Requisition Module in Odoo is designed to simplify and enhance the procurement
+                  process within an organization. It allows employees to submit purchase requisitions through a
+                  streamlined and user-friendly requisition form.
+               </p>
+            </div>
+         </section>
+         <section class="container text-center pb-5">
+            <div class="row">
+               <h4 class="oe_slogan" style="color:#884964;">1. Community</h4>
+               <h4 class="oe_slogan" style="color:#884964;">2. Enterprise</h4>
+               <h4 class="oe_slogan" style="color:#884964;">3. odoo sh</h4>
+            </div>
+         </section>
+<!--         <div class="container features-highlight text-center">-->
+<!--            <h3>Features Highlight</h3>-->
+<!--            <div class="row my-3 py-2" style="justify-content:center">-->
+               <!--                <div class="col-md-6 col-sm-6 feature-item p-1">
+                  <div class="box" style="background-color: #ebf1f3;border-radius: 12px;">
+                  <div class="row"><div class="col-md-3 col-sm-6 feature-item p-1">
+                     <img class="img img-responsive mx-4 my-4 mt-5" alt="not found" width="55" height="55" src="./images/booking.png">
+                  </div>
+                  <div class="col-md-9 col-sm-6 feature-item p-1" style="text-align: left;">
+                     <div class="box" style="padding:15px;">
+                         <h5 style="color: #3f8580;">Customizable UI/UX</h5>
+                         <ul><li><p>A fully customizable front-end design that allows merchants to match the app with their brand identity (colors, fonts, logos).  </p>
+                         <li><p>Merchants can customize the entire user experience, from navigation flow to the home screen layout.</p></ul>
+                     </div>
+                  </div>
+                  </div></div>
+               </div> -->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/kyc.png">-->
+<!--                     <h5 style="color: #5d1936;">User-Friendly<br>Requisition Form</h5>-->
+<!--                     <p>Employees can quickly submit purchase requests using a simple, intuitive form with essential-->
+<!--                        details like product, quantity, and budget.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/prioritize.png">-->
+<!--                     <h5 style="color: #5d1936;">Managerial<br>Approval Workflow</h5>-->
+<!--                     <p>Built-in approval workflows allow managers or supervisors to review, accept, reject, or provide-->
+<!--                        feedback on purchase requests before proceeding.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/notification.png">-->
+<!--                     <h5 style="color: #5d1936;">Automated <br>Notifications</h5>-->
+<!--                     <p>Managers and employees receive automated notifications when a request is submitted, approved, or-->
+<!--                        requires additional action.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/approved.png">-->
+<!--                     <h5 style="color: #5d1936;">Multi-level <br>Approval</h5>-->
+<!--                     <p>Supports multi-level approval processes, where different levels of management can review and-->
+<!--                        approve based on the value of the purchase.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/mind-mapping.png">-->
+<!--                     <h5 style="color: #5d1936;">Request Tracking <br>& Status Updates</h5>-->
+<!--                     <p>Employees can easily track the status of their requisitions and receive real-time updates on-->
+<!--                        where the request stands in the approval process.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/payment.png">-->
+<!--                     <h5 style="color: #5d1936;">Budget Control <br>Integration</h5>-->
+<!--                     <p>The module can be linked to the company's budget, ensuring that purchase requisitions align with-->
+<!--                        available funds, preventing over-budget approvals.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/user.png">-->
+<!--                     <h5 style="color: #5d1936;">Vendor Selection<br> & Comparison</h5>-->
+<!--                     <p>Managers can select vendors for the purchase, compare prices, and make informed procurement-->
+<!--                        decisions from within the system.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/search.png">-->
+<!--                     <h5 style="color: #5d1936;">Audit Trail <br> and History</h5>-->
+<!--                     <p>Every purchase request, along with its approval or rejection history, is saved for future-->
+<!--                        reference, enhancing transparency and accountability.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/shopping.png">-->
+<!--                     <h5 style="color: #5d1936;">Purchase Order <br>Generation</h5>-->
+<!--                     <p>Once approved, a purchase order (PO) can be automatically generated and sent to the selected-->
+<!--                        vendor, streamlining the procurement process.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/attachment.png">-->
+<!--                     <h5 style="color: #5d1936;">Document <br>Attachments</h5>-->
+<!--                     <p>Employees can attach relevant documents, such as quotes or specifications, to the requisition-->
+<!--                        form for review during the approval process.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/security.png">-->
+<!--                     <h5 style="color: #5d1936;">Mobile <br>Access</h5>-->
+<!--                     <p>The module is accessible from mobile devices, allowing managers to approve requisitions on the-->
+<!--                        go, ensuring timely processing.</p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--               <div class="col-md-3 col-sm-6 feature-item p-1">-->
+<!--                  <div class="box" style="padding:15px;border-radius: 15px;background-color: #f6f0f0;">-->
+<!--                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"-->
+<!--                        src="./images/technology.png">-->
+<!--                     <h5 style="color: #5d1936;">Customizable <br>Workflows</h5>-->
+<!--                     <p>The approval workflow can be customized to fit the organization’s specific needs, including-->
+<!--                        defining roles and responsibilities for approvals.-->
+<!--                     </p>-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--            </div>-->
+<!--         </div>-->
+         <section class="container" style="padding: 0% 0% 0% 4%;">
+            <div class="row pt-5 pb-5">
+               <h2 class="oe_slogan"
+                  style="text-align: left;opacity:0.6;font-size: 28px;font-weight: 600;margin: 0px !important;">
+               </h2>
+                <h3  style="text-align: left;font-size: 18px;margin: 0px !important;">
+                  <b> 1)Employees from different departments can create the purchase requistion by adding trhe products they need and submitting it.</b>
+               </h3>
+               <div class="row pt-5 pb-5">
+                  <img src="submit_btn.png" alt="" style="width: 95%;box-shadow: 0px 0px 8px 0px #e46e20;" />
+               </div>
+                <h3  style="text-align: left;font-size: 18px;margin: 0px !important;">
+                   <b>2)Aprroval: After each Approval: we can monitor the state as we can see in the top.</b><br/><br/>
+                  <b>1st level approval: Procurement Officer:</b>
+               </h3>
+
+                <div class="row pt-5 pb-5">
+                  <img src="procurement_user.png" alt="" style="width: 95%;box-shadow: 0px 0px 8px 0px #e46e20;" />
+               </div>
+
+                 <h3  style="text-align: left;font-size: 18px;margin: 0px !important;">
+
+                    <b>3)Approving Authority Access Rights:</b><br/><br/>
+<b>Procurement Officer:  In the user, tick the boolean field Procurement Officer. The person with this access right will be be able to approve at the first level.</b>
+                 </h3>
+
+               <div class="row pt-5 pb-5">
+                  <img src="procurement_access.png" alt="" style="width: 95%;box-shadow: 0px 0px 8px 0px #e46e20;" />
+               </div>
+
+                 <h3  style="text-align: left;font-size: 18px;margin: 0px !important;">
+                   <b>4)2nd Level Approval : Department Manager   </b><br/><br/>
+                  <b>Manager of Department Mapped in the Purchase Requistion :</b>
+               </h3>
+
+               <div class="row pt-5 pb-5">
+                  <img src="department_head.png" alt="" style="width: 95%;box-shadow: 0px 0px 8px 0px #e46e20;" />
+               </div>
+                <h3  style="text-align: left;font-size: 18px;margin: 0px !important;">
+               <b>5)Create Purchase Order After Approval   </b><br/><br/>
+                </h3>
+               <div class="row pt-5 pb-5">
+                  <img src="fully_approved.png" alt="" style="width: 95%;box-shadow: 0px 0px 8px 0px #e46e20;" />
+               </div>
+
+                <h3  style="text-align: left;font-size: 18px;margin: 0px !important;">
+               <b>6) Multiple Purchase Requistion to single PO: Multiple purchase requistions can be ticked and then we can click on  ‘Create PO’<br/>
+                  Multiple Purchase Order from singe Purchase Requistion:  After selecting the particular products you can create Purchase order multiple times to multiple vendors   </b><br/><br/>
+                </h3>
+
+                <div class="row pt-5 pb-5">
+                  <img src="list_po_view.png" alt="" style="width: 95%;box-shadow: 0px 0px 8px 0px #e46e20;" />
+               </div>
+                  <h3  style="text-align: left;font-size: 18px;margin: 0px !important;">
+                     <b>7)Puchase Order From Purchase Requistion</b><br/>
+                  </h3>
+               <div class="row pt-5 pb-5">
+                  <img src="po_multi.png" alt="" style="width: 95%;box-shadow: 0px 0px 8px 0px #e46e20;" />
+               </div>
+                <h3  style="text-align: left;font-size: 18px;margin: 0px !important;">
+               <b>8)Clicking on the action,  click on the ‘Print Purchase Requistion’ we will be able to get the print </b>
+                </h3>
+               <div class="row pt-5 pb-5">
+                  <img src="report menu.png" alt="" style="width: 95%;box-shadow: 0px 0px 8px 0px #e46e20;" />
+               </div>
+                <h3  style="text-align: left;font-size: 18px;margin: 0px !important;">
+               <b>9)Purchase Requistion  Report/Print: </b>
+                </h3>
+               <div class="row pt-5 pb-5">
+                  <img src="report.png" alt="" style="width: 95%;box-shadow: 0px 0px 8px 0px #e46e20;" />
+               </div>
+               <!--                <h3 class="oe_slogan" style="text-align: left;font-size: 18px;margin: 0px !important;">
+                  <b> 5) Users can check the bookings according to the beauticians:</b>
+               </h3> -->
+            </div>
+         </section>
+         <div class="container services-section text-center py-5 my-5">
+            <h2>Our Services</h2>
+            <div class="services-container row my-3 py-2" style="justify-content: center">
+               <div class="col-md-3 col-sm-6 feature-item p-1">
+                  <div class="box" style="padding:15px; background-color:#f9fcfd;">
+                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"
+                        src="./images/custom.png">
+                     <h4>Odoo Implementation</h4>
+                     <p>End-to-end Odoo implementation to meet your business needs.</p>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6 feature-item p-1">
+                  <div class="box" style="padding:15px; background-color:#f9fcfd;">
+                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"
+                        src="./images/implementation.png">
+                     <h4>Odoo Customization</h4>
+                     <p>Custom solutions tailored to your unique requirements.</p>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6 feature-item p-1">
+                  <div class="box" style="padding:15px; background-color:#f9fcfd;">
+                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"
+                        src="./images/customer-service.png">
+                     <h4>Odoo Support & Training</h4>
+                     <p>Comprehensive support and training to enhance your Odoo usage.</p>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6 feature-item p-1">
+                  <div class="box" style="padding:15px; background-color:#f9fcfd;">
+                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"
+                        src="./images/hired.png">
+                     <h4>Hire an Odoo Developer</h4>
+                     <p>Get access to skilled Odoo developers for your project needs.</p>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6 feature-item p-1">
+                  <div class="box" style="padding:15px; background-color:#f9fcfd;">
+                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"
+                        src="./images/technology.png">
+                     <h4>Odoo Integration</h4>
+                     <p>Integrate Odoo seamlessly with third-party apps and systems.</p>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6 feature-item p-1">
+                  <div class="box" style="padding:15px; background-color:#f9fcfd;">
+                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"
+                        src="./images/cloud-server.png">
+                     <h4>Odoo Hosting & Cloud</h4>
+                     <p>Secure and scalable Odoo hosting solutions.</p>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6 feature-item p-1">
+                  <div class="box" style="padding:15px; background-color:#f9fcfd;">
+                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"
+                        src="./images/schedule.png">
+                     <h4>Odoo Maintenance</h4>
+                     <p>Ensure smooth and uninterrupted operations.</p>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6 feature-item p-1">
+                  <div class="box" style="padding:15px; background-color:#f9fcfd;">
+                     <img class="img img-responsive mx-4 my-4" alt="not found" width="55" height="55"
+                        src="./images/consultant.png">
+                     <h4>Odoo Consulting</h4>
+                     <p>Expert consulting to help you leverage Odoo for maximum efficiency.</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="support-section support-section text-center pb-5">
+            <h2>Support &amp; Demo</h2>
+            <div class="support-content" style="display: inline-block; text-align: center;">
+               <div class="support-item" style="padding:10px 30px; margin:2px; background-color: #f9fcfd; width:500px;">
+                  <i class="fas fa-shield-alt"></i>
+                  <span>90 Days Free Support Available</span>
+               </div>
+               <div class="support-item"
+                  style="padding: 10px 30px; margin: 2px; background-color: #f9fcfd; width: 500px;">
+                  <i class="fas fa-ticket-alt"></i>
+                  <span>Create a support ticket <a href="https://people.infintor.com/contactus"
+                        target="_blank">people.infintor.com/contactus</a> </span>
+               </div>
+               <div class="support-item"
+                  style="padding: 10px 30px; margin: 2px; background-color: #f9fcfd; width: 500px;">
+                  <i class="fas fa-envelope"></i>
+                  <span>Send an email to <a href="mailto:odoo@infintor.com">odoo@infintor.com</a></span>
+               </div>
+               <div class="support-item"
+                  style="padding: 10px 30px; margin: 2px; background-color: #f9fcfd; width: 500px;">
+                  <i class="fas fa-globe"></i>
+                  <span>Visit <a href="https://www.infintor.com" target="_blank">www.infintor.com</a></span>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+
+</html>

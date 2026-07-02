@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_payroll_report_wizard_form" model="ir.ui.view">
+        <field name="name">hr.payroll.report.wizard.form</field>
+        <field name="model">hr.payroll.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reportes Legales de N?mina (MTESS/DNIT)">
+                <group>
+                    <group>
+                        <field name="report_type"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="payslip_run_id" invisible="report_type != 'payroll_summary'"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate_xlsx" string="Generar Excel" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_payroll_report_wizard_form_mtess_monthly" model="ir.ui.view">
+        <field name="name">hr.payroll.report.wizard.form.mtess.monthly</field>
+        <field name="model">hr.payroll.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="MTESS - Planilla Laboral Mensual">
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="payslip_run_id"/>
+                    </group>
+                    <group>
+                        <field name="date_from" invisible="[(payslip_run_id, '!=', False)]"/>
+                        <field name="date_to" invisible="[(payslip_run_id, '!=', False)]"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate_xlsx" string="Generar Excel" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_payroll_report_wizard_form_mtess_employees" model="ir.ui.view">
+        <field name="name">hr.payroll.report.wizard.form.mtess.employees</field>
+        <field name="model">hr.payroll.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="MTESS - Libro Registro de Empleados y Obreros">
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate_xlsx" string="Generar Excel" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_payroll_report_wizard_form_mtess_vacations" model="ir.ui.view">
+        <field name="name">hr.payroll.report.wizard.form.mtess.vacations</field>
+        <field name="model">hr.payroll.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="MTESS - Libro Registro de Vacaciones">
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate_xlsx" string="Generar Excel" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_payroll_report_wizard_form_dnit_salary" model="ir.ui.view">
+        <field name="name">hr.payroll.report.wizard.form.dnit.salary</field>
+        <field name="model">hr.payroll.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="DNIT - Listado N?mina Salarial">
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate_xlsx" string="Generar Excel" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_payroll_report_wizard_form_payroll_summary" model="ir.ui.view">
+        <field name="name">hr.payroll.report.wizard.form.payroll.summary</field>
+        <field name="model">hr.payroll.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Planilla de Salarios">
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="payslip_run_id" required="1"/>
+                    </group>
+                    </group>
+                <footer>
+                    <button name="action_generate_xlsx" string="Generar Excel" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_payroll_report_mtess_monthly" model="ir.actions.act_window">
+        <field name="name">MTESS - Planilla Laboral Mensual</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hr_payroll_report_wizard_form_mtess_monthly"/>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'mtess_monthly'}</field>
+    </record>
+
+    <record id="action_hr_payroll_report_mtess_employees" model="ir.actions.act_window">
+        <field name="name">MTESS - Libro Registro de Empleados y Obreros</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hr_payroll_report_wizard_form_mtess_employees"/>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'mtess_employees'}</field>
+    </record>
+
+    <record id="action_hr_payroll_report_mtess_vacations" model="ir.actions.act_window">
+        <field name="name">MTESS - Libro Registro de Vacaciones</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hr_payroll_report_wizard_form_mtess_vacations"/>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'mtess_vacations'}</field>
+    </record>
+
+    <record id="action_hr_payroll_report_dnit_salary" model="ir.actions.act_window">
+        <field name="name">DNIT - Listado Nomina Salarial</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hr_payroll_report_wizard_form_dnit_salary"/>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'dnit_salary'}</field>
+    </record>
+
+    <record id="action_hr_payroll_report_payroll_summary" model="ir.actions.act_window">
+        <field name="name">Planilla de Salarios</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hr_payroll_report_wizard_form_payroll_summary"/>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'payroll_summary'}</field>
+    </record>
+
+    <menuitem id="menu_hr_payroll_report_wizard"
+              name="Reportes Legales (MTESS/DNIT)"
+              parent="l10n_py_hr_payroll_report.menu_rrhh_paraguay_root"
+              sequence="30"/>
+
+    <menuitem id="menu_hr_payroll_report_mtess_monthly"
+              name="MTESS - Planilla Laboral Mensual"
+              action="action_hr_payroll_report_mtess_monthly"
+              parent="menu_hr_payroll_report_wizard"
+              sequence="10"/>
+
+    <menuitem id="menu_hr_payroll_report_mtess_employees"
+              name="MTESS - Libro Registro de Empleados y Obreros"
+              action="action_hr_payroll_report_mtess_employees"
+              parent="menu_hr_payroll_report_wizard"
+              sequence="20"/>
+
+    <menuitem id="menu_hr_payroll_report_mtess_vacations"
+              name="MTESS - Libro Registro de Vacaciones"
+              action="action_hr_payroll_report_mtess_vacations"
+              parent="menu_hr_payroll_report_wizard"
+              sequence="30"/>
+
+    <menuitem id="menu_hr_payroll_report_dnit_salary"
+              name="DNIT - Listado Nomina Salarial"
+              action="action_hr_payroll_report_dnit_salary"
+              parent="menu_hr_payroll_report_wizard"
+              sequence="40"/>
+
+    <menuitem id="menu_hr_payroll_report_payroll_summary"
+              name="Planilla de Salarios"
+              action="action_hr_payroll_report_payroll_summary"
+              parent="menu_hr_payroll_report_wizard"
+              sequence="50"/>
+</odoo>

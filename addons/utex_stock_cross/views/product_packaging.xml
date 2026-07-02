@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2026-03-09 08:20:35
+    @author: drojo
+-->
+<odoo>
+
+    <!-- window action to new packaging -->
+    <record id="action_create_packaging_direct" model="ir.actions.act_window">
+        <field name="name">Nuevo Embalaje</field>
+        <field name="res_model">product.packaging</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{
+            'default_sales': True, 
+            'default_purchase': True
+        }
+        </field>
+    </record>
+
+    <!-- menu to new product -->
+    <menuitem id="menu_root_create_packaging"
+        name="Crear Embalaje"
+        action="action_create_packaging_direct"
+        web_icon="utex_stock_cross,static/description/new_packaging_icon.png"
+        sequence="2"
+    />
+    
+
+</odoo>

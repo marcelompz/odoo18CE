@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_hr_attendance_form_unremunerated" model="ir.ui.view">
+        <field name="name">hr.attendance.form.leave</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Licencia / Tiempo Personal (Crossnexion)" name="leave_group">
+                    <field name="is_leave_attendance" widget="boolean_toggle" readonly="1"/>
+                    <field name="leave_id" readonly="1"/>
+                    <field name="leave_type_name" readonly="1" invisible="not is_leave_attendance"/>
+                    <field name="leave_is_remunerated" widget="boolean_toggle" readonly="1" invisible="not is_leave_attendance"/>
+                    <!-- Backward compat -->
+                    <field name="unremunerated_absence" widget="boolean_toggle" invisible="1"/>
+                    <field name="unremunerated_leave_id" invisible="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

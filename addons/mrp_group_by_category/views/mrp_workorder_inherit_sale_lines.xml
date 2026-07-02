@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mrp_workorder_form_inherit_sale_lines" model="ir.ui.view">
+            <field name="name">mrp.workorder.form.inherit.sale.lines</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <field name="sale_order_id" readonly="1"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Resumen de Productos de Pedido">
+                        <field name="sale_order_line_summary_html" readonly="1"/>
+                    </page>
+                    <page string="Líneas de Detalle">
+                        <field name="order_detail_line_ids" readonly="1">
+                            <list>
+                                <field name="customer_model"/>
+                                <field name="customer_name"/>
+                                <field name="order_number"/>
+                                <field name="quantity"/>
+                                <field name="product1_variant_id"/>
+                                <field name="product2_variant_id"/>
+                                <field name="product3_variant_id"/>
+                                <field name="product4_variant_id"/>
+                                <field name="product5_variant_id"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Líneas de Modelos">
+                        <field name="order_model_line_ids" readonly="1">
+                            <list>
+                                <field name="model_type_id"/>
+                                <field name="quantity"/>
+                                <field name="current_designer_id"/>
+                                <field name="work_type"/>
+                                <field name="image" widget="image"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Información Técnica">
+                        <field name="technical_info_ids" readonly="1">
+                            <list>
+                                <field name="question_id"/>
+                                <field name="answer"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</odoo> 

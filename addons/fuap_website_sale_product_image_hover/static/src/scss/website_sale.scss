@@ -1,0 +1,688 @@
+/* Variables CSS para el diseño UX Store */
+:root {
+    --primary-color: #000;
+    --secondary-color: #fff;
+    --accent-color: #f5f5f5;
+    --text-color: #333;
+    --text-light: #666;
+    --border-color: #e0e0e0;
+    --shadow: 0 2px 20px rgba(0,0,0,0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estilos generales para productos */
+.oe_product_cart,
+.o_carousel_product_card {
+    background: var(--secondary-color);
+    border-radius: 0;
+    overflow: hidden;
+    transition: var(--transition);
+    cursor: pointer;
+    border: 1px solid transparent;
+    position: relative;
+}
+
+.oe_product_cart:hover,
+.o_carousel_product_card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+    border-color: var(--border-color);
+}
+
+/* Contenedor de imagen del producto */
+.oe_product_cart .oe_product_image,
+.o_carousel_product_card .oe_product_image,
+.o_carousel_product_img_link {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+    background: var(--accent-color);
+}
+
+/* Imagen principal del producto */
+.oe_product_cart .oe_product_image img,
+.o_carousel_product_card img,
+.o_carousel_product_img_link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.oe_product_cart:hover .oe_product_image img,
+.o_carousel_product_card:hover img,
+.o_carousel_product_img_link:hover img {
+    transform: scale(1.05);
+}
+
+/* Imagen de hover (secundaria) */
+.oe_product_cart .oe_product_image .oe_product_image_hover,
+.o_carousel_product_card span.oe_product_image_hover,
+.o_carousel_product_img_link span.oe_product_image_hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: var(--transition);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.oe_product_cart:hover .oe_product_image .oe_product_image_hover,
+.o_carousel_product_card:hover span.oe_product_image_hover,
+.o_carousel_product_img_link:hover span.oe_product_image_hover {
+    opacity: 1;
+}
+
+/* Efecto de overlay en hover */
+.oe_product_cart::before,
+.o_carousel_product_card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.02);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.oe_product_cart:hover::before,
+.o_carousel_product_card:hover::before {
+    opacity: 1;
+}
+
+/* Información del producto */
+.oe_product_cart .product_price,
+.o_carousel_product_card .product_price {
+    padding: 20px;
+    background: var(--secondary-color);
+    position: relative;
+    z-index: 2;
+}
+
+/* Nombre del producto */
+.oe_product_cart .product_price h5,
+.o_carousel_product_card .product_price h5 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-family: 'Inter', sans-serif;
+}
+
+.oe_product_cart .product_price h5 a,
+.o_carousel_product_card .product_price h5 a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.oe_product_cart .product_price h5 a:hover,
+.o_carousel_product_card .product_price h5 a:hover {
+    color: var(--text-light);
+}
+
+/* Precio del producto */
+.oe_product_cart .product_price .oe_currency_value,
+.o_carousel_product_card .product_price .oe_currency_value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+/* Selector de variantes/atributos */
+.size-selector {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+/* Estilos específicos para carruseles */
+.o_carousel_product_card .size-selector {
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.o_carousel_product_card .attribute-group {
+    margin-bottom: 8px;
+}
+
+.o_carousel_product_card .attribute-label {
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.o_carousel_product_card .size-btn {
+    padding: 4px 8px;
+    font-size: 10px;
+    min-width: 30px;
+}
+
+.attribute-group {
+    margin-bottom: 12px;
+}
+
+.attribute-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    font-family: 'Inter', sans-serif;
+}
+
+.attribute-values {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.size-btn {
+    padding: 6px 10px;
+    border: 1px solid var(--border-color);
+    background: var(--secondary-color);
+    color: var(--text-color);
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 35px;
+    text-align: center;
+    border-radius: 0;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.size-btn:hover {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+.size-btn.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+/* Estilos para botones de color */
+.color-btn {
+    padding: 6px;
+    border: 2px solid var(--border-color);
+    background: var(--secondary-color);
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 35px;
+    height: 35px;
+    text-align: center;
+    border-radius: 50%;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.color-btn:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.color-btn.active {
+    border-color: var(--primary-color);
+    border-width: 3px;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.color-circle {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Estilos específicos para carruseles */
+.o_carousel_product_card .color-btn {
+    min-width: 25px;
+    height: 25px;
+    padding: 4px;
+}
+
+.o_carousel_product_card .color-btn.active {
+    border-width: 2px;
+}
+
+/* Estilos para botones deshabilitados */
+.size-btn.disabled,
+.color-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    position: relative;
+}
+
+.size-btn.disabled::after,
+.color-btn.disabled::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    background: #dc3545;
+    transform: translate(-50%, -50%) rotate(45deg);
+    z-index: 1;
+}
+
+.color-btn.disabled .color-circle {
+    opacity: 0.3;
+}
+
+/* Tooltip para combinaciones no disponibles */
+.size-btn.disabled:hover::before,
+.color-btn.disabled:hover::before {
+    content: attr(data-unavailable-message);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 5px;
+    font-family: 'Inter', sans-serif;
+}
+
+.size-btn.disabled:hover::after,
+.color-btn.disabled:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+    margin-bottom: -5px;
+}
+
+/* Botones de acción */
+.oe_product_cart .oe_submit,
+.o_carousel_product_card .oe_submit {
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    padding: 12px 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    transition: var(--transition);
+    cursor: pointer;
+    border-radius: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.oe_product_cart .oe_submit:hover,
+.o_carousel_product_card .oe_submit:hover {
+    background: var(--text-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* Grid de productos */
+.oe_product.oe_grid.oe_height_all {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin-bottom: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background: var(--secondary-color);
+}
+
+/* Estilos para productos individuales en el grid */
+.oe_product.oe_grid.oe_height_all > .oe_product_cart {
+    margin: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.oe_product.oe_grid.oe_height_all .oe_product_image {
+    flex: 1;
+    min-height: 300px;
+}
+
+.oe_product.oe_grid.oe_height_all .product_price {
+    flex: 0 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .oe_product.oe_grid.oe_height_all {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .oe_product_cart:hover,
+    .o_carousel_product_card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .oe_product_cart:hover .oe_product_image img,
+    .o_carousel_product_card:hover img,
+    .o_carousel_product_img_link:hover img {
+        transform: scale(1.03);
+    }
+    
+    .size-selector {
+        gap: 6px;
+    }
+    
+    .size-btn {
+        padding: 5px 8px;
+        font-size: 10px;
+        min-width: 30px;
+    }
+    
+    /* Estilos específicos para snippet de productos en móvil */
+    .s_products_carousel .o_carousel_product_card {
+        width: calc(50% - 7.5px);
+        margin: 0 7.5px 15px 7.5px;
+    }
+    
+    .s_products_carousel .o_carousel_product_card:nth-child(2n+1) {
+        margin-left: 0;
+    }
+    
+    .s_products_carousel .o_carousel_product_card:nth-child(2n) {
+        margin-right: 0;
+    }
+    
+    /* Ajustes para el contenedor del carrusel */
+    .s_products_carousel .o_carousel_product_card_wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -7.5px;
+    }
+    
+    /* Estilos para snippet de productos estático */
+    .s_products .oe_product_cart {
+        width: calc(50% - 7.5px);
+        margin: 0 7.5px 15px 7.5px;
+    }
+    
+    .s_products .oe_product_cart:nth-child(2n+1) {
+        margin-left: 0;
+    }
+    
+    .s_products .oe_product_cart:nth-child(2n) {
+        margin-right: 0;
+    }
+    
+    .s_products .oe_product_cart_wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -7.5px;
+    }
+    
+    /* Ocultar flechas de navegación en móvil si es necesario */
+    .s_products_carousel .carousel-control-prev,
+    .s_products_carousel .carousel-control-next {
+        display: none;
+    }
+    
+    /* Ajustar el indicador de carrusel */
+    .s_products_carousel .carousel-indicators {
+        bottom: -30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .oe_product.oe_grid.oe_height_all {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    .oe_product_cart .product_price,
+    .o_carousel_product_card .product_price {
+        padding: 10px;
+    }
+    
+    .oe_product_cart .product_price h5,
+    .o_carousel_product_card .product_price h5 {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+    
+    .oe_product_cart .product_price .product_price,
+    .o_carousel_product_card .product_price .product_price {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    /* Ajustes adicionales para móvil pequeño */
+    .s_products_carousel .o_carousel_product_card {
+        width: calc(50% - 5px);
+        margin: 0 5px 10px 5px;
+    }
+    
+    .s_products_carousel .o_carousel_product_card:nth-child(2n+1) {
+        margin-left: 0;
+    }
+    
+    .s_products_carousel .o_carousel_product_card:nth-child(2n) {
+        margin-right: 0;
+    }
+    
+    .s_products_carousel .o_carousel_product_card_wrapper {
+        margin: 0 -5px;
+    }
+    
+    /* Estilos para snippet de productos estático en móvil pequeño */
+    .s_products .oe_product_cart {
+        width: calc(50% - 5px);
+        margin: 0 5px 10px 5px;
+    }
+    
+    .s_products .oe_product_cart:nth-child(2n+1) {
+        margin-left: 0;
+    }
+    
+    .s_products .oe_product_cart:nth-child(2n) {
+        margin-right: 0;
+    }
+    
+    .s_products .oe_product_cart_wrapper {
+        margin: 0 -5px;
+    }
+    
+    /* Reducir el tamaño de los botones de variantes en móvil */
+    .size-btn {
+        padding: 4px 6px;
+        font-size: 9px;
+        min-width: 25px;
+    }
+    
+    .color-btn {
+        min-width: 20px;
+        height: 20px;
+        padding: 3px;
+    }
+    
+    .attribute-label {
+        font-size: 9px;
+        margin-bottom: 3px;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.oe_product_cart,
+.o_carousel_product_card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Estilos para el carrusel */
+.o_carousel_product_card {
+    margin: 0 10px;
+    border: none;
+}
+
+.o_carousel_product_img_link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Estilos para productos en lista */
+.oe_product.oe_list .oe_product_cart {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    transition: var(--transition);
+    background: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.oe_product.oe_list .oe_product_cart:hover {
+    border-color: var(--primary-color);
+    transform: none;
+    box-shadow: var(--shadow);
+}
+
+.oe_product.oe_list .oe_product_image {
+    flex: 0 0 120px;
+    height: 120px;
+}
+
+.oe_product.oe_list .product_price {
+    flex: 1;
+    padding: 0;
+}
+
+/* Estilos para productos en vista detalle */
+.oe_product.oe_detail .oe_product_cart {
+    max-width: 350px;
+    margin: 0 auto 30px;
+}
+
+/* Estilos para productos en banner */
+.oe_product.oe_banner .oe_product_cart {
+    border: none;
+    background: transparent;
+}
+
+.oe_product.oe_banner .oe_product_cart:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Estilos para productos centrados */
+.oe_product.oe_centered .oe_product_cart {
+    text-align: center;
+}
+
+.oe_product.oe_centered .product_price {
+    text-align: center;
+}
+
+/* Estilos para productos con imagen horizontal */
+.oe_product.oe_horizontal .oe_product_cart {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    padding: 0;
+    overflow: hidden;
+}
+
+.oe_product.oe_horizontal .oe_product_cart:hover {
+    border-color: var(--primary-color);
+}
+
+.oe_product.oe_horizontal .oe_product_image {
+    flex: 0 0 200px;
+    height: 200px;
+}
+
+.oe_product.oe_horizontal .product_price {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Estilos para productos sin imagen de hover */
+.oe_product_cart:not(:has(.oe_product_image_hover)) .oe_product_image img,
+.o_carousel_product_card:not(:has(.oe_product_image_hover)) img,
+.o_carousel_product_img_link:not(:has(.oe_product_image_hover)) img {
+    transition: var(--transition);
+}
+
+.oe_product_cart:not(:has(.oe_product_image_hover)):hover .oe_product_image img,
+.o_carousel_product_card:not(:has(.oe_product_image_hover)):hover img,
+.o_carousel_product_img_link:not(:has(.oe_product_image_hover)):hover img {
+    transform: scale(1.05);
+}
+
+/* Estilos para el loading lazy */
+.oe_product_image_hover[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.oe_product_image_hover[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* Clase adicional para efectos de hover */
+.product-hover .oe_product_image img {
+    transform: scale(1.08);
+}
+
+.product-hover .oe_product_image .oe_product_image_hover {
+    opacity: 1;
+}
+
+/* Estilos para el contenedor de productos */
+.oe_product {
+    margin-bottom: 0;
+}

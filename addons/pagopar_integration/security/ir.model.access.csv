@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pagopar_api_manager,pagopar.api.manager,model_pagopar_api,pagopar_integration.group_pagopar_manager,1,1,1,1
+access_pagopar_api_user,pagopar.api.user,model_pagopar_api,pagopar_integration.group_pagopar_user,1,0,0,0
+access_pagopar_config_manager,pagopar.config.manager,model_pagopar_config,pagopar_integration.group_pagopar_manager,1,1,1,1
+access_pagopar_config_user,pagopar.config.user,model_pagopar_config,pagopar_integration.group_pagopar_user,1,0,0,0
+access_pagopar_api_system,pagopar.api.system,model_pagopar_api,base.group_system,1,1,1,1
+access_pagopar_config_system,pagopar.config.system,model_pagopar_config,base.group_system,1,1,1,1

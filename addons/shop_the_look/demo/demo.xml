@@ -1,0 +1,1105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+
+
+        <record id="trending_fashion_look_demo_data" model="shop.the.look">
+            <field name="name">Trending Fashion</field>
+            <field name="description">Fashion enthusiasts!  Ready to dive into the hottest trends that are turning heads on the streets and Instagram feeds alike? Buckle up because we're about to unravel some seriously cool casual fashion vibes that are sweeping the scene.</field>
+            <field name="primary_image" type="base64" file="shop_the_look/static/img/trending_fashion.png"/>
+            <field name="is_published" eval="True"/>
+        </record>
+
+
+        <record id="fashion_look_demo_data" model="shop.the.look">
+            <field name="name">Fashion</field>
+            <field name="description">Fashion is an ever-evolving form of artistic expression that transcends mere clothing and becomes a cultural phenomenon. It is the dynamic interplay of style, aesthetics, and individuality that defines an era, a society, and an individual's personality.</field>
+            <field name="primary_image" type="base64" file="shop_the_look/static/img/fashion.png"/>
+            <field name="is_published" eval="True"/>
+        </record>
+
+
+        <record id="formal_look_demo_data" model="shop.the.look">
+            <field name="name">Formal Look</field>
+            <field name="description">A formal look typically refers to an outfit and overall appearance that is appropriate for formal or upscale occasions.</field>
+            <field name="primary_image" type="base64" file="shop_the_look/static/img/formal_look.png"/>
+            <field name="is_published" eval="True"/>
+        </record>
+
+
+        <!-- Fashion Images -->
+        <record id="fashion_img1" model="product.image">
+            <field name="shop_the_look_id" ref="shop_the_look.fashion_look_demo_data"/>
+            <field name="name">img1</field>
+            <field name="sequence">1</field>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/fashion_blazers.png"/>
+        </record>
+        <record id="fashion_img2" model="product.image">
+            <field name="shop_the_look_id" ref="shop_the_look.fashion_look_demo_data"/>
+            <field name="name">img2</field>
+            <field name="sequence">2</field>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/fashion_tops.png"/>
+        </record>
+        <record id="fashion_img3" model="product.image">
+            <field name="shop_the_look_id" ref="shop_the_look.fashion_look_demo_data"/>
+            <field name="name">img3</field>
+            <field name="sequence">3</field>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/fashion_shoes.png"/>
+        </record>
+
+
+        <!-- Trending Fashion Images -->
+        <record id="trending_fashion_img1" model="product.image">
+            <field name="shop_the_look_id" ref="shop_the_look.trending_fashion_look_demo_data"/>
+            <field name="name">img1</field>
+            <field name="sequence">1</field>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/trending_fashion_jacket.png"/>
+        </record>
+        <record id="trending_fashion_img2" model="product.image">
+            <field name="shop_the_look_id" ref="shop_the_look.trending_fashion_look_demo_data"/>
+            <field name="name">img2</field>
+            <field name="sequence">2</field>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/trending_fashion_shoes.png"/>
+        </record>
+        <record id="trending_fashion_img3" model="product.image">
+            <field name="shop_the_look_id" ref="shop_the_look.trending_fashion_look_demo_data"/>
+            <field name="name">img3</field>
+            <field name="sequence">3</field>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/trending_fashion_tshirt.png"/>
+        </record>
+
+        <!-- Formal Look Images -->
+        <record id="formal_look_img1" model="product.image">
+            <field name="shop_the_look_id" ref="shop_the_look.formal_look_demo_data"/>
+            <field name="name">img1</field>
+            <field name="sequence">1</field>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/formal_look_coat.png"/>
+        </record>
+
+        <record id="formal_look_img2" model="product.image">
+            <field name="shop_the_look_id" ref="shop_the_look.formal_look_demo_data"/>
+            <field name="name">img2</field>
+            <field name="sequence">2</field>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/formal_look_shirt.png"/>
+        </record>
+        <record id="formal_look_img3" model="product.image">
+            <field name="shop_the_look_id" ref="shop_the_look.formal_look_demo_data"/>
+            <field name="name">img3</field>
+            <field name="sequence">3</field>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/formal_look_pant.png"/>
+        </record>
+
+        <!-- Product Attributes -->
+        <record id="product_attribute_clothes_size" model="product.attribute">
+            <field name="name">Size</field>
+            <field name="sequence">19</field>
+        </record>
+        <record id="product_attribute_value_size_xs" model="product.attribute.value">
+            <field name="name">XS</field>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="sequence">1</field>
+        </record>
+        <record id="product_attribute_value_size_s" model="product.attribute.value">
+            <field name="name">S</field>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="sequence">2</field>
+        </record>
+        <record id="product_attribute_value_size_m" model="product.attribute.value">
+            <field name="name">M</field>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="sequence">3</field>
+        </record>
+        <record id="product_attribute_value_size_l" model="product.attribute.value">
+            <field name="name">L</field>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="sequence">4</field>
+        </record>
+        <record id="product_attribute_value_size_xl" model="product.attribute.value">
+            <field name="name">XL</field>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="sequence">5</field>
+        </record>
+
+
+        <record id="product_attribute_shoes_size" model="product.attribute">
+            <field name="name">Size</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="product_attribute_value_size_6" model="product.attribute.value">
+            <field name="name">6</field>
+            <field name="attribute_id" ref="product_attribute_shoes_size"/>
+            <field name="sequence">1</field>
+        </record>
+        <record id="product_attribute_value_size_7" model="product.attribute.value">
+            <field name="name">7</field>
+            <field name="attribute_id" ref="product_attribute_shoes_size"/>
+            <field name="sequence">2</field>
+        </record>
+        <record id="product_attribute_value_size_8" model="product.attribute.value">
+            <field name="name">8</field>
+            <field name="attribute_id" ref="product_attribute_shoes_size"/>
+            <field name="sequence">3</field>
+        </record>
+        <record id="product_attribute_value_size_9" model="product.attribute.value">
+            <field name="name">9</field>
+            <field name="attribute_id" ref="product_attribute_shoes_size"/>
+            <field name="sequence">4</field>
+        </record>
+
+
+        <!-- Fashion Products Start -->
+
+        <!-- Fashion Tops Product Template -->
+        <record id="fashion_tops_product_template" model="product.template">
+            <field name="name">Tops</field>
+            <field name="standard_price">199.0</field>
+            <field name="list_price">199.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="website_published" eval="True"/>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/fashion_tops.png"/>
+        </record>
+
+
+        <!-- Fashion Tops Attribute Line  -->
+        <record id="fashion_tops_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="fashion_tops_product_template"/>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="value_ids" eval="[
+            (6, 0, [
+            ref('product_attribute_value_size_s'),
+            ref('product_attribute_value_size_m'),
+            ref('product_attribute_value_size_l'),
+            ref('product_attribute_value_size_xl'),
+            ])]"/>
+        </record>
+
+
+        <!-- Fashion Tops Attribute Value -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.fashion_tops_product_attribute_value_1',
+                    'record': obj().env.ref('shop_the_look.fashion_tops_product_template_attribute_line').product_template_value_ids[0],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.fashion_tops_product_attribute_value_2',
+                    'record': obj().env.ref('shop_the_look.fashion_tops_product_template_attribute_line').product_template_value_ids[1],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.fashion_tops_product_attribute_value_3',
+                    'record': obj().env.ref('shop_the_look.fashion_tops_product_template_attribute_line').product_template_value_ids[2],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.fashion_tops_product_attribute_value_4',
+                    'record': obj().env.ref('shop_the_look.fashion_tops_product_template_attribute_line').product_template_value_ids[3],
+                    'noupdate': True,
+                }, 
+            ]"/>
+        </function>
+
+
+        <!-- Fashion Tops Variant xmlid -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.product_fashion_tops_1',
+                    'record': obj().env.ref('shop_the_look.fashion_tops_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_tops_product_attribute_value_1') ),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_fashion_tops_2',
+                    'record': obj().env.ref('shop_the_look.fashion_tops_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_tops_product_attribute_value_2')),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_fashion_tops_3',
+                    'record': obj().env.ref('shop_the_look.fashion_tops_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_tops_product_attribute_value_3') ),
+                    'noupdate': True,
+                },
+                {
+                    'xml_id': 'shop_the_look.product_fashion_tops_4',
+                    'record': obj().env.ref('shop_the_look.fashion_tops_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_tops_product_attribute_value_4') ),
+                    'noupdate': True,
+                },
+            ]"/>
+        </function>
+
+
+        <!-- Fashion Tops Variant Extra Price -->
+        <record id="shop_the_look.fashion_tops_product_attribute_value_2" model="product.template.attribute.value">
+            <field name="price_extra">50.40</field>
+        </record>
+        <record id="shop_the_look.fashion_tops_product_attribute_value_3" model="product.template.attribute.value">
+            <field name="price_extra">80.00</field>
+        </record>
+        <record id="shop_the_look.fashion_tops_product_attribute_value_4" model="product.template.attribute.value">
+            <field name="price_extra">100.00</field>
+        </record>
+
+        <!-- Fashion Blazers Product Template  -->
+        <record id="fashion_blazers_product_template" model="product.template">
+            <field name="name">Long Overcoat</field>
+            <field name="standard_price">599.0</field>
+            <field name="list_price">599.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="website_published" eval="True"/>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/fashion_blazers.png"/>
+        </record>
+
+
+        <!-- Fashion Blazers Attribute Line  -->
+        <record id="fashion_blazers_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="fashion_blazers_product_template"/>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="value_ids" eval="[
+            (6, 0, [
+            ref('product_attribute_value_size_s'),
+            ref('product_attribute_value_size_m'),
+            ref('product_attribute_value_size_l'),
+            ref('product_attribute_value_size_xl'),
+            ])]"/>
+        </record>
+
+
+        <!-- Fashion Blazers Attribute Value -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.fashion_blazers_product_attribute_value_1',
+                    'record': obj().env.ref('shop_the_look.fashion_blazers_product_template_attribute_line').product_template_value_ids[0],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.fashion_blazers_product_attribute_value_2',
+                    'record': obj().env.ref('shop_the_look.fashion_blazers_product_template_attribute_line').product_template_value_ids[1],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.fashion_blazers_product_attribute_value_3',
+                    'record': obj().env.ref('shop_the_look.fashion_blazers_product_template_attribute_line').product_template_value_ids[2],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.fashion_blazers_product_attribute_value_4',
+                    'record': obj().env.ref('shop_the_look.fashion_blazers_product_template_attribute_line').product_template_value_ids[3],
+                    'noupdate': True,
+                }, 
+            ]"/>
+        </function>
+
+
+        <!-- Fashion Blazers Variant xmlid -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.product_fashion_blazers_1',
+                    'record': obj().env.ref('shop_the_look.fashion_blazers_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_blazers_product_attribute_value_1') ),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_fashion_blazers_2',
+                    'record': obj().env.ref('shop_the_look.fashion_blazers_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_blazers_product_attribute_value_2')),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_fashion_blazers_3',
+                    'record': obj().env.ref('shop_the_look.fashion_blazers_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_blazers_product_attribute_value_3') ),
+                    'noupdate': True,
+                },
+                {
+                    'xml_id': 'shop_the_look.product_fashion_blazers_4',
+                    'record': obj().env.ref('shop_the_look.fashion_blazers_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_blazers_product_attribute_value_4') ),
+                    'noupdate': True,
+                },
+            ]"/>
+        </function>
+
+
+        <!-- Fashion Blazers Variant Extra Price -->
+        <record id="shop_the_look.fashion_blazers_product_attribute_value_2" model="product.template.attribute.value">
+            <field name="price_extra">50.40</field>
+        </record>
+        <record id="shop_the_look.fashion_blazers_product_attribute_value_3" model="product.template.attribute.value">
+            <field name="price_extra">80.00</field>
+        </record>
+        <record id="shop_the_look.fashion_blazers_product_attribute_value_4" model="product.template.attribute.value">
+            <field name="price_extra">100.00</field>
+        </record>
+
+        <!-- Fashion Shoes Product Template  -->
+        <record id="fashion_shoes_product_template" model="product.template">
+            <field name="name">Shoes</field>
+            <field name="standard_price">399.0</field>
+            <field name="list_price">399.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="website_published" eval="True"/>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/fashion_shoes.png"/>
+        </record>
+
+        <!-- Fashion Shoes Attribute Line  -->
+        <record id="fashion_shoes_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="fashion_shoes_product_template"/>
+            <field name="attribute_id" ref="product_attribute_shoes_size"/>
+            <field name="value_ids" eval="[
+            (6, 0, [
+            ref('product_attribute_value_size_6'),
+            ref('product_attribute_value_size_7'),
+            ref('product_attribute_value_size_8'),
+            ref('product_attribute_value_size_9'),
+            ])]"/>
+        </record>
+
+
+        <!-- Fashion Shoes Attribute Value -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.fashion_shoes_product_attribute_value_1',
+                    'record': obj().env.ref('shop_the_look.fashion_shoes_product_template_attribute_line').product_template_value_ids[0],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.fashion_shoes_product_attribute_value_2',
+                    'record': obj().env.ref('shop_the_look.fashion_shoes_product_template_attribute_line').product_template_value_ids[1],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.fashion_shoes_product_attribute_value_3',
+                    'record': obj().env.ref('shop_the_look.fashion_shoes_product_template_attribute_line').product_template_value_ids[2],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.fashion_shoes_product_attribute_value_4',
+                    'record': obj().env.ref('shop_the_look.fashion_shoes_product_template_attribute_line').product_template_value_ids[3],
+                    'noupdate': True,
+                }, 
+            ]"/>
+        </function>
+
+
+        <!-- Fashion Shoes Variant xmlid -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.product_fashion_shoes_1',
+                    'record': obj().env.ref('shop_the_look.fashion_shoes_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_shoes_product_attribute_value_1') ),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_fashion_shoes_2',
+                    'record': obj().env.ref('shop_the_look.fashion_shoes_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_shoes_product_attribute_value_2')),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_fashion_shoes_3',
+                    'record': obj().env.ref('shop_the_look.fashion_shoes_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_shoes_product_attribute_value_3') ),
+                    'noupdate': True,
+                },
+                {
+                    'xml_id': 'shop_the_look.product_fashion_shoes_4',
+                    'record': obj().env.ref('shop_the_look.fashion_shoes_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.fashion_shoes_product_attribute_value_4') ),
+                    'noupdate': True,
+                },
+            ]"/>
+        </function>
+
+
+        <!-- Fashion Shoes Variant Extra Price -->
+        <record id="shop_the_look.fashion_shoes_product_attribute_value_2" model="product.template.attribute.value">
+            <field name="price_extra">50.40</field>
+        </record>
+        <record id="shop_the_look.fashion_shoes_product_attribute_value_3" model="product.template.attribute.value">
+            <field name="price_extra">80.00</field>
+        </record>
+        <record id="shop_the_look.fashion_shoes_product_attribute_value_4" model="product.template.attribute.value">
+            <field name="price_extra">100.00</field>
+        </record>
+ 
+
+
+        <!-- Trending Fashion jackets Product Template -->
+        <record id="trending_fashion_jacket_product_template" model="product.template">
+            <field name="name">Jackets</field>
+            <field name="standard_price">799.0</field>
+            <field name="list_price">799.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="website_published" eval="True"/>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/trending_fashion_jacket.png"/>
+        </record>
+
+
+        <!-- Trending Fashion jackets Attribute Line  -->
+        <record id="trending_fashion_jacket_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="trending_fashion_jacket_product_template"/>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="value_ids" eval="[
+            (6, 0, [
+            ref('product_attribute_value_size_s'),
+            ref('product_attribute_value_size_m'),
+            ref('product_attribute_value_size_l'),
+            ref('product_attribute_value_size_xl'),
+            ])]"/>
+        </record>
+
+
+        <!-- Trending Fashion jackets Attribute Value -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_jacket_product_attribute_value_1',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_jacket_product_template_attribute_line').product_template_value_ids[0],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_jacket_product_attribute_value_2',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_jacket_product_template_attribute_line').product_template_value_ids[1],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_jacket_product_attribute_value_3',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_jacket_product_template_attribute_line').product_template_value_ids[2],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_jacket_product_attribute_value_4',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_jacket_product_template_attribute_line').product_template_value_ids[3],
+                    'noupdate': True,
+                }, 
+            ]"/>
+        </function>
+
+
+        <!-- Trending Fashion jackets Variant xmlid -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_jacket_1',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_jacket_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_jacket_product_attribute_value_1') ),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_jacket_2',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_jacket_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_jacket_product_attribute_value_2')),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_jacket_3',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_jacket_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_jacket_product_attribute_value_3') ),
+                    'noupdate': True,
+                },
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_jacket_4',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_jacket_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_jacket_product_attribute_value_4') ),
+                    'noupdate': True,
+                },
+            ]"/>
+        </function>
+
+
+        <!-- Trending Fashion jackets Variant Extra Price -->
+        <record id="shop_the_look.trending_fashion_jacket_product_attribute_value_2" model="product.template.attribute.value">
+            <field name="price_extra">50.40</field>
+        </record>
+        <record id="shop_the_look.trending_fashion_jacket_product_attribute_value_3" model="product.template.attribute.value">
+            <field name="price_extra">80.00</field>
+        </record>
+        <record id="shop_the_look.trending_fashion_jacket_product_attribute_value_4" model="product.template.attribute.value">
+            <field name="price_extra">100.00</field>
+        </record>
+
+        <!-- Trending Fashion Shoes Product Template  -->
+        <record id="trending_fashion_shoes_product_template" model="product.template">
+            <field name="name">Shoes</field>
+            <field name="standard_price">500.0</field>
+            <field name="list_price">500.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="website_published" eval="True"/>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/trending_fashion_shoes.png"/>
+        </record>
+
+
+        <!-- Trending Fashion Shoes Attribute Line  -->
+        <record id="trending_fashion_shoes_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="trending_fashion_shoes_product_template"/>
+            <field name="attribute_id" ref="product_attribute_shoes_size"/>
+            <field name="value_ids" eval="[
+            (6, 0, [
+            ref('product_attribute_value_size_6'),
+            ref('product_attribute_value_size_7'),
+            ref('product_attribute_value_size_8'),
+            ref('product_attribute_value_size_9'),
+            ])]"/>
+        </record>
+
+
+        <!--Trending Fashion Shoes Attribute Value -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_shoes_product_attribute_value_1',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_shoes_product_template_attribute_line').product_template_value_ids[0],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_shoes_product_attribute_value_2',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_shoes_product_template_attribute_line').product_template_value_ids[1],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_shoes_product_attribute_value_3',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_shoes_product_template_attribute_line').product_template_value_ids[2],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_shoes_product_attribute_value_4',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_shoes_product_template_attribute_line').product_template_value_ids[3],
+                    'noupdate': True,
+                }, 
+            ]"/>
+        </function>
+
+
+        <!-- Trending Fashion Shoes Variant xmlid -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_shoes_1',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_shoes_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_shoes_product_attribute_value_1') ),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_shoes_2',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_shoes_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_shoes_product_attribute_value_2')),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_shoes_3',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_shoes_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_shoes_product_attribute_value_3') ),
+                    'noupdate': True,
+                },
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_shoes_4',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_shoes_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_shoes_product_attribute_value_4') ),
+                    'noupdate': True,
+                },
+            ]"/>
+        </function>
+
+
+        <!-- Trending Fashion Shoes Variant Extra Price -->
+        <record id="shop_the_look.trending_fashion_shoes_product_attribute_value_2" model="product.template.attribute.value">
+            <field name="price_extra">50.40</field>
+        </record>
+        <record id="shop_the_look.trending_fashion_shoes_product_attribute_value_3" model="product.template.attribute.value">
+            <field name="price_extra">80.00</field>
+        </record>
+        <record id="shop_the_look.trending_fashion_shoes_product_attribute_value_4" model="product.template.attribute.value">
+            <field name="price_extra">100.00</field>
+        </record>
+
+
+
+
+        <!-- Trending Fashion T-shirt Product Template  -->
+        <record id="trending_fashion_tshirt_product_template" model="product.template">
+            <field name="name">T-shirt</field>
+            <field name="standard_price">350.0</field>
+            <field name="list_price">350.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="website_published" eval="True"/>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/trending_fashion_tshirt.png"/>
+        </record>
+
+
+        <!-- Trending Fashion T-shirt Attribute Line  -->
+        <record id="trending_fashion_tshirt_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="trending_fashion_tshirt_product_template"/>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="value_ids" eval="[
+            (6, 0, [
+            ref('product_attribute_value_size_s'),
+            ref('product_attribute_value_size_m'),
+            ref('product_attribute_value_size_l'),
+            ref('product_attribute_value_size_xl'),
+            ])]"/>
+        </record>
+
+
+        <!-- Trending Fashion T-shirt Attribute Value -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_tshirt_product_attribute_value_1',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_tshirt_product_template_attribute_line').product_template_value_ids[0],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_tshirt_product_attribute_value_2',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_tshirt_product_template_attribute_line').product_template_value_ids[1],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_tshirt_product_attribute_value_3',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_tshirt_product_template_attribute_line').product_template_value_ids[2],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.trending_fashion_tshirt_product_attribute_value_4',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_tshirt_product_template_attribute_line').product_template_value_ids[3],
+                    'noupdate': True,
+                }, 
+            ]"/>
+        </function>
+
+
+        <!-- Trending Fashion T-shirt Variant xmlid -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_tshirt_1',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_tshirt_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_tshirt_product_attribute_value_1') ),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_tshirt_2',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_tshirt_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_tshirt_product_attribute_value_2')),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_tshirt_3',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_tshirt_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_tshirt_product_attribute_value_3') ),
+                    'noupdate': True,
+                },
+                {
+                    'xml_id': 'shop_the_look.product_trending_fashion_tshirt_4',
+                    'record': obj().env.ref('shop_the_look.trending_fashion_tshirt_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.trending_fashion_tshirt_product_attribute_value_4') ),
+                    'noupdate': True,
+                },
+            ]"/>
+        </function>
+
+
+        <!-- Trending Fashion T-shirt Variant Extra Price -->
+        <record id="shop_the_look.trending_fashion_tshirt_product_attribute_value_2" model="product.template.attribute.value">
+            <field name="price_extra">50.40</field>
+        </record>
+        <record id="shop_the_look.trending_fashion_tshirt_product_attribute_value_3" model="product.template.attribute.value">
+            <field name="price_extra">80.00</field>
+        </record>
+        <record id="shop_the_look.trending_fashion_tshirt_product_attribute_value_4" model="product.template.attribute.value">
+            <field name="price_extra">100.00</field>
+        </record>
+
+
+        <!-- Formal Looks Coat Product Template  -->
+        <record id="formal_looks_coat_product_template" model="product.template">
+            <field name="name">Coat</field>
+            <field name="standard_price">800.0</field>
+            <field name="list_price">800.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="website_published" eval="True"/>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/formal_look_coat.png"/>
+        </record>
+
+        <!-- Formal Looks Coat Attribute Line  -->
+        <record id="formal_look_coat_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="formal_looks_coat_product_template"/>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="value_ids" eval="[
+            (6, 0, [
+            ref('product_attribute_value_size_s'),
+            ref('product_attribute_value_size_m'),
+            ref('product_attribute_value_size_l'),
+            ref('product_attribute_value_size_xl'),
+            ])]"/>
+        </record>
+
+
+        <!--Formal Looks Coat Attribute Value -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.formal_look_coat_product_attribute_value_1',
+                    'record': obj().env.ref('shop_the_look.formal_look_coat_product_template_attribute_line').product_template_value_ids[0],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.formal_look_coat_product_attribute_value_2',
+                    'record': obj().env.ref('shop_the_look.formal_look_coat_product_template_attribute_line').product_template_value_ids[1],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.formal_look_coat_product_attribute_value_3',
+                    'record': obj().env.ref('shop_the_look.formal_look_coat_product_template_attribute_line').product_template_value_ids[2],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.formal_look_coat_product_attribute_value_4',
+                    'record': obj().env.ref('shop_the_look.formal_look_coat_product_template_attribute_line').product_template_value_ids[3],
+                    'noupdate': True,
+                }, 
+            ]"/>
+        </function>
+
+
+        <!-- Formal Looks Coat Variant xmlid -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_coat_1',
+                    'record': obj().env.ref('shop_the_look.formal_looks_coat_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_coat_product_attribute_value_1') ),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_coat_2',
+                    'record': obj().env.ref('shop_the_look.formal_looks_coat_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_coat_product_attribute_value_2')),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_coat_3',
+                    'record': obj().env.ref('shop_the_look.formal_looks_coat_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_coat_product_attribute_value_3') ),
+                    'noupdate': True,
+                },
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_coat_4',
+                    'record': obj().env.ref('shop_the_look.formal_looks_coat_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_coat_product_attribute_value_4') ),
+                    'noupdate': True,
+                },
+            ]"/>
+        </function>
+
+
+        <!-- Formal Looks Coat Variant Extra Price -->
+        <record id="shop_the_look.formal_look_coat_product_attribute_value_2" model="product.template.attribute.value">
+            <field name="price_extra">40.40</field>
+        </record>
+        <record id="shop_the_look.formal_look_coat_product_attribute_value_3" model="product.template.attribute.value">
+            <field name="price_extra">70.00</field>
+        </record>
+        <record id="shop_the_look.formal_look_coat_product_attribute_value_4" model="product.template.attribute.value">
+            <field name="price_extra">120.00</field>
+        </record>
+
+
+        <!-- Formal Looks Pant Product Template  -->
+        <record id="formal_looks_pant_product_template" model="product.template">
+            <field name="name">Pant</field>
+            <field name="standard_price">550.0</field>
+            <field name="list_price">550.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="website_published" eval="True"/>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/formal_look_pant.png"/>
+        </record>
+
+        <!-- Formal Looks Pant Attribute Line  -->
+        <record id="formal_look_pant_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="formal_looks_pant_product_template"/>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="value_ids" eval="[
+            (6, 0, [
+            ref('product_attribute_value_size_s'),
+            ref('product_attribute_value_size_m'),
+            ref('product_attribute_value_size_l'),
+            ref('product_attribute_value_size_xl'),
+            ])]"/>
+        </record>
+
+
+        <!--Formal Looks Pant Attribute Value -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.formal_look_pant_product_attribute_value_1',
+                    'record': obj().env.ref('shop_the_look.formal_look_pant_product_template_attribute_line').product_template_value_ids[0],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.formal_look_pant_product_attribute_value_2',
+                    'record': obj().env.ref('shop_the_look.formal_look_pant_product_template_attribute_line').product_template_value_ids[1],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.formal_look_pant_product_attribute_value_3',
+                    'record': obj().env.ref('shop_the_look.formal_look_pant_product_template_attribute_line').product_template_value_ids[2],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.formal_look_pant_product_attribute_value_4',
+                    'record': obj().env.ref('shop_the_look.formal_look_pant_product_template_attribute_line').product_template_value_ids[3],
+                    'noupdate': True,
+                }, 
+            ]"/>
+        </function>
+
+
+        <!-- Formal Looks Pant Variant xmlid -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_pant_1',
+                    'record': obj().env.ref('shop_the_look.formal_looks_pant_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_pant_product_attribute_value_1') ),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_pant_2',
+                    'record': obj().env.ref('shop_the_look.formal_looks_pant_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_pant_product_attribute_value_2')),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_pant_3',
+                    'record': obj().env.ref('shop_the_look.formal_looks_pant_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_pant_product_attribute_value_3') ),
+                    'noupdate': True,
+                },
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_pant_4',
+                    'record': obj().env.ref('shop_the_look.formal_looks_pant_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_pant_product_attribute_value_4') ),
+                    'noupdate': True,
+                },
+            ]"/>
+        </function>
+
+
+        <!-- Formal Looks Pant Variant Extra Price -->
+        <record id="shop_the_look.formal_look_pant_product_attribute_value_2" model="product.template.attribute.value">
+            <field name="price_extra">30.40</field>
+        </record>
+        <record id="shop_the_look.formal_look_pant_product_attribute_value_3" model="product.template.attribute.value">
+            <field name="price_extra">60.00</field>
+        </record>
+        <record id="shop_the_look.formal_look_pant_product_attribute_value_4" model="product.template.attribute.value">
+            <field name="price_extra">80.00</field>
+        </record>
+
+
+        <!-- Formal Look Shirt Product Template  -->
+        <record id="formal_looks_shirt_product_template" model="product.template">
+            <field name="name">Shirt</field>
+            <field name="standard_price">500.0</field>
+            <field name="list_price">500.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="website_published" eval="True"/>
+            <field name="image_1920" type="base64" file="shop_the_look/static/img/formal_look_shirt.png"/>
+        </record>
+
+
+        <!-- Formal Looks Shirt Attribute Line  -->
+        <record id="formal_look_shirt_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="formal_looks_shirt_product_template"/>
+            <field name="attribute_id" ref="product_attribute_clothes_size"/>
+            <field name="value_ids" eval="[
+            (6, 0, [
+            ref('product_attribute_value_size_s'),
+            ref('product_attribute_value_size_m'),
+            ref('product_attribute_value_size_l'),
+            ref('product_attribute_value_size_xl'),
+            ])]"/>
+        </record>
+
+
+        <!--Formal Looks Shirt Attribute Value -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.formal_look_shirt_product_attribute_value_1',
+                    'record': obj().env.ref('shop_the_look.formal_look_shirt_product_template_attribute_line').product_template_value_ids[0],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.formal_look_shirt_product_attribute_value_2',
+                    'record': obj().env.ref('shop_the_look.formal_look_shirt_product_template_attribute_line').product_template_value_ids[1],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.formal_look_shirt_product_attribute_value_3',
+                    'record': obj().env.ref('shop_the_look.formal_look_shirt_product_template_attribute_line').product_template_value_ids[2],
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.formal_look_shirt_product_attribute_value_4',
+                    'record': obj().env.ref('shop_the_look.formal_look_shirt_product_template_attribute_line').product_template_value_ids[3],
+                    'noupdate': True,
+                }, 
+            ]"/>
+        </function>
+
+
+        <!-- Formal Looks Shirt Variant xmlid -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_shirt_1',
+                    'record': obj().env.ref('shop_the_look.formal_looks_shirt_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_shirt_product_attribute_value_1') ),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_shirt_2',
+                    'record': obj().env.ref('shop_the_look.formal_looks_shirt_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_shirt_product_attribute_value_2')),
+                    'noupdate': True,
+                }, 
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_shirt_3',
+                    'record': obj().env.ref('shop_the_look.formal_looks_shirt_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_shirt_product_attribute_value_3') ),
+                    'noupdate': True,
+                },
+                {
+                    'xml_id': 'shop_the_look.product_formal_look_shirt_4',
+                    'record': obj().env.ref('shop_the_look.formal_looks_shirt_product_template')._get_variant_for_combination(obj().env.ref('shop_the_look.formal_look_shirt_product_attribute_value_4') ),
+                    'noupdate': True,
+                },
+            ]"/>
+        </function>
+
+
+        <!-- Formal Looks Shirt Variant Extra Price -->
+        <record id="shop_the_look.formal_look_shirt_product_attribute_value_2" model="product.template.attribute.value">
+            <field name="price_extra">30.40</field>
+        </record>
+        <record id="shop_the_look.formal_look_shirt_product_attribute_value_3" model="product.template.attribute.value">
+            <field name="price_extra">60.00</field>
+        </record>
+        <record id="shop_the_look.formal_look_shirt_product_attribute_value_4" model="product.template.attribute.value">
+            <field name="price_extra">80.00</field>
+        </record>
+
+
+        <record id="fashion_product_1" model="shop.the.look.product">
+            <field name="look_id" ref="shop_the_look.fashion_look_demo_data"/>
+            <field name="product_tmpl_id" ref="shop_the_look.fashion_blazers_product_template"/>
+            <field name="name">Long Overcoat</field>
+            <field name="prod_variant_ids" eval="[
+            (4, ref('product_fashion_blazers_1')), 
+            (4, ref('product_fashion_blazers_2')), 
+            (4, ref('product_fashion_blazers_3')),
+            (4, ref('product_fashion_blazers_4')),
+            ]"/>
+        </record>
+
+        <record id="fashion_product_2" model="shop.the.look.product">
+            <field name="look_id" ref="shop_the_look.fashion_look_demo_data"/>
+            <field name="product_tmpl_id" ref="shop_the_look.fashion_shoes_product_template"/>
+            <field name="name">Shoes</field>
+            <field name="prod_variant_ids" eval="[
+            (4, ref('product_fashion_shoes_1')), 
+            (4, ref('product_fashion_shoes_2')), 
+            (4, ref('product_fashion_shoes_3')),
+            (4, ref('product_fashion_shoes_4')),
+            ]"/>
+        </record>
+
+        <record id="fashion_product_3" model="shop.the.look.product">
+            <field name="look_id" ref="shop_the_look.fashion_look_demo_data"/>
+            <field name="product_tmpl_id" ref="shop_the_look.fashion_tops_product_template"/>
+            <field name="name">Tops</field>
+            <field name="prod_variant_ids" eval="[
+            (4, ref('product_fashion_tops_1')), 
+            (4, ref('product_fashion_tops_2')), 
+            (4, ref('product_fashion_tops_3')),
+            (4, ref('product_fashion_tops_4')),
+            ]"/>
+        </record>
+
+        <record id="trending_fashion_product_1" model="shop.the.look.product">
+            <field name="look_id" ref="shop_the_look.trending_fashion_look_demo_data"/>
+            <field name="product_tmpl_id" ref="shop_the_look.trending_fashion_jacket_product_template"/>
+            <field name="name">Jackets</field>
+            <field name="prod_variant_ids" eval="[
+            (4, ref('product_trending_fashion_jacket_1')), 
+            (4, ref('product_trending_fashion_jacket_2')), 
+            (4, ref('product_trending_fashion_jacket_3')),
+            (4, ref('product_trending_fashion_jacket_4')),
+            ]"/>
+        </record>
+
+        <record id="trending_fashion_product_2" model="shop.the.look.product">
+            <field name="look_id" ref="shop_the_look.trending_fashion_look_demo_data"/>
+            <field name="product_tmpl_id" ref="shop_the_look.trending_fashion_shoes_product_template"/>
+            <field name="name">Shoes</field>
+            <field name="prod_variant_ids" eval="[
+            (4, ref('product_trending_fashion_shoes_1')), 
+            (4, ref('product_trending_fashion_shoes_2')), 
+            (4, ref('product_trending_fashion_shoes_3')),
+            (4, ref('product_trending_fashion_shoes_4')),
+            ]"/>
+        </record>
+
+        <record id="trending_fashion_product_3" model="shop.the.look.product">
+            <field name="look_id" ref="shop_the_look.trending_fashion_look_demo_data"/>
+            <field name="product_tmpl_id" ref="shop_the_look.trending_fashion_tshirt_product_template"/>
+            <field name="name">T-shirt</field>
+            <field name="prod_variant_ids" eval="[
+            (4, ref('product_trending_fashion_tshirt_1')), 
+            (4, ref('product_trending_fashion_tshirt_2')), 
+            (4, ref('product_trending_fashion_tshirt_3')),
+            (4, ref('product_trending_fashion_tshirt_4')),
+            ]"/>
+        </record>
+
+
+        <record id="formal_look_product_1" model="shop.the.look.product">
+            <field name="look_id" ref="shop_the_look.formal_look_demo_data"/>
+            <field name="product_tmpl_id" ref="shop_the_look.formal_looks_coat_product_template"/>
+            <field name="name">Coat</field>
+            <field name="prod_variant_ids" eval="[
+            (4, ref('product_formal_look_coat_1')), 
+            (4, ref('product_formal_look_coat_2')), 
+            (4, ref('product_formal_look_coat_3')),
+            (4, ref('product_formal_look_coat_4')),
+            ]"/>
+        </record>
+
+        <record id="formal_look_product_2" model="shop.the.look.product">
+            <field name="look_id" ref="shop_the_look.formal_look_demo_data"/>
+            <field name="product_tmpl_id" ref="shop_the_look.formal_looks_pant_product_template"/>
+            <field name="name">Pant</field>
+            <field name="prod_variant_ids" eval="[
+            (4, ref('product_formal_look_pant_1')), 
+            (4, ref('product_formal_look_pant_2')), 
+            (4, ref('product_formal_look_pant_3')),
+            (4, ref('product_formal_look_pant_4')),
+            ]"/>
+        </record>
+
+        <record id="formal_look_product_3" model="shop.the.look.product">
+            <field name="look_id" ref="shop_the_look.formal_look_demo_data"/>
+            <field name="product_tmpl_id" ref="shop_the_look.formal_looks_shirt_product_template"/>
+            <field name="name">Shirt</field>
+            <field name="prod_variant_ids" eval="[
+            (4, ref('product_formal_look_shirt_1')), 
+            (4, ref('product_formal_look_shirt_2')), 
+            (4, ref('product_formal_look_shirt_3')),
+            (4, ref('product_formal_look_shirt_4')),
+            ]"/>
+        </record>
+
+
+        <record id="demo_res_config_setting" model="res.config.settings">
+            <field name="banner_text">Trending Collection</field>
+            <field name="look_ids" eval="[(4, ref('fashion_look_demo_data')), (4, ref('trending_fashion_look_demo_data')), (4, ref('formal_look_demo_data'))]"/>
+            <field name="banner" type="base64" file="shop_the_look/static/img/banner.jpg"/>
+        </record>
+    </data>
+</odoo>

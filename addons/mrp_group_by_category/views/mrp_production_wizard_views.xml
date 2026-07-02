@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista de formulario del wizard -->
+        <record id="view_mrp_production_wizard_form" model="ir.ui.view">
+            <field name="name">mrp.production.wizard.form</field>
+            <field name="model">mrp.production.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Configuración de Fabricación">
+                    <group>
+                        <field name="sale_order_id" readonly="1"/>
+                        <field name="start_date"/>
+                        <field name="fecha_entrega" string="Fecha de Entrega" readonly="1"/>
+                        <field name="product_id" required="1"/>
+                        <field name="product_qty" required="1"/>
+                        <field name="budget_amount"/>
+                    </group>
+                    <group>
+                        <field name="material_cost_total" readonly="1"/>
+                        <field name="budget_status" readonly="1"/>
+                        <field name="budget_exceeded_percent" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Operaciones" name="operations">
+                            <field name="operation_line_ids" widget="list">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="workcenter_id"/>
+                                    <field name="operation_id"/>
+                                    <field name="duration"/>
+                                    <field name="date_start"/>
+                                    <field name="date_finished"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Materiales por Categoría" name="materials">
+                            <field name="material_line_ids" widget="list">
+                                <list editable="bottom">
+                                    <field name="category_id"/>
+                                    <field name="product_id"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="unit_cost"/>
+                                    <field name="total_cost"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="action_create_production" string="Crear Fabricación" type="object" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción del wizard -->
+        <record id="action_mrp_production_wizard" model="ir.actions.act_window">
+            <field name="name">Configuración de Fabricación</field>
+            <field name="res_model">mrp.production.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo> 

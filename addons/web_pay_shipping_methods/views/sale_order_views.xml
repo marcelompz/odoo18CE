@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inherit_transfer_receipt" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.transfer.receipt</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Comprobantes de Transferencia" name="transfer_receipts">
+                    <group>
+                        <group string="Comprobante de Transferencia">
+                            <field name="transfer_receipt_attachment" widget="binary" filename="transfer_receipt_name"/>
+                            <field name="transfer_receipt_name" invisible="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo> 

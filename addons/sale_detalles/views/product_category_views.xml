@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_category_form_inherit_code" model="ir.ui.view">
+        <field name="name">product.category.form.inherit.code</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="code" placeholder="Código de la categoría"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de lista para categorías de producto con código -->
+    <record id="view_product_category_list_code" model="ir.ui.view">
+        <field name="name">product.category.list.code</field>
+        <field name="model">product.category</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <list string="Categorías de Producto">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="parent_id" invisible="1"/>
+                <field name="complete_name" invisible="1"/>
+            </list>
+        </field>
+    </record>
+</odoo>
+

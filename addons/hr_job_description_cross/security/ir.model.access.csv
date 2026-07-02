@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_education_level_user,hr.education.level user,model_hr_education_level,base.group_user,1,0,0,0
+access_hr_education_level_hr,hr.education.level hr,model_hr_education_level,hr.group_hr_user,1,1,1,1
+access_hr_function_catalog_user,hr.function.catalog user,model_hr_function_catalog,base.group_user,1,0,0,0
+access_hr_function_catalog_hr,hr.function.catalog hr,model_hr_function_catalog,hr.group_hr_user,1,1,1,1
+access_hr_job_function_line_user,hr.job.function.line user,model_hr_job_function_line,base.group_user,1,0,0,0
+access_hr_job_function_line_hr,hr.job.function.line hr,model_hr_job_function_line,hr.group_hr_user,1,1,1,1

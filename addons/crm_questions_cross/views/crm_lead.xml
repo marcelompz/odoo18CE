@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-05-19 10:27:36
+    @author: drojo
+-->
+<odoo>
+
+    <!-- tree view -->
+    
+    <record id="view_crm_lead_tree_inherit" model="ir.ui.view">
+        <field name="name">view.crm.lead.tree.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor" />
+        <field name="arch" type="xml">
+            <xpath expr="//list//field[@name='name']" position="before">
+                <field name="crm_code" decoration-bf="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- form view -->
+
+    <record id="crm_lead_inherit_form" model="ir.ui.view">
+        <field name="name">crm.lead.inherit.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//h2[hasclass('row','g-0','pb-3','pb-sm-4')]" position="after">
+                <h2>
+                    <group>
+                        <field name="crm_code"/>
+                    </group>
+                </h2>
+            </xpath>
+
+            <!-- page ratings -->
+
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page name="ratings" string="Calificación">
+					<field name="ratings_ids">
+                        <list editable="bottom" create="false" delete="false">
+                            <field name="answer_ref_ids" column_invisible="1"/>
+                            <field name="stage_ids" force_save="1" column_invisible="1"/>
+                            <field name="show_question" column_invisible="1"/>
+                            <field name="question_id" force_save="1" column_invisible="1"/>
+                            <field name="name" readonly="1" force_save="1" invisible="not show_question"/>
+                            <field name="answer_id" domain="[('id','in',answer_ref_ids)]" options="{'no_create': 1, 'no_open': 1}" invisible="not show_question"/>
+                            <field name="score" invisible="not show_question"/>
+                            <button name="dev_unlink" type="object" icon="fa-trash" groups="base.group_no_one" invisible="not show_question"/>
+                        </list>
+                    </field>
+
+                    <group col="12" class="oe_invoice_lines_tab">
+                        <group colspan="9">
+
+                            <!-- references -->
+
+                            <div class="container">
+                                <h3><i>Referencias</i></h3>
+
+                                <div class="row" style="width: 350px;">
+                                    <div class="border text-center col-9">
+                                        <strong>Puntuación máxima</strong>
+                                    </div>
+                                    <div class="border text-center col-3" style="background-color: #8e44ad; color: #fff;">
+                                        <strong>15</strong>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="width: 350px;">
+                                    <div class="border text-center col-9">
+                                        <strong>Muy caliente &gt;</strong>
+                                    </div>
+                                    <div class="border text-center col-3" style="background-color: #e74c3c; color: #fff;">
+                                        <strong>12</strong>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="width: 350px;">
+                                    <div class="border text-center col-9">
+                                        <strong>Caliente</strong>
+                                    </div>
+                                    <div class="border text-center col-3" style="background-color: #d35400; color: #fff;">
+                                        <strong>9</strong>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="width: 350px;">
+                                    <div class="border text-center col-9">
+                                        <strong>Tíbio</strong>
+                                    </div>
+                                    <div class="border text-center col-3" style="background-color: #f4d03f; color: #fff;">
+                                        <strong>6</strong>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="width: 350px;">
+                                    <div class="border text-center col-9">
+                                        <strong>Frío &lt;</strong>
+                                    </div>
+                                    <div class="border text-center col-3" style="background-color: #239b56; color: #fff;">
+                                        <strong>3</strong>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="width: 350px;">
+                                    <div class="border text-center col-9">
+                                        <strong>Puntuación Mínima</strong>
+                                    </div>
+                                    <div class="border text-center col-3" style="background-color: #186a3b; color: #fff;">
+                                        <strong>-4</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </group>
+                        <group colspan="3">
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="total_score" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <!-- page key questions -->
+
+            <xpath expr="//page[@name='ratings']" position="after">
+                <page name="key_questions" string="Preguntas claves">
+                    <field name="key_questions_ids">
+                        <list editable="bottom">
+                            <control>
+                                <create string="Nueva pregunta"/>
+                            </control>
+                            <field name="question"/>
+                            <field name="answer"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- kanban view -->
+
+    <record id="crm_lead_inherit_kanban" model="ir.ui.view">
+        <field name="name">crm.lead.inherit.kanban</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//kanban" position="inside">
+                <field name="sale_amount_total"/>
+                <field name="quotation_count"/>
+                <field name="last_sale_date"/>
+            </xpath>
+        
+            <xpath expr="//t[@t-name='card']//field[@name='partner_id']" position="before">
+                <t t-if="record.total_score.raw_value">
+                    <h4>
+                        <strong>Calificación: </strong>
+                        <field name="total_score"/>
+                    </h4>
+                </t>
+            </xpath>
+
+            <xpath expr="//t[@t-name='card']//footer" position="before">
+                <t t-if="record.sale_amount_total.raw_value">
+                    <span>Ventas: <field name="sale_amount_total"/></span>
+                </t>
+                <t t-if="record.last_sale_date.raw_value">
+                        <span>Última venta: <field name="last_sale_date"/></span>
+                </t>
+                <t t-if="record.quotation_count.raw_value">
+                        <span>Presupuestos: <field name="quotation_count"/></span>
+                </t>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- search view -->
+
+    <record id="crm_lead_inherit_search" model="ir.ui.view">
+        <field name="name">crm.lead.inherit.search</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//search" position="inside">
+                <field name="partner_vat" string="R.U.C."/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

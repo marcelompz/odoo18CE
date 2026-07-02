@@ -1,0 +1,24 @@
+# Copyright 2015 ACSONE SA/NV (<http://acsone.eu>)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+{
+    "name": "Base report xlsx",
+    "summary": "Base module to create xlsx report",
+    "author": "Valente Systems EAS – Cristhel Valente",
+    "email": "soporte@valentesystems.com",
+    "website": "https://www.valentesystems.com",
+    "category": "Reporting",
+    "version": "18.0.1.0.0",
+    "development_status": "Mature",
+    "license": "AGPL-3",
+    "external_dependencies": {"python": ["xlsxwriter", "xlrd"]},
+    "depends": ["base", "web"],
+    "demo": ["demo/report.xml"],
+    "installable": True,
+    "application": False,
+    "auto_install": False,
+    "assets": {
+        "web.assets_backend": [
+            "report_xlsx/static/src/js/report/action_manager_report.esm.js",
+        ],
+    },
+}

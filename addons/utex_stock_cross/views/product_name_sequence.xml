@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-06-16 13:39:48
+    @author: drojo
+-->
+<odoo>
+
+    <!-- tree view -->
+    
+    <record id="product_name_sequence_tree" model="ir.ui.view">
+        <field name="name">product.name.sequence.tree</field>
+        <field name="model">product.name.sequence</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="fields_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- window action -->
+
+    <record id="product_name_sequence_action" model="ir.actions.act_window">
+        <field name="name">Configurar secuencia</field>
+        <field name="res_model">product.name.sequence</field>
+        <field name="view_mode">list</field>
+    </record>
+
+</odoo>

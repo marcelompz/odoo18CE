@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_attendance_detail_export_form" model="ir.ui.view">
+        <field name="name">hr.attendance.detail.export.form</field>
+        <field name="model">hr.attendance.detail.export</field>
+        <field name="arch" type="xml">
+            <form string="Detalle de Entradas/Salidas">
+                <group>
+                    <group>
+                        <field name="source"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="department_ids" widget="many2many_tags"/>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <group invisible="not file_data">
+                    <field name="file_name" readonly="1"/>
+                    <field name="file_data" filename="file_name" readonly="1"/>
+                </group>
+                <p class="text-muted">
+                    Genera un Excel con las entradas y salidas por empleado y dia.
+                    "Crudo del reloj" muestra todos los fichajes tal cual (auditoria);
+                    "Bloques Odoo" muestra las marcaciones procesadas que se pagan.
+                </p>
+                <footer>
+                    <button name="action_export" type="object" string="Generar Excel" class="btn-primary"/>
+                    <button name="action_pdf" type="object" string="Generar PDF" class="btn-secondary"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_attendance_detail_export_wizard" model="ir.actions.act_window">
+        <field name="name">Detalle de Entradas/Salidas</field>
+        <field name="res_model">hr.attendance.detail.export</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_attendance_shift_detail_export"
+              name="Detalle de Entradas/Salidas"
+              parent="menu_attendance_shift_root"
+              action="action_hr_attendance_detail_export_wizard"
+              sequence="31"/>
+
+    <!-- ============ Resumen Mensual por Empleado ============ -->
+    <record id="view_hr_attendance_monthly_summary_form" model="ir.ui.view">
+        <field name="name">hr.attendance.monthly.summary.form</field>
+        <field name="model">hr.attendance.monthly.summary</field>
+        <field name="arch" type="xml">
+            <form string="Resumen Mensual de Horas">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="shift_group_ids" widget="many2many_tags"/>
+                        <field name="department_ids" widget="many2many_tags"/>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <group invisible="not file_data">
+                    <field name="file_name" readonly="1"/>
+                    <field name="file_data" filename="file_name" readonly="1"/>
+                </group>
+                <p class="text-muted">
+                    Resumen por empleado del periodo: Normal (jornada estandar),
+                    Extra Diurna, Extra Nocturna, a Descontar y Total
+                    (= Normal - a Descontar + Extras). Usa los datos del Tablero
+                    Diario; si faltan, regenerelo antes.
+                </p>
+                <footer>
+                    <button name="action_export" type="object" string="Generar Excel" class="btn-primary"/>
+                    <button name="action_pdf" type="object" string="Generar PDF" class="btn-secondary"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_attendance_monthly_summary_wizard" model="ir.actions.act_window">
+        <field name="name">Resumen Mensual de Horas</field>
+        <field name="res_model">hr.attendance.monthly.summary</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_attendance_monthly_summary"
+              name="Resumen Mensual de Horas"
+              parent="menu_attendance_shift_root"
+              action="action_hr_attendance_monthly_summary_wizard"
+              sequence="32"/>
+
+</odoo>

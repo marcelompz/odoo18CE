@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_utex" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.utex.account.cross</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="electronic_invoice_cross.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='cross_invoice_parameters']" position="inside">
+                <setting id="cross_group_products_normal_invoice_setting" help="Agrupar productos por plantilla en facturas normales (sin importar variante, suma de cantidades).">
+                    <field name="cross_group_products_normal_invoice"/>
+                </setting>
+                <setting id="cross_group_products_export_invoice_setting" help="Agrupar productos por plantilla en facturas de exportación (sin importar variante, suma de cantidades).">
+                    <field name="cross_group_products_export_invoice"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

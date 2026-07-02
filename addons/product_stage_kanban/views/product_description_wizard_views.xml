@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="product_description_wizard_form_view" model="ir.ui.view">
+            <field name="name">product.description.wizard.form</field>
+            <field name="model">product.description.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Descripción del Producto">
+                    <sheet>
+                        <group>
+                            <field name="product_id" invisible="1"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_product_description_wizard" model="ir.actions.act_window">
+            <field name="name">Descripción del Producto</field>
+            <field name="res_model">product.description.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
+

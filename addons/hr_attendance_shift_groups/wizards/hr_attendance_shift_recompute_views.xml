@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_attendance_shift_recompute_form" model="ir.ui.view">
+        <field name="name">hr.attendance.shift.recompute.form</field>
+        <field name="model">hr.attendance.shift.recompute</field>
+        <field name="arch" type="xml">
+            <form string="Recalcular Periodo">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="auto_assign_group"/>
+                        <field name="deep_clean"/>
+                    </group>
+                    <group>
+                        <field name="shift_group_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="department_ids" widget="many2many_tags"/>
+                    <field name="employee_ids" widget="many2many_tags"/>
+                </group>
+                <p class="text-muted">
+                    El sistema recalculara la distribucion de horas por franja para todas las
+                    asistencias con check_in en el rango indicado. Si una asistencia no tiene
+                    grupo de turno asignado, se completara automaticamente con el grupo del
+                    empleado/contrato vigente (si la opcion esta activada).
+                </p>
+                <footer>
+                    <button name="action_recompute" type="object" string="Recalcular" class="btn-primary"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_attendance_shift_recompute_wizard" model="ir.actions.act_window">
+        <field name="name">Recalcular Periodo</field>
+        <field name="res_model">hr.attendance.shift.recompute</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-03-26 07:33:58
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="purchase_order_inherit_form" model="ir.ui.view">
+        <field name="name">purchase.order.inherit.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+
+            <!-- campos para actualizar precios cuando es compra local -->
+            <xpath expr="//sheet//group//div[@name='date_planned_div']" position="after">
+                <label for="adjust_sale_price" class="d-none" invisible="is_an_import"/>
+                <div name="adjust_price" class="o_row" title="Actualiza de forma automática los precios de ventas de cada producto comprado con el porcentaje de ganancia configurado previamente."  invisible="is_an_import">
+                    <field name="adjust_sale_price" readonly="state == 'purchase'"/>
+                    <span>Ajustar precio de venta al confirmar</span>
+                </div>
+                <field name="purchase_tooltip" string="" class="fst-italic text-muted" invisible="is_an_import"/>
+            </xpath>
+
+            <!-- campos de tasas de cambio -->
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="company_currency_id" invisible="1"/>
+                <field name="is_company_currency" invisible="1"/>
+                <field 
+                    name="exchange_type" 
+                    widget="monetary" 
+                    options="{'currency_field': 'company_currency_id'}" 
+                    invisible= "is_company_currency" 
+                    required = "is_company_currency"
+                    readonly = "state != 'draft'"
+                />
+                <field name="is_an_import"/>
+            </xpath>
+
+            <!-- total si es en otra moneda de la empresa -->
+            <xpath expr="//notebook/page[@name='products']//div[hasclass('clearfix')]" position="before">
+                <group class="oe_subtotal_footer oe_right" invisible = "is_company_currency">
+                    <field 
+                        name="amount_total_cc" 
+                        decoration-bf="1" 
+                        options="{'currency_field': 'company_currency_id'}"
+                        readonly = "True"
+                        style="font-size:16px;"
+                    />
+                </group>
+            </xpath>
+
+            <!-- order line -->
+            <xpath expr="//notebook//page[@name='products']//field[@name='order_line']//list//field[@name='price_unit']" position="after">
+                <field name="product_margin_gain" widget="percentage"/>
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

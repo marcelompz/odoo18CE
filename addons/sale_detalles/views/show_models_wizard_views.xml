@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_show_models_wizard_form" model="ir.ui.view">
+        <field name="name">show.models.wizard.form</field>
+        <field name="model">show.models.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Modelos de la Orden">
+                <sheet>
+                    <field name="order_id" invisible="1"/>
+                    <field name="show_empty_message" invisible="1"/>
+                    
+
+                    
+
+                    
+                    <!-- Lista de modelos existentes -->
+                    <field name="model_lines_html" widget="html" readonly="1"/>
+                    <div invisible="not show_empty_message" style="text-align:center; color: #888; margin: 20px;">
+                        No hay modelos asociados a esta orden.
+                    </div>
+                </sheet>
+                <footer>
+                    <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo> 

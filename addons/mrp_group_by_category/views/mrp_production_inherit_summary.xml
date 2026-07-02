@@ -1,0 +1,14 @@
+<odoo>
+    <record id="view_mrp_production_form_inherit_summary" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit.summary</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="after">
+                <group string="Resumen de productos de la venta">
+                    <field name="product_summary" readonly="1" widget="text"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo> 

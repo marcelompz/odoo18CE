@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="products_item_image_quality" inherit_id="website_sale.products_item" customize_show="True" name="Product Item Image Quality">
+        <xpath expr="//div[contains(@class, 'oe_product_image')]//span[@t-field='image_holder.image_1920']" position="replace">
+            <span t-field="image_holder.image_1920"
+                t-options="{'widget': 'image', 'preview_image': 'image_1920', 'itemprop': 'image', 'class': 'h-100 w-100 position-absolute'}"
+                class="oe_product_image_img_wrapper d-flex h-100 justify-content-center align-items-center position-absolute"/>
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_borderless_1_image_quality" inherit_id="website_sale.dynamic_filter_template_product_product_borderless_1" customize_show="True" name="Borderless 1 Image Quality">
+        <xpath expr="//img[contains(@class, 'card-img-top')]" position="attributes">
+            <attribute name="t-att-src">"/web/image/product.product/%s/image_1920/%s" % (record.id, record.display_name or 'producto')</attribute>
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_borderless_2_image_quality" inherit_id="website_sale.dynamic_filter_template_product_product_borderless_2" customize_show="True" name="Borderless 2 Image Quality">
+        <xpath expr="//img[contains(@class, 'card-img-top')]" position="attributes">
+            <attribute name="t-att-src">"/web/image/product.product/%s/image_1920/%s" % (record.id, record.display_name or 'producto')</attribute>
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_add_to_cart_image_quality" inherit_id="website_sale.dynamic_filter_template_product_product_add_to_cart" customize_show="True" name="Add to Cart Image Quality">
+        <xpath expr="//img[contains(@class, 'card-img-top')]" position="attributes">
+            <attribute name="t-att-src">"/web/image/product.product/%s/image_1920/%s" % (record.id, record.display_name or 'producto')</attribute>
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_view_detail_image_quality" inherit_id="website_sale.dynamic_filter_template_product_product_view_detail" customize_show="True" name="View Detail Image Quality">
+        <xpath expr="//img[contains(@class, 'card-img-top')]" position="attributes">
+            <attribute name="t-att-src">
+                "/web/image/product.product/%s/image_1920/%s" % (
+                    (record.id if hasattr(record, 'id') and record.id else record.id),
+                    (record.display_name if hasattr(record, 'display_name') and record.display_name else record.display_name or 'producto')
+                )
+            </attribute>
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_banner_image_quality" inherit_id="website_sale.dynamic_filter_template_product_product_banner" customize_show="True" name="Banner Image Quality">
+        <xpath expr="//img[contains(@class, 'img')]" position="attributes">
+            <attribute name="t-att-src">"/web/image/product.product/%s/image_1920/%s" % (record.id, record.display_name or 'producto')</attribute>
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_mini_image_quality" inherit_id="website_sale.dynamic_filter_template_product_product_mini_image" customize_show="True" name="Mini Image Quality">
+        <xpath expr="//img[contains(@class, 'card-img-top')]" position="attributes">
+            <attribute name="t-att-src">"/web/image/product.product/%s/image_1920/%s" % (record.id, record.display_name or 'producto')</attribute>
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_mini_price_image_quality" inherit_id="website_sale.dynamic_filter_template_product_product_mini_price" customize_show="True" name="Mini Price Image Quality">
+        <xpath expr="//img[contains(@class, 'card-img-top')]" position="attributes">
+            <attribute name="t-att-src">"/web/image/product.product/%s/image_1920/%s" % (record.id, record.display_name or 'producto')</attribute>
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_mini_name_image_quality" inherit_id="website_sale.dynamic_filter_template_product_product_mini_name" customize_show="True" name="Mini Name Image Quality">
+        <xpath expr="//img[contains(@class, 'card-img-top')]" position="attributes">
+            <attribute name="t-att-src">"/web/image/product.product/%s/image_1920/%s" % (record.id, record.display_name or 'producto')</attribute>
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_centered_image_quality" inherit_id="website_sale.dynamic_filter_template_product_product_centered" customize_show="True" name="Centered Image Quality">
+        <xpath expr="//img[contains(@class, 'card-img-top')]" position="attributes">
+            <attribute name="t-att-src">"/web/image/product.product/%s/image_1920/%s" % (record.id, record.display_name or 'producto')</attribute>
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_horizontal_card_image_quality" inherit_id="website_sale.dynamic_filter_template_product_product_horizontal_card" customize_show="True" name="Horizontal Card Image Quality">
+        <xpath expr="//img[contains(@class, 'img')]" position="attributes">
+            <attribute name="t-att-src">"/web/image/product.product/%s/image_1920/%s" % (record.id, record.display_name or 'producto')</attribute>
+        </xpath>
+    </template>
+
+</odoo>
+
+

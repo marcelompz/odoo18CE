@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_packinglist_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="company" t-value="o.company_id"/>
+                <t t-call="web.basic_layout">
+                    <div class="page" style="font-family: Arial, sans-serif; font-size: 10px; color: #222;">
+
+                        <!-- HEADER -->
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:12px; border:2px solid #1a3a5c;">
+                            <tr>
+                                <td style="width:60%; vertical-align:middle; padding:12px 15px; border-right:1px solid #1a3a5c; border-top:none; border-bottom:none; border-left:none;">
+                                    <div style="overflow:hidden;">
+                                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="float:left; max-height:75px; max-width:95px; margin-right:15px;" alt="Logo"/>
+                                        <div style="overflow:hidden;">
+                                            <div style="font-size:13px; font-weight:bold; color:#1a3a5c; line-height:1.2;"><span t-field="company.name"/></div>
+                                            <div t-if="company.vat" style="font-size:9.5px; margin-top:2px;"><strong>RUC:</strong> <span t-field="company.vat"/></div>
+                                            <div t-if="company.street" style="font-size:9.5px;"><span t-field="company.street"/><t t-if="company.street2">, <span t-field="company.street2"/></t></div>
+                                            <div t-if="company.city" style="font-size:9.5px;"><span t-field="company.city"/><t t-if="company.state_id">, <span t-field="company.state_id.name"/></t><t t-if="company.country_id"> - <span t-field="company.country_id.name"/></t></div>
+                                            <div t-if="company.phone" style="font-size:9.5px;"><strong>Tel:</strong> <span t-field="company.phone"/></div>
+                                            <div t-if="company.email" style="font-size:9.5px;"><strong>Email:</strong> <span t-field="company.email"/></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="width:40%; vertical-align:middle; padding:12px 15px; text-align:center; background-color:#f5f7fa; border-top:none; border-bottom:none; border-right:none;">
+                                    <div style="font-size:22px; font-weight:bold; color:#1a3a5c; letter-spacing:2px;">PACKING LIST</div>
+                                    <div style="font-size:14px; font-weight:bold; margin-top:6px;">N&#176; <span t-field="o.name"/></div>
+                                    <div style="font-size:10px; margin-top:4px;">Fecha: <span t-field="o.date" t-options='{"widget": "date"}'/></div>
+                                    <div style="margin-top:8px;">
+                                        <span style="background-color:#d9534f; color:white; padding:4px 14px; font-weight:bold; font-size:10px; border-radius:3px; letter-spacing:1px;">EXPORTACION</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- DATOS COMERCIALES + LOGISTICOS (configurables) -->
+                        <t t-if="not o.hide_commercial_section or not o.hide_logistics_section">
+                            <table style="width:100%; border-collapse:collapse; margin-bottom:10px;">
+                                <tr>
+                                    <td t-if="not o.hide_commercial_section"
+                                        t-att-style="'vertical-align:top; padding:6px; border:1px solid #999; background-color:#f5f7fa; width:%s;' % ('100%' if o.hide_logistics_section else '50%')">
+                                        <div style="font-weight:bold; color:#1a3a5c; border-bottom:1px solid #1a3a5c; padding-bottom:3px; margin-bottom:5px;">DATOS COMERCIALES</div>
+                                        <table style="width:100%; font-size:9.5px;">
+                                            <tr><td style="width:40%; font-weight:bold;">Factura:</td><td><span t-field="o.invoice_id.name"/></td></tr>
+                                            <tr><td style="font-weight:bold;">Orden de Venta:</td><td><span t-field="o.sale_id.name"/></td></tr>
+                                            <tr><td style="font-weight:bold;">Nota de Remision:</td><td><span t-field="o.picking_id.name"/></td></tr>
+                                            <tr t-if="o.eremision_number"><td style="font-weight:bold;">N&#176; e-Remision SIFEN:</td><td><span t-field="o.eremision_number"/></td></tr>
+                                            <tr t-if="o.dua_number"><td style="font-weight:bold;">N&#176; DUA:</td><td><span t-field="o.dua_number"/></td></tr>
+                                            <tr><td style="font-weight:bold;">Incoterm:</td><td><t t-if="o.incoterm_id"><span t-field="o.incoterm_id.code"/> - <span t-field="o.incoterm_id.name"/></t></td></tr>
+                                            <tr><td style="font-weight:bold;">Moneda:</td><td><span t-field="o.currency_id.name"/></td></tr>
+                                        </table>
+                                    </td>
+                                    <td t-if="not o.hide_logistics_section"
+                                        t-att-style="'vertical-align:top; padding:6px; border:1px solid #999; background-color:#f5f7fa; width:%s;' % ('100%' if o.hide_commercial_section else '50%')">
+                                        <div style="font-weight:bold; color:#1a3a5c; border-bottom:1px solid #1a3a5c; padding-bottom:3px; margin-bottom:5px;">DATOS LOGISTICOS</div>
+                                        <table style="width:100%; font-size:9.5px;">
+                                            <tr><td style="width:40%; font-weight:bold;">Pais Origen:</td><td><span t-field="o.country_origin_id.name"/></td></tr>
+                                            <tr><td style="font-weight:bold;">Pais Destino:</td><td><span t-field="o.country_dest_id.name"/></td></tr>
+                                            <tr><td style="font-weight:bold;">Modo de Transporte:</td><td><span t-if="o.transport_mode == 'air'">Aereo</span><span t-if="o.transport_mode == 'sea'">Maritimo</span><span t-if="o.transport_mode == 'road'">Terrestre</span><span t-if="o.transport_mode == 'rail'">Ferroviario</span></td></tr>
+                                            <tr><td style="font-weight:bold;">Puerto Salida:</td><td><span t-field="o.port_origin"/></td></tr>
+                                            <tr><td style="font-weight:bold;">Puerto Llegada:</td><td><span t-field="o.port_destination"/></td></tr>
+                                            <tr t-if="o.seal_number"><td style="font-weight:bold;">Precinto/Marchamo:</td><td><span t-field="o.seal_number"/></td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
+
+                        <!-- EXPORTADOR + CONSIGNATARIO -->
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:10px;">
+                            <tr>
+                                <td style="width:50%; vertical-align:top; padding:8px; border:1px solid #1a3a5c;">
+                                    <div style="font-weight:bold; color:white; background-color:#1a3a5c; padding:4px 6px; margin:-8px -8px 8px -8px;">EXPORTADOR / SHIPPER</div>
+                                    <div style="font-weight:bold; font-size:11px;"><span t-field="o.shipper_partner_id.name"/></div>
+                                    <div t-if="o.shipper_partner_id.vat"><strong>RUC:</strong> <span t-field="o.shipper_partner_id.vat"/></div>
+                                    <div t-if="o.shipper_partner_id.street"><span t-field="o.shipper_partner_id.street"/><t t-if="o.shipper_partner_id.street2">, <span t-field="o.shipper_partner_id.street2"/></t></div>
+                                    <div t-if="o.shipper_partner_id.city"><span t-field="o.shipper_partner_id.city"/><t t-if="o.shipper_partner_id.state_id">, <span t-field="o.shipper_partner_id.state_id.name"/></t><t t-if="o.shipper_partner_id.country_id">, <span t-field="o.shipper_partner_id.country_id.name"/></t></div>
+                                    <div t-if="o.shipper_partner_id.phone"><strong>Tel:</strong> <span t-field="o.shipper_partner_id.phone"/></div>
+                                    <div t-if="o.shipper_partner_id.email"><strong>Email:</strong> <span t-field="o.shipper_partner_id.email"/></div>
+                                </td>
+                                <td style="width:50%; vertical-align:top; padding:8px; border:1px solid #1a3a5c;">
+                                    <div style="font-weight:bold; color:white; background-color:#1a3a5c; padding:4px 6px; margin:-8px -8px 8px -8px;">CONSIGNATARIO / CONSIGNEE</div>
+                                    <div style="font-weight:bold; font-size:11px;"><span t-field="o.consignee_partner_id.name"/></div>
+                                    <div t-if="o.consignee_partner_id.vat"><strong>ID Fiscal:</strong> <span t-field="o.consignee_partner_id.vat"/></div>
+                                    <div t-if="o.consignee_partner_id.street"><span t-field="o.consignee_partner_id.street"/><t t-if="o.consignee_partner_id.street2">, <span t-field="o.consignee_partner_id.street2"/></t></div>
+                                    <div t-if="o.consignee_partner_id.city"><span t-field="o.consignee_partner_id.city"/><t t-if="o.consignee_partner_id.state_id">, <span t-field="o.consignee_partner_id.state_id.name"/></t><t t-if="o.consignee_partner_id.country_id">, <span t-field="o.consignee_partner_id.country_id.name"/></t></div>
+                                    <div t-if="o.consignee_partner_id.phone"><strong>Tel:</strong> <span t-field="o.consignee_partner_id.phone"/></div>
+                                    <div t-if="o.consignee_partner_id.email"><strong>Email:</strong> <span t-field="o.consignee_partner_id.email"/></div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- TABLA DE BULTOS / LINEAS con ROWSPAN por bulto -->
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:8px; font-size:9px;">
+                            <thead>
+                                <tr style="background-color:#cfe2b5; color:#222; font-weight:bold;">
+                                    <th style="padding:5px; border:1px solid #888; width:5%;">BOX</th>
+                                    <th style="padding:5px; border:1px solid #888; text-align:left; width:24%;">DESCRIPCION</th>
+                                    <th style="padding:5px; border:1px solid #888; text-align:left; width:13%;">TIPO</th>
+                                    <th style="padding:5px; border:1px solid #888; text-align:left; width:10%;">GENERO</th>
+                                    <th style="padding:5px; border:1px solid #888; width:6%; text-align:right;">QTY</th>
+                                    <th style="padding:5px; border:1px solid #888; width:9%;">NCM</th>
+                                    <th style="padding:5px; border:1px solid #888; width:11%; text-align:right;">PESO NETO</th>
+                                    <th style="padding:5px; border:1px solid #888; width:11%; text-align:right;">PESO BRUTO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="box_idx" t-value="0"/>
+                                <t t-foreach="o.package_ids" t-as="pkg">
+                                    <t t-set="box_idx" t-value="box_idx + 1"/>
+                                    <t t-set="pkg_lines" t-value="pkg.line_ids"/>
+                                    <t t-set="lcount" t-value="len(pkg_lines) or 1"/>
+                                    <t t-set="line_idx" t-value="0"/>
+                                    <t t-if="pkg_lines">
+                                        <t t-foreach="pkg_lines" t-as="line">
+                                            <t t-set="line_idx" t-value="line_idx + 1"/>
+                                            <tr>
+                                                <td t-if="line_idx == 1" t-att-rowspan="lcount"
+                                                    style="padding:4px; border:1px solid #888; text-align:center; font-weight:bold; vertical-align:middle;">
+                                                    <span t-esc="box_idx"/>
+                                                </td>
+                                                <td style="padding:4px; border:1px solid #ccc;">
+                                                    <span t-field="line.description"/>
+                                                </td>
+                                                <td style="padding:4px; border:1px solid #ccc;">
+                                                    <span t-field="line.product_type_use_id.name"/>
+                                                </td>
+                                                <td style="padding:4px; border:1px solid #ccc;">
+                                                    <span t-field="line.product_gender_id.name"/>
+                                                </td>
+                                                <td style="padding:4px; border:1px solid #ccc; text-align:right;">
+                                                    <span t-field="line.quantity" t-options='{"widget":"float","precision":0}'/>
+                                                </td>
+                                                <td style="padding:4px; border:1px solid #ccc; text-align:center;">
+                                                    <span t-field="line.ncm"/>
+                                                </td>
+                                                <td t-if="line_idx == 1" t-att-rowspan="lcount"
+                                                    style="padding:4px; border:1px solid #888; text-align:right; vertical-align:middle; font-weight:bold;">
+                                                    KG <span t-field="pkg.net_weight" t-options='{"widget":"float","precision":2}'/>
+                                                </td>
+                                                <td t-if="line_idx == 1" t-att-rowspan="lcount"
+                                                    style="padding:4px; border:1px solid #888; text-align:right; vertical-align:middle; font-weight:bold;">
+                                                    KG <span t-field="pkg.gross_weight" t-options='{"widget":"float","precision":2}'/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr style="background-color:#cfe2b5; font-weight:bold;">
+                                    <td style="padding:6px; border:1px solid #888; text-align:center;">
+                                        <span t-field="o.total_packages"/> BOX
+                                    </td>
+                                    <td colspan="5" style="padding:6px; border:1px solid #888; text-align:center;">
+                                        CONTENIDAS Y EMBALADAS
+                                    </td>
+                                    <td style="padding:6px; border:1px solid #888; text-align:right;">
+                                        KG <span t-field="o.total_net_weight" t-options='{"widget":"float","precision":2}'/>
+                                    </td>
+                                    <td style="padding:6px; border:1px solid #888; text-align:right;">
+                                        KG <span t-field="o.total_gross_weight" t-options='{"widget":"float","precision":2}'/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <div t-if="o.notes" style="margin-bottom:10px; padding:6px; border:1px solid #999; background-color:#fafafa;">
+                            <div style="font-weight:bold; color:#1a3a5c; margin-bottom:3px;">OBSERVACIONES</div>
+                            <div style="font-size:9.5px; white-space:pre-line;"><span t-field="o.notes"/></div>
+                        </div>
+
+                        <!-- FIRMAS -->
+                        <table style="width:100%; border-collapse:separate; border-spacing:12px 0; margin-top:18px;">
+                            <tr>
+                                <td style="width:33.33%; vertical-align:top; padding:0;">
+                                    <div style="height:75px; border:1px solid #888; background:white;"></div>
+                                    <div style="text-align:center; margin-top:5px; font-weight:bold; font-size:10px;">Emitido por</div>
+                                    <div style="text-align:center; font-size:8.5px; color:#666;">Firma y aclaracion</div>
+                                </td>
+                                <td style="width:33.33%; vertical-align:top; padding:0;">
+                                    <div style="height:75px; border:1px solid #888; background:white;"></div>
+                                    <div style="text-align:center; margin-top:5px; font-weight:bold; font-size:10px;">Verificado por</div>
+                                    <div style="text-align:center; font-size:8.5px; color:#666;">Firma y aclaracion</div>
+                                </td>
+                                <td style="width:33.33%; vertical-align:top; padding:0;">
+                                    <div style="height:75px; border:1px solid #888; background:white;"></div>
+                                    <div style="text-align:center; margin-top:5px; font-weight:bold; font-size:10px;">Sello de la Empresa</div>
+                                    <div style="text-align:center; font-size:8.5px; color:#666;">&#160;</div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div style="margin-top:10px; font-size:8px; color:#777; text-align:center; font-style:italic;">
+                            Este Packing List es un documento comercial privado. No constituye documento fiscal SIFEN/SET.
+                        </div>
+
+                        <div style="position:fixed; bottom:0; left:0; right:0; text-align:center; font-size:8px; color:#999; padding:4px 0; border-top:1px solid #ddd;">
+                            <span t-field="company.name"/> &#8212; Pagina <span class="page"/> de <span class="topage"/>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

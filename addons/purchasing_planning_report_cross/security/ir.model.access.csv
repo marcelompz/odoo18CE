@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_report_purchase_data_consolidated,report.purchase.data.consolidated,model_report_purchase_data_consolidated,purchase.group_purchase_user,1,0,0,0
+access_report_purchase_wizard,report.purchase.wizard,model_report_purchase_wizard,purchase.group_purchase_user,1,1,1,1

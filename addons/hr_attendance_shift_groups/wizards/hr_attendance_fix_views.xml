@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Wizard: Completar marcacion (1 a 1) -->
+    <record id="view_hr_attendance_fix_wizard_form" model="ir.ui.view">
+        <field name="name">hr.attendance.fix.wizard.form</field>
+        <field name="model">hr.attendance.fix.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Completar Marcacion">
+                <group>
+                    <group>
+                        <field name="attendance_id" readonly="1"/>
+                        <field name="employee_id" readonly="1"/>
+                        <field name="incomplete_reason" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="current_check_in"/>
+                        <field name="current_check_out"/>
+                    </group>
+                </group>
+                <group string="Valores nuevos">
+                    <group>
+                        <field name="new_check_in"/>
+                        <field name="new_check_out"/>
+                    </group>
+                    <group>
+                        <field name="note" placeholder="Razon del ajuste"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_apply" type="object" string="Aplicar Correccion" class="btn-primary"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard: Crear asistencia manual -->
+    <record id="view_hr_attendance_create_wizard_form" model="ir.ui.view">
+        <field name="name">hr.attendance.create.wizard.form</field>
+        <field name="model">hr.attendance.create.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Crear Asistencia">
+                <group>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="check_in"/>
+                        <field name="check_out"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_create" type="object" string="Crear Asistencia" class="btn-primary"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_attendance_create_wizard" model="ir.actions.act_window">
+        <field name="name">Crear Asistencia Manual</field>
+        <field name="res_model">hr.attendance.create.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Wizard MASIVO: Asignar Grupo de Turno -->
+    <record id="view_hr_attendance_assign_group_wizard_form" model="ir.ui.view">
+        <field name="name">hr.attendance.assign.group.wizard.form</field>
+        <field name="model">hr.attendance.assign.group.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Asignar Grupo de Turno (masivo)">
+                <group>
+                    <field name="attendance_count" readonly="1"/>
+                </group>
+                <group>
+                    <field name="use_employee_group"/>
+                    <field name="shift_group_id" required="not use_employee_group" invisible="use_employee_group"/>
+                </group>
+                <group>
+                    <field name="overwrite_existing"/>
+                    <field name="recompute_lines"/>
+                </group>
+                <separator string="Asistencias seleccionadas"/>
+                <field name="attendance_ids" readonly="1">
+                    <list>
+                        <field name="employee_id"/>
+                        <field name="shift_date"/>
+                        <field name="check_in"/>
+                        <field name="check_out"/>
+                        <field name="shift_group_id"/>
+                        <field name="incomplete_reason" widget="badge"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_apply" type="object" string="Aplicar" class="btn-primary"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_assign_shift_group_server" model="ir.actions.server">
+        <field name="name">Asignar Grupo de Turno</field>
+        <field name="model_id" ref="hr_attendance.model_hr_attendance"/>
+        <field name="binding_model_id" ref="hr_attendance.model_hr_attendance"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'Asignar Grupo de Turno',
+    'res_model': 'hr.attendance.assign.group.wizard',
+    'view_mode': 'form',
+    'target': 'new',
+    'context': {'active_ids': records.ids, 'active_model': 'hr.attendance'},
+}
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!--  Wizard MASIVO: Completar Check-out (con motivo y tracking)    -->
+    <!-- ============================================================== -->
+    <record id="view_hr_attendance_complete_checkout_wizard_form" model="ir.ui.view">
+        <field name="name">hr.attendance.complete.checkout.wizard.form</field>
+        <field name="model">hr.attendance.complete.checkout.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Completar Check-out (masivo)">
+                <group>
+                    <field name="attendance_count" readonly="1"/>
+                    <field name="pending_count" readonly="1"/>
+                </group>
+                <group string="Como calcular la hora de salida">
+                    <field name="mode" widget="radio"/>
+                    <field name="fixed_hour" widget="float_time"
+                           invisible="mode != 'fixed'"
+                           required="mode == 'fixed'"/>
+                </group>
+                <group>
+                    <field name="note" required="1"
+                           placeholder="Ej: Olvido masivo de marcacion 21/04, validado con supervisores"/>
+                    <field name="recompute_lines"/>
+                </group>
+                <separator string="Asistencias a procesar"/>
+                <field name="attendance_ids" readonly="1">
+                    <list decoration-warning="not check_out">
+                        <field name="employee_id"/>
+                        <field name="shift_date"/>
+                        <field name="check_in"/>
+                        <field name="check_out"/>
+                        <field name="shift_group_id"/>
+                        <field name="incomplete_reason" widget="badge"/>
+                    </list>
+                </field>
+                <p class="text-muted">
+                    Solo se procesaran las asistencias <b>con check-in pero sin check-out</b>.
+                    El motivo, usuario, fecha y hora aplicada quedaran registrados en el chatter
+                    de cada asistencia (pista de auditoria).
+                </p>
+                <footer>
+                    <button name="action_apply" type="object" string="Aplicar Check-out" class="btn-primary"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_complete_checkout_server" model="ir.actions.server">
+        <field name="name">Completar Check-out (masivo)</field>
+        <field name="model_id" ref="hr_attendance.model_hr_attendance"/>
+        <field name="binding_model_id" ref="hr_attendance.model_hr_attendance"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'Completar Check-out (masivo)',
+    'res_model': 'hr.attendance.complete.checkout.wizard',
+    'view_mode': 'form',
+    'target': 'new',
+    'context': {'active_ids': records.ids, 'active_model': 'hr.attendance'},
+}
+        </field>
+    </record>
+
+</odoo>

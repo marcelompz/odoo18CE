@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_portal_detail_config_user,portal.detail.config.user,model_portal_detail_config,sales_team.group_sale_salesman,1,1,1,0
+access_portal_detail_config_manager,portal.detail.config.manager,model_portal_detail_config,sales_team.group_sale_manager,1,1,1,1
+access_portal_detail_config_portal,portal.detail.config.portal,model_portal_detail_config,base.group_portal,1,0,0,0
+access_portal_detail_config_public,portal.detail.config.public,model_portal_detail_config,base.group_public,0,0,0,0
+
+access_portal_detail_list_user,portal.detail.list.user,model_portal_detail_list,sales_team.group_sale_salesman,1,1,1,0
+access_portal_detail_list_manager,portal.detail.list.manager,model_portal_detail_list,sales_team.group_sale_manager,1,1,1,1
+access_portal_detail_list_portal,portal.detail.list.portal,model_portal_detail_list,base.group_portal,1,0,0,0
+access_portal_detail_list_public,portal.detail.list.public,model_portal_detail_list,base.group_public,0,0,0,0
+
+access_portal_detail_item_user,portal.detail.item.user,model_portal_detail_item,sales_team.group_sale_salesman,1,1,1,0
+access_portal_detail_item_manager,portal.detail.item.manager,model_portal_detail_item,sales_team.group_sale_manager,1,1,1,1
+access_portal_detail_item_portal,portal.detail.item.portal,model_portal_detail_item,base.group_portal,1,0,0,0
+access_portal_detail_item_public,portal.detail.item.public,model_portal_detail_item,base.group_public,0,0,0,0

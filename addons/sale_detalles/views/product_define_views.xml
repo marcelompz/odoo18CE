@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_define_form" model="ir.ui.view">
+        <field name="name">product.define.form</field>
+        <field name="model">product.define</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="product1_id"/>
+                        <field name="product2_id"/>
+                        <field name="product3_id"/>
+                        <field name="product4_id"/>
+                        <field name="product5_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_define_list" model="ir.ui.view">
+        <field name="name">product.define.list</field>
+        <field name="model">product.define</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="product1_id"/>
+                <field name="product2_id"/>
+                <field name="product3_id"/>
+                <field name="product4_id"/>
+                <field name="product5_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_product_define" model="ir.actions.act_window">
+        <field name="name">Definición de Productos</field>
+        <field name="res_model">product.define</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_product_define"
+              name="Definición de Productos"
+              action="action_product_define"
+              parent="sale.sale_menu_root"
+              sequence="20"/>
+</odoo> 

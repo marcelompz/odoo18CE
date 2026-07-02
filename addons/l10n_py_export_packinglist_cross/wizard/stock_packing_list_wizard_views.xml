@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_stock_packing_list_wizard_form" model="ir.ui.view">
+        <field name="name">stock.packing.list.wizard.form</field>
+        <field name="model">stock.packing.list.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generar Packing List">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>Generar Packing List de Exportacion</h2>
+                        <p class="text-muted">
+                            Las lineas se han pre-poblado a partir de los movimientos del picking.
+                            Elija como quiere agrupar los bultos. Despues podra reorganizarlos manualmente.
+                        </p>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="picking_id" readonly="1"/>
+                            <field name="date"/>
+                            <field name="invoice_id" options="{'no_create': True}"/>
+                            <field name="grouping_mode" widget="radio"/>
+                        </group>
+                        <group>
+                            <field name="incoterm_id"/>
+                            <field name="transport_mode"/>
+                            <field name="port_origin"/>
+                            <field name="port_destination"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group><field name="consignee_partner_id"/></group>
+                        <group><field name="country_dest_id"/></group>
+                    </group>
+
+                    <separator string="Productos a empacar"/>
+                    <field name="line_ids">
+                        <list editable="bottom" string="Lineas">
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id" options="{'no_create': True}"/>
+                            <field name="description"/>
+                            <field name="ncm"/>
+                            <field name="quantity"/>
+                            <field name="uom_id" groups="uom.group_uom"/>
+                            <field name="net_weight" sum="Peso Neto"/>
+                            <field name="volume" sum="Volumen" optional="hide"/>
+                        </list>
+                    </field>
+
+                    <separator string="Observaciones"/>
+                    <field name="notes" nolabel="1"
+                           placeholder="Notas, instrucciones especiales de manejo, etc."/>
+                </sheet>
+                <footer>
+                    <button name="action_generate" string="Generar Packing List"
+                            type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancelar" class="btn-secondary"
+                            special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_stock_packing_list_wizard" model="ir.actions.act_window">
+        <field name="name">Generar Packing List</field>
+        <field name="res_model">stock.packing.list.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

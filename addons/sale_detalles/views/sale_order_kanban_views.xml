@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Kanban de Órdenes de Venta -->
+    <record id="view_order_kanban" model="ir.ui.view">
+        <field name="name">sale.order.kanban</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_small_column" archivable="false" sample="1">
+                    <field name="stage_id" options='{"group_by_tooltip": {"description": "Descripción"}}'/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="client_order_ref"/>
+                    <field name="user_id"/>
+                    <field name="confirmation_date"/>
+                    <field name="validity_date"/>
+                    <field name="date_status"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div>
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div>
+                                    <b>Cliente:</b> <field name="partner_id"/>
+                                </div>
+                                <div>
+                                    <b>Referencia Cliente:</b> <field name="client_order_ref"/>
+                                </div>
+                                <div>
+                                    <b>Vendedor:</b> <field name="user_id"/>
+                                </div>
+                                <div t-if="record.confirmation_date.value">
+                                    <b>Fecha Confirmación:</b> <field name="confirmation_date"/>
+                                </div>
+                                <div t-if="record.validity_date.value">
+                                    <b>Fecha Vencimiento:</b> <field name="validity_date"/>
+                                </div>
+                                <div t-if="record.date_status.value">
+                                    <b>Estado:</b> <field name="date_status" widget="badge" options="{'classes': {'pending': 'badge-warning', 'valid': 'badge-success', 'invalid': 'badge-danger', 'overdue': 'badge-danger'}}"/>
+                                </div>
+                                <div class="o_kanban_buttons mt-2" style="text-align:center;">
+                                    <button type="object" name="open_show_models_wizard" class="btn btn-info btn-sm o_kanban_no_click">
+                                        Ver Modelos
+                                    </button>
+
+                                    <button type="object" name="open_designer_view" class="btn btn-warning btn-sm o_kanban_no_click">
+                                        Vista Diseñador
+                                    </button>
+                                    <button type="object" name="open_show_description_wizard" class="btn btn-secondary btn-sm o_kanban_no_click">
+                                        Descripción General
+                                    </button>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+            </kanban>
+        </field>
+    </record>
+    
+    <!-- Acción de Ventana para Vista Kanban -->
+    <record id="action_order_kanban" model="ir.actions.act_window">
+        <field name="name">Órdenes de Venta</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="view_order_kanban"/>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear nueva orden de venta
+            </p>
+        </field>
+    </record>
+    
+    <!-- Acción y botón para mostrar modelos -->
+    <record id="action_show_models_wizard" model="ir.actions.act_window">
+        <field name="name">Modelos</field>
+        <field name="res_model">show.models.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_order_id': active_id}</field>
+    </record>
+    
+
+    
+    <!-- Acción y botón para mostrar descripción general -->
+    <record id="action_show_description_wizard" model="ir.actions.act_window">
+        <field name="name">Descripción General</field>
+        <field name="res_model">show.description.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_order_id': active_id}</field>
+    </record>
+
+    <!-- Acción para abrir vista de diseñador -->
+    <record id="action_open_designer_view" model="ir.actions.act_window">
+        <field name="name">Vista Diseñador</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sale_detalles.view_order_detail_form"/>
+        <field name="target">current</field>
+        <field name="context">{'default_is_designer_view': True, 'force_designer_view': True}</field>
+    </record>
+</odoo> 

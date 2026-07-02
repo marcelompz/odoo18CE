@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2024-07-18 13:14:41
+    @author: drojo
+-->
+<odoo>
+
+    <!-- wizard view -->
+
+    <record id="cheque_receipt_money_group_wizard_form" model="ir.ui.view">
+        <field name="name">cheque.receipt.money.group.wizard.form</field>
+        <field name="model">cheque.receipt.money.group.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date" widget="date"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="old_currency_id" invisible="1"/>
+                            <field name="currency_id" readonly="1" ptions="{'no_create': 1, 'no_open': 1}"/>
+                            <field name="amount_total" readonly="1" force_save="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                        <label for="concept"/>
+                        <field name="concept"/>
+                    </group>
+                    <group invisible="1">
+                        <field name="move_ids"/>
+                        <field name="cheque_ids"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Create" name="create_receipt_payment" type="object" class="oe_highlight" />
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

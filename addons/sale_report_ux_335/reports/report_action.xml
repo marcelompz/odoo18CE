@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_presupuesto_ux335" model="report.paperformat">
+        <field name="name">Presupuesto UX 335 (A4 con márgenes nativos)</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">45</field>
+        <field name="margin_bottom">30</field>
+        <field name="margin_left">15</field>
+        <field name="margin_right">15</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_sale_order_ux_335" model="ir.actions.report">
+        <field name="name">Presupuesto UX 335</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sale_report_ux_335.report_sale_order_ux_335</field>
+        <field name="report_file">sale_report_ux_335.report_sale_order_ux_335</field>
+        <field name="print_report_name">'Presupuesto - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_presupuesto_ux335"/>
+    </record>
+</odoo>

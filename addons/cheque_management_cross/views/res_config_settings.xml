@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-05-14 14:44:10
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//app[@name='account']" position="inside">
+                <block title="Gestión de cheques" name="cheque_management_cross">
+                    <setting id="default_cheque_journals_cross" string="Diarios predeterminados" company_dependent="1">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label string="Cuenta de cheques para el cliente" for="cheque_customer" class="col-lg-3 o_light_label"/>
+                                <field name="cheque_customer"/>
+                            </div>
+                            <div class="row mt16">
+                                <label string="Cuenta de cheques para el proveedor" for="cheque_supplier" class="col-lg-3 o_light_label"/>
+                                <field name="cheque_supplier"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="auto_fill_open_invoice_cross" title="Autocompletar factura abierta en verificación en la selección del cliente">
+                        <field name="auto_fill_open_invoice"/>
+                    </setting>
+                </block>
+
+                <block groups="cheque_management_cross.group_account_cheque_payment_cancel" title="Función de cancelación de cheques" name="cheque_cancellation_function_cross">
+                    <setting id="cheque_operation_type_cross" title="Tipo de operación de cheque" company_dependent="1">
+                        <field name="cheque_operation_type" widget="radio" />
+                    </setting>
+                </block>
+            </xpath>
+            
+            <!-- email notification -->
+			<xpath expr="//block[@id='analytic']" position="after">
+                <block title="Notificaciones de vencimiento" name="expiration_notifications_cross">
+                    <setting string="Clientes">
+                        <field name="is_cust_due_notify"/>
+                        <field name="is_notify_to_customer" invisible="not is_cust_due_notify"/>
+                        <field name="is_notify_to_user" invisible="not is_cust_due_notify"/>
+                    </setting>
+                    <setting title="Seleccione el usuario para recibir una notificación por correo electrónico." invisible="not is_notify_to_user">
+                        <field name="cmc_user_ids" widget="many2many_tags" invisible="not is_cust_due_notify or not is_notify_to_user" domain="[('share', '=', False)]"/>
+                        <field name='notify_on_1' invisible=" not is_notify_to_customer and not is_notify_to_user"/>
+                        <field name='notify_on_2' invisible=" not is_notify_to_customer and not is_notify_to_user"/>
+                        <field name='notify_on_3' invisible=" not is_notify_to_customer and not is_notify_to_user"/>
+                        <field name='notify_on_4' invisible=" not is_notify_to_customer and not is_notify_to_user"/>
+                        <field name='notify_on_5' invisible=" not is_notify_to_customer and not is_notify_to_user"/>
+                    </setting>
+                    <setting string="Proveedores">
+                        <field name="is_supplier_due_notify"/>
+                        <field name="is_notify_to_supplier" invisible="not is_supplier_due_notify"/>
+                        <field name="is_notify_to_user_supplier" invisible="not is_supplier_due_notify"/>
+                    </setting>
+                    <setting title="Seleccione el usuario para recibir una notificación por correo electrónico." invisible="not is_notify_to_user_supplier">
+                        <field name="cmc_user_ids_supplier" widget="many2many_tags" invisible="not is_supplier_due_notify or not is_notify_to_user_supplier" domain="[('share', '=', False)]"/>
+                        <field name='notify_on_1_supplier' invisible=" not is_notify_to_supplier and not is_notify_to_user_supplier"/>
+                        <field name='notify_on_2_supplier' invisible=" not is_notify_to_supplier and not is_notify_to_user_supplier"/>
+                        <field name='notify_on_3_supplier' invisible=" not is_notify_to_supplier and not is_notify_to_user_supplier"/>
+                        <field name='notify_on_4_supplier' invisible=" not is_notify_to_supplier and not is_notify_to_user_supplier"/>
+                        <field name='notify_on_5_supplier' invisible=" not is_notify_to_supplier and not is_notify_to_user_supplier"/>
+                    </setting>
+                </block>
+            </xpath>
+
+
+
+
+
+                            
+                               
+                        
+                        <!-- supplier -->
+                        <!-- <div class="col-xs-6 col-md-6 o_setting_box" >
+                            <group string='Supplier'/>
+                                <div class="row">			        
+                                <div class="col-xs-12 col-md-12 o_setting_box" >
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_supplier_due_notify"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for='is_supplier_due_notify'/>
+                                    </div>
+                                </div>
+                                <div class='col-xs-12 col-md-12 o_setting_box'>
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_notify_to_supplier" attrs="{'invisible':[('is_supplier_due_notify','=',False)]}"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for='is_notify_to_supplier' attrs="{'invisible':[('is_supplier_due_notify','=',False)]}"/>
+                                    </div>
+                                </div>
+                                <div class='col-xs-12 col-md-12 o_setting_box'>
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_notify_to_user_supplier" attrs="{'invisible':[('is_supplier_due_notify','=',False)]}"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for='is_notify_to_user_supplier' attrs="{'invisible':[('is_supplier_due_notify','=',False)]}"/>
+                                        <div class="text-muted" attrs="{'invisible':[('is_supplier_due_notify','=',False)]}">
+                                            Select user to receive email notification. 
+                                        </div>	                    	    
+                                        <div class="content-group">
+                                            <div class="mt16">
+                                                <field name="cmc_user_ids_supplier" widget="many2many_tags" class="col-md-6 pull-left" attrs="{'invisible':['|',('is_supplier_due_notify','=',False),('is_notify_to_user_supplier','=',False)]}" domain="[('share', '=', False)]"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='col-xs-12 col-md-12 o_setting_box'>
+                                    <div class="o_setting_right_pane">
+                                        <div attrs="{'invisible':[('is_supplier_due_notify','=',False)]}">
+                                            <label for='notify_on_1_supplier' attrs="{'invisible':[('is_notify_to_supplier','=',False),('is_notify_to_user_supplier','=',False)]}"/>
+                                            <field name='notify_on_1_supplier' attrs="{'invisible':[('is_notify_to_supplier','=',False),('is_notify_to_user_supplier','=',False)]}"/>
+                                        </div>
+                                        <div attrs="{'invisible':[('is_supplier_due_notify','=',False)]}">
+                                            <label for='notify_on_2_supplier' attrs="{'invisible':[('is_notify_to_supplier','=',False),('is_notify_to_user_supplier','=',False)]}"/>
+                                            <field name='notify_on_2_supplier' attrs="{'invisible':[('is_notify_to_supplier','=',False),('is_notify_to_user_supplier','=',False)]}"/>
+                                        </div>
+                                        <div attrs="{'invisible':[('is_supplier_due_notify','=',False)]}">
+                                            <label for='notify_on_3_supplier' attrs="{'invisible':[('is_notify_to_supplier','=',False),('is_notify_to_user_supplier','=',False)]}"/>
+                                            <field name='notify_on_3_supplier' attrs="{'invisible':[('is_notify_to_supplier','=',False),('is_notify_to_user_supplier','=',False)]}"/>
+                                        </div>
+                                        <div attrs="{'invisible':[('is_supplier_due_notify','=',False)]}">
+                                            <label for='notify_on_4_supplier' attrs="{'invisible':[('is_notify_to_supplier','=',False),('is_notify_to_user_supplier','=',False)]}"/>
+                                            <field name='notify_on_4_supplier' attrs="{'invisible':[('is_notify_to_supplier','=',False),('is_notify_to_user_supplier','=',False)]}"/>
+                                        </div>
+                                        <div attrs="{'invisible':[('is_supplier_due_notify','=',False)]}">
+                                            <label for='notify_on_5_supplier' attrs="{'invisible':[('is_notify_to_supplier','=',False),('is_notify_to_user_supplier','=',False)]}"/>
+                                            <field name='notify_on_5_supplier' attrs="{'invisible':[('is_notify_to_supplier','=',False),('is_notify_to_user_supplier','=',False)]}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+        </field>
+    </record>
+
+</odoo>

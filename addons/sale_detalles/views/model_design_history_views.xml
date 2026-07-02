@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista de formulario para historial de diseño -->
+        <record id="view_model_design_history_form" model="ir.ui.view">
+            <field name="name">model.design.history.form</field>
+            <field name="model">model.design.history</field>
+            <field name="arch" type="xml">
+                <form string="Historial de Diseño">
+                    <sheet>
+                        <group>
+                            <field name="model_line_id" invisible="context.get('default_model_line_id')"/>
+                            <field name="order_id" readonly="1"/>
+                            <field name="model_type_id" readonly="1"/>
+                            <field name="designer_id"/>
+                            <field name="work_type"/>
+                            <field name="date"/>
+                            <field name="notes"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Guardar" name="action_save" type="object" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de lista para historial de diseño -->
+        <record id="view_model_design_history_list" model="ir.ui.view">
+            <field name="name">model.design.history.list</field>
+            <field name="model">model.design.history</field>
+            <field name="arch" type="xml">
+                <list string="Historial de Diseño">
+                    <field name="name"/>
+                    <field name="order_id"/>
+                    <field name="model_type_id"/>
+                    <field name="designer_id"/>
+                    <field name="work_type"/>
+                    <field name="date"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista de búsqueda para historial de diseño -->
+        <record id="view_model_design_history_search" model="ir.ui.view">
+            <field name="name">model.design.history.search</field>
+            <field name="model">model.design.history</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Historial de Diseño">
+                    <field name="name"/>
+                    <field name="order_id"/>
+                    <field name="model_type_id"/>
+                    <field name="designer_id"/>
+                    <separator/>
+                    <filter string="Nuevo" name="new" domain="[('work_type', '=', 'new')]"/>
+                    <filter string="Modificaciones" name="modification" domain="[('work_type', '=', 'modification')]"/>
+                    <group expand="0" string="Agrupar Por">
+                        <filter string="Orden de Venta" name="group_by_order" context="{'group_by': 'order_id'}"/>
+                        <filter string="Modelo" name="group_by_model" context="{'group_by': 'model_type_id'}"/>
+                        <filter string="Diseñador" name="group_by_designer" context="{'group_by': 'designer_id'}"/>
+                        <filter string="Tipo de Trabajo" name="group_by_work_type" context="{'group_by': 'work_type'}"/>
+                        <filter string="Fecha" name="group_by_date" context="{'group_by': 'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vista de gráfico para historial de diseño -->
+        <record id="view_model_design_history_graph" model="ir.ui.view">
+            <field name="name">model.design.history.graph</field>
+            <field name="model">model.design.history</field>
+            <field name="arch" type="xml">
+                <graph string="Historial de Diseño" type="bar">
+                    <field name="user_id"/>
+                    <field name="stage_id"/>
+                    <field name="work_type"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Vista de pivote para historial de diseño -->
+        <record id="view_model_design_history_pivot" model="ir.ui.view">
+            <field name="name">model.design.history.pivot</field>
+            <field name="model">model.design.history</field>
+            <field name="arch" type="xml">
+                <pivot string="Historial de Diseño">
+                    <field name="user_id" type="row"/>
+                    <field name="stage_id" type="row"/>
+                    <field name="work_type" type="col"/>
+                    <field name="count" type="measure" string="Cantidad"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Acción de ventana para historial de diseño -->
+        <record id="action_model_design_history" model="ir.actions.act_window">
+            <field name="name">Historial de Diseño</field>
+            <field name="res_model">model.design.history</field>
+            <field name="view_mode">list,form,pivot,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear nuevo historial de diseño
+                </p>
+            </field>
+        </record>
+
+        <!-- Menú para historial de diseño -->
+        <menuitem id="menu_model_design_history"
+                  name="Historial de Diseño"
+                  action="action_model_design_history"
+                  parent="menu_detalles_root"
+                  sequence="50"/>
+    </data>
+</odoo> 

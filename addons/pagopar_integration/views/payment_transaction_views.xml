@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista de formulario extendida para transacciones Pagopar -->
+    <record id="payment_transaction_form_pagopar" model="ir.ui.view">
+        <field name="name">payment.transaction form (pagopar)</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='provider_reference']" position="after">
+                <field name="pagopar_transaccion_id"
+                       string="ID de Transacción Pagopar"
+                       invisible="provider_code != 'pagopar'"/>
+                <field name="pagopar_proceso_id"
+                       string="ID de Proceso Pagopar"
+                       invisible="provider_code != 'pagopar'"/>
+                <field name="pagopar_hash_pedido"
+                       string="Hash del Pedido Pagopar"
+                       invisible="provider_code != 'pagopar'"/>
+                <field name="pagopar_respuesta_codigo"
+                       string="Código de Respuesta"
+                       invisible="provider_code != 'pagopar'"/>
+                <field name="pagopar_estado"
+                       string="Estado en Pagopar"
+                       invisible="provider_code != 'pagopar'"/>
+                <field name="pagopar_forma_pago"
+                       string="Forma de Pago"
+                       invisible="provider_code != 'pagopar'"/>
+            </xpath>
+
+            <!-- Add Pagopar details group at the end of the form -->
+            <xpath expr="//field[@name='provider_reference']" position="after">
+                <group string="Detalles Pagopar" invisible="provider_code != 'pagopar'">
+                    <field name="pagopar_payment_url"
+                           string="URL de Pago"
+                           widget="url"/>
+                    <field name="pagopar_order_id"
+                           string="Legacy Order ID"/>
+                    <field name="pagopar_webhook_data"
+                           string="Datos del Webhook"
+                           widget="text"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!--
+    <record id="payment_transaction_tree_pagopar" model="ir.ui.view">
+        <field name="name">payment.transaction tree (pagopar)</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='provider_reference']" position="after">
+                <field name="pagopar_transaccion_id"
+                       string="ID Pagopar"
+                       invisible="provider_code != 'pagopar'"
+                       optional="hide"/>
+                <field name="pagopar_estado"
+                       string="Estado Pagopar"
+                       invisible="provider_code != 'pagopar'"
+                       optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+    -->
+
+    <!--
+    <record id="payment_transaction_search_pagopar" model="ir.ui.view">
+        <field name="name">payment.transaction search (pagopar)</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='provider_reference']" position="after">
+                <field name="pagopar_transaccion_id"
+                       string="ID Transacción Pagopar"/>
+                <field name="pagopar_proceso_id"
+                       string="ID Proceso Pagopar"/>
+            </xpath>
+
+            <xpath expr="//group[@name='group_by']" position="inside">
+                <filter string="Estado Pagopar"
+                        name="group_pagopar_estado"
+                        context="{'group_by': 'pagopar_estado'}"
+                        invisible="provider_code != 'pagopar'"/>
+                <filter string="Forma de Pago"
+                        name="group_pagopar_forma_pago"
+                        context="{'group_by': 'pagopar_forma_pago'}"
+                        invisible="provider_code != 'pagopar'"/>
+            </xpath>
+        </field>
+    </record>
+    -->
+
+</odoo>

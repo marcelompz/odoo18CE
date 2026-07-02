@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de lista para detalles de órdenes -->
+    <record id="view_order_detail_lines_list" model="ir.ui.view">
+        <field name="name">order.detail.lines.list</field>
+        <field name="model">order.detail.lines</field>
+        <field name="arch" type="xml">
+            <list string="Detalles de Tallas">
+                <field name="order_id"/>
+                <field name="order_id" string="Referencia Cliente" widget="char"/>
+                <field name="customer_model"/>
+                <field name="user_id"/>
+                <field name="manager_id"/>
+                <field name="product1_variant_id" domain="[('sale_ok','=',True)]"/>
+                <field name="product2_variant_id" domain="[('sale_ok','=',True)]"/>
+                <field name="product3_variant_id" domain="[('sale_ok','=',True)]"/>
+                <field name="product4_variant_id" domain="[('sale_ok','=',True)]"/>
+                <field name="product5_variant_id" domain="[('sale_ok','=',True)]"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para detalles de órdenes -->
+    <record id="view_order_detail_lines_form" model="ir.ui.view">
+        <field name="name">order.detail.lines.form</field>
+        <field name="model">order.detail.lines</field>
+        <field name="arch" type="xml">
+            <form string="Detalles de Tallas">
+                <sheet>
+                    <group>
+                        <field name="order_id"/>
+                        <field name="order_id" string="Referencia Cliente" widget="char"/>
+                        <field name="customer_model"/>
+                        <field name="user_id"/>
+                        <field name="manager_id"/>
+                    </group>
+                    <group>
+                        <field name="name_customer"/>
+                        <field name="number_customer"/>
+                        <field name="other_customer"/>
+                    </group>
+                    <group>
+                        <field name="product1_variant_id" domain="[('sale_ok','=',True)]"/>
+                        <field name="product2_variant_id" domain="[('sale_ok','=',True)]"/>
+                        <field name="product3_variant_id" domain="[('sale_ok','=',True)]"/>
+                        <field name="product4_variant_id" domain="[('sale_ok','=',True)]"/>
+                        <field name="product5_variant_id" domain="[('sale_ok','=',True)]"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para detalles de órdenes -->
+    <record id="view_order_detail_lines_search" model="ir.ui.view">
+        <field name="name">order.detail.lines.search</field>
+        <field name="model">order.detail.lines</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Detalles de Tallas">
+                <field name="order_id"/>
+                <field name="order_id" string="Referencia Cliente"/>
+                <field name="customer_model"/>
+                <field name="user_id"/>
+                <field name="manager_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de ventana para detalles de órdenes -->
+    <record id="action_order_detail_lines" model="ir.actions.act_window">
+        <field name="name">Detalles de Tallas</field>
+        <field name="res_model">order.detail.lines</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear nuevo detalle de talla
+            </p>
+        </field>
+    </record>
+
+    <!-- Vista de lista para líneas de modelos -->
+    <record id="view_order_detail_model_lines_list" model="ir.ui.view">
+        <field name="name">order.detail.model.lines.list</field>
+        <field name="model">order.detail.model.lines</field>
+        <field name="arch" type="xml">
+            <list string="Líneas de Modelos">
+                <field name="order_id"/>
+                <field name="order_id" string="Referencia Cliente" widget="char"/>
+                <field name="model_type_id"/>
+                <field name="image" widget="image"/>
+                <field name="product_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para líneas de modelo -->
+    <record id="view_order_detail_model_lines_form" model="ir.ui.view">
+        <field name="name">order.detail.model.lines.form</field>
+        <field name="model">order.detail.model.lines</field>
+        <field name="arch" type="xml">
+            <form string="Líneas de Modelos">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <field name="image" widget="image" class="oe_avatar"/>
+                    </div>
+                    <group>
+                        <field name="order_id"/>
+                        <field name="order_id" string="Referencia Cliente" widget="char"/>
+                        <field name="model_type_id"/>
+                    </group>
+                    <group>
+                        <field name="product_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para líneas de modelos -->
+    <record id="view_order_detail_model_lines_search" model="ir.ui.view">
+        <field name="name">order.detail.model.lines.search</field>
+        <field name="model">order.detail.model.lines</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Líneas de Modelos">
+                <field name="order_id"/>
+                <field name="order_id" string="Referencia Cliente"/>
+                <field name="model_type_id"/>
+                <field name="product_ids"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de ventana para líneas de modelos -->
+    <record id="action_order_detail_model_lines" model="ir.actions.act_window">
+        <field name="name">Líneas de Modelos</field>
+        <field name="res_model">order.detail.model.lines</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear nueva línea de modelo
+            </p>
+        </field>
+    </record>
+</odoo> 

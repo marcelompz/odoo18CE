@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- TODOS los <template> aquí -->
+<!--    Plantilla para el formulario de dirección      -->
+    <template id="address_form" name="Formulario de Dirección">
+        <div class="row">
+            <!-- Formulario para usuarios públicos para ingresar su información de pago -->
+            <form t-if="is_public_user"
+                  action="/shop/payment" method="post"
+                  class="checkout_autoformat">
+                <div class="row">
+                    <t t-set="error_message" t-value="error.get('error_message', False)"/>
+                    <t t-if="error_message">
+                        <h5 class="text-danger" t-esc="error_message[0]"/>
+                    </t>
+                    <div t-attf-class="mb-3 col-lg-12 div_name">
+                        <label class="col-form-label"
+                               for="name">Nombre
+                        </label>
+                        <input type="text" name="name"
+                               t-attf-class="form-control #{'is-invalid' if error.get('name', '') != '' else 'valid'}"
+                               t-att-value="'name' in checkout and checkout['name']"/>
+                    </div>
+                    <div class="w-100"/>
+                    <div t-attf-class="mb-3 col-lg-6"
+                         id="div_email">
+                        <label t-attf-class="col-form-label #{mode[1] == 'shipping' and 'label-optional' or ''}"
+                               for="email">Correo electrónico
+                        </label>
+                        <input type="email"
+                               name="email"
+                               t-attf-class="form-control #{'is-invalid' if error.get('email', '') != '' else 'valid'}"
+                               t-att-value="'email' in checkout and checkout['email']"/>
+                    </div>
+                    <div t-attf-class="mb-3 col-lg-6"
+                         id="div_phone">
+                        <label class="col-form-label" for="phone">Teléfono</label>
+                        <input type="tel" name="phone"
+                               t-attf-class="form-control #{'is-invalid' if error.get('phone', '') != '' else 'valid'}"
+                               t-att-value="'phone' in checkout and checkout['phone']"/>
+                    </div>
+                    <div class="w-100"/>
+                    <div t-attf-class="mb-3 col-lg-6"
+                         id="div_street">
+                        <label class="col-form-label" for="street">Dirección</label>
+                        <input type="text" name="street"
+                               t-attf-class="form-control #{'is-invalid' if error.get('street', '') != '' else 'valid'}"
+                               t-att-value="'street' in checkout and checkout['street']"/>
+                    </div>
+                    <div t-attf-class="mb-3 col-lg-6 div_zip"
+                         id="div_zip">
+                        <label class="col-form-label" for="zip">Código postal</label>
+                        <input type="text" name="zip"
+                               t-attf-class="form-control #{'is-invalid' if error.get('zip', '') != '' else 'valid'}"
+                               t-att-value="'zip' in checkout and checkout['zip']"/>
+                    </div>
+                    <div class="w-100"/>
+                    <div t-attf-class="mb-3 col-lg-6"
+                         id="div_city">
+                        <label class="col-form-label" for="city">Ciudad</label>
+                        <input type="text" name="city"
+                               t-attf-class="form-control #{'is-invalid' if error.get('city', '') != '' else 'valid'}"
+                               t-att-value="'city' in checkout and checkout['city']"/>
+                    </div>
+                    <div t-attf-class="mb-3 col-lg-6"
+                         id="div_country_id">
+                        <label class="col-form-label" for="country_id">País</label>
+                        <select name="country_id" id="country_id"
+                                t-attf-class="form-control #{'is-invalid' if error.get('country_id', '') != '' else 'valid'}">
+                            <t t-foreach="countries" t-as="country">
+                                <option t-att-value="country.id"
+                                        t-att-selected="'selected' if 'country_id' in checkout and checkout['country_id'] == country.id else None">
+                                    <t t-esc="country.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="w-100"/>
+                    <div t-attf-class="mb-3 col-lg-6"
+                         id="div_state_id">
+                        <label class="col-form-label" for="state_id">Departamento</label>
+                        <select name="state_id" id="state_id"
+                                t-attf-class="form-control #{'is-invalid' if error.get('state_id', '') != '' else 'valid'}">
+                            <option value="">Seleccionar...</option>
+                            <t t-foreach="states" t-as="state">
+                                <option t-att-value="state.id"
+                                        t-att-selected="'selected' if 'state_id' in checkout and checkout['state_id'] == state.id else None">
+                                    <t t-esc="state.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="w-100"/>
+                    <div t-attf-class="mb-3 col-lg-6 div_vat mb-0">
+                        <label class="col-form-label fw-normal label-optional"
+                               for="vat">RUC
+                        </label>
+                        <input type="text"
+                               name="vat"
+                               t-attf-class="form-control"
+                               t-att-value="'vat' in checkout and checkout['vat']"
+                               t-att-readonly="'1' if vat_warning else None"/>
+                        <small t-if="vat_warning"
+                               class="form-text text-muted d-block d-lg-none">
+                            No se permite cambiar el número de NIT/IVA una vez que se hayan emitido documentos para tu cuenta. Por favor, contáctanos directamente para esta operación.
+                        </small>
+                    </div>
+                    <div t-if="vat_warning"
+                         class="col-12 d-none d-lg-block mb-1">
+                        <small class="form-text text-muted">
+                            No se permite cambiar el nombre de la empresa o el número de NIT/IVA una vez que se hayan emitido documentos para tu cuenta. Por favor, contáctanos directamente para esta operación.
+                        </small>
+                    </div>
+                    <t t-if="mode == ('new', 'billing') and not only_services">
+                        <div class="col-lg-12">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"
+                                           id='shipping_use_same'
+                                           class="mr8"
+                                           name='use_same'
+                                           value="1"
+                                           checked='checked'/>
+                                    Enviar a la misma dirección
+                                    <span class='ship_to_other text-muted'
+                                          style="display: none">
+                                        &#160;( <i>Tu dirección de envío será solicitada más adelante</i>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </form>
+        </div>
+    </template>
+    </data>
+</odoo>

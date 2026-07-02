@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-05-22 10:58:54
+    @author: drojo
+-->
+<odoo>
+
+    <!-- tree view -->
+    
+    <record id="product_molding_tree" model="ir.ui.view">
+        <field name="name">product.molding.tree</field>
+        <field name="model">product.molding</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="product_template_ids" widget="many2many_tags" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- form view -->
+
+    <record id="product_molding_form" model="ir.ui.view">
+        <field name="name">product.molding.form</field>
+        <field name="model">product.molding</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title mb24">
+                        <h1>
+                            <field name="name" class="text-break" default_focus="1" placeholder="Ej.: Calza 01" required="1"/>
+                        </h1>
+                    </div>
+                    <group string="Datos técnicos">
+                        <group>
+                            <field name="code"/>
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="moldebacista_id" options="{'no_create': 1, 'no_open': 1}"/>
+                            <field name="creative_id" options="{'no_create': 1, 'no_open': 1}"/>
+                        </group>
+                        <group>
+                            <field name="mold_base_ids" widget="many2many_tags" options="{'no_create': 1, 'no_open': 1}"/>
+                            <field name="size_system"/>
+                            <field name="software_used_id" options="{'no_create': 1, 'no_open': 1}"/>
+                            <field name="scaling_available_ids" widget="many2many_tags" options="{'no_create': 1, 'no_open': 1}"/>
+                            <field name="parts_ids" widget="many2many_tags" options="{'no_create': 1, 'no_open': 1}"/>
+                        </group>
+                    </group>
+                    <group string="Materiales y telas">
+                        <group>
+                            <field name="product_type_fabric_id" options="{'no_create': 1, 'no_open': 1}"/>
+                            <field name="product_type_fabric_ids" options="{'no_create': 1, 'no_open': 1}" widget="many2many_tags"/>
+                            <field name="consumption"/>
+                        </group>
+                        <group>
+                            <field name="elasticity_product_type_fabric_ids" options="{'no_create': 1, 'no_open': 1}" widget="many2many_tags"/>
+                            <field name="weight_fabric"/>
+                            <field name="type_of_fabric"/>
+                        </group>
+                    </group>
+                    <group string="Insumos y Avíos">
+                        <group>
+                            <field name="type_thread_ids" options="{'no_create': 1, 'no_open': 1}" widget="many2many_tags"/>
+                            <field name="molding_prints"/>
+                            <field name="embroidery"/>
+                            <field name="sublimation"/>
+                            <field name="molding_fly"/>
+                            <field name="molding_buttons"/>
+                            <field name="molding_elastic"/>
+                        </group>
+                        <group>
+                            <field name="molding_label_ids" options="{'no_create': 1, 'no_open': 1}" widget="many2many_tags"/>
+                            <field name="molding_bias"/>
+                            <field name="composition_label"/>
+                            <field name="size_label"/>
+                            <field name="brand_label"/>
+                            <field name="other_avios"/>
+                        </group>
+                    </group>
+                    <group string="Notas">
+                        <field name="note"/>
+                    </group>
+                    <notebook>
+                        <page name="document_attachment" string="Documentación y adjuntos">
+                            <field name="document_attachment" widget="html"/>
+                        </page>
+                        <page name="product_related" string="Productos relacionados">
+                            <field name="product_template_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- window action -->
+
+    <record id="product_molding_action" model="ir.actions.act_window">
+        <field name="name">Moldería del producto</field>
+        <field name="res_model">product.molding</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- menu -->
+
+    <menuitem
+        id="molding_title_menu"
+        name="Moldería del producto"
+        parent="stock.menu_product_in_config_stock"
+        sequence="65">
+
+        <menuitem
+            id="product_molding_menu"
+            name="Moldería"
+            action="utex_stock_cross.product_molding_action"
+            sequence="1"
+        />
+        <menuitem
+            id="product_molding_size_menu"
+            name="Tallas"
+            action="utex_stock_cross.product_molding_size_action"
+            sequence="2"
+        />
+        <menuitem
+            id="product_molding_software_menu"
+            name="Software"
+            action="utex_stock_cross.product_molding_software_action"
+            sequence="3"
+        />
+        <menuitem
+            id="product_molding_parts_menu"
+            name="Piezas"
+            action="utex_stock_cross.product_molding_parts_action"
+            sequence="4"
+        />
+        <menuitem
+            id="product_type_fabric_menu"
+            name="Tipo de tela"
+            action="utex_stock_cross.product_type_fabric_action"
+            sequence="5"
+        />
+        <menuitem
+            id="product_type_thread_menu"
+            name="Tipo de hilo"
+            action="utex_stock_cross.product_type_thread_action"
+            sequence="6"
+        />
+        <menuitem
+            id="product_molding_label_menu"
+            name="Etiquetas"
+            action="utex_stock_cross.product_molding_label_action"
+            sequence="7"
+        />
+    </menuitem>
+
+</odoo>

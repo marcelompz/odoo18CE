@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista de formulario de orden de venta -->
+        <record id="view_order_form_inherit_mrp_group_by_category" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.mrp.group.by.category</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_configure_manufacturing" 
+                            string="Configurar Fabricación" 
+                            type="object" 
+                            class="btn-primary"
+                            groups="base.group_system"
+                            invisible="state != 'sale' or production_count > 0 "/>
+                </xpath>
+                
+                
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_manufacturing_factories" 
+                            type="object" 
+                            class="oe_stat_button" 
+                            icon="fa-cogs"
+                            invisible="workorder_count == 0">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_text">
+                                <field name="workorder_completed_qty" string="Completado"/>
+                                <span> / </span>
+                                <field name="workorder_count"/>
+                                <span> Operaciones</span>
+                            </span>
+                        </div>
+                    </button>
+                    <button name="action_view_productions"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-industry"
+                            invisible="production_count == 0">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_text">
+                                <field name="production_count"/>
+                                <span> Fabricaciones</span>
+                            </span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo> 

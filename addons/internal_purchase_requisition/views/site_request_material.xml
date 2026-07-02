@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_purchase_requisition_pdf">
+        <t t-call="web.basic_layout">  <!-- This calls the default Odoo external layout -->
+
+            <!-- Main content goes inside the <main> tag -->
+            <main>
+
+                <!-- Custom Header -->
+                <header>
+                    <div class="header" style="margin: 0; padding: 0;">
+                        <img t-att-src="'internal_purchase_requisition/static/src/img/pr.png'"
+                             alt="Custom Header" style="width: 100%; height: auto;"/>
+                    </div>
+                </header>
+                <br/>
+
+                <!-- Report Table -->
+                <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+                    <t t-foreach="docs" t-as="o">
+                        <tr>
+                            <td style="border: 1px solid black; padding: 8px;">
+                                <strong>To :</strong> &amp;nbsp;&amp;nbsp;
+                                <t t-esc="o.department_manager_id.name or ''"/>
+                            </td>
+
+
+                            <td style="border: 1px solid black; padding: 8px;">
+                                <strong>Date :</strong> &amp;nbsp;&amp;nbsp;
+                                <t t-esc="o.date or ''"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding: 8px;">
+                                <strong>CC :</strong> &amp;nbsp;&amp;nbsp;
+                                <t t-foreach="o.cc_users" t-as="user">
+                                    <t t-esc="user.name"/>
+                                </t>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px;">
+                                <strong>From:</strong> &amp;nbsp;&amp;nbsp;
+                                <t t-esc="o.requested_by.name or ''"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding: 8px;">
+                                <strong>Ref.:</strong> &amp;nbsp;&amp;nbsp;
+                                <t t-esc="o.name or ''"/>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px;">
+                                <strong>No. of Pages :</strong> &amp;nbsp;&amp;nbsp;
+                                1
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border: 1px solid black; padding: 8px;">
+                                <strong>Subject :</strong> &amp;nbsp;&amp;nbsp;
+                                <t t-esc="o.subject or ''"/>
+                            </td>
+                        </tr>
+                    </t>
+                </table>
+                <br></br>
+                <p>Dear Sir,
+                </p>
+                <p>We request you to arrange the following materials at your earliest convenience to start the works:
+                </p>
+
+                <table class="table table-sm table-striped"
+                       style="width: 100%; border: 1px solid black; border-collapse: collapse; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid black; padding: 1px;">Sl#</th>
+                            <th style="border: 1px solid black; padding: 5px;">
+                                Description of Materials Required
+                            </th>
+                            <th style="border: 1px solid black; padding: 5px;">Qty
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="line_count" t-value="len(o.requisition_line_ids)"/>
+                        <t t-foreach="o.requisition_line_ids" t-as="line">
+                            <tr>
+                                <td style="border: 1px solid black; padding: 2px; text-align:center">
+                                    <t t-esc="line.sequence or ''"/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    &amp;nbsp;
+                                    <t t-esc="line.product_id.name"/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    &amp;nbsp;
+                                    <t t-esc="line.quantity"/>
+                                </td>
+                            </tr>
+                        </t>
+                        <!-- Ensure at least 10 lines are displayed -->
+                        <t t-foreach="range(10 - line_count)" t-as="n">
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;text-align:center">
+                                    <t t-esc="line_count + n + 1"/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 2px;"></td>
+                                <td style="border: 1px solid black; padding: 2px;"></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 20px;">
+                    <div style="float: left;">
+                        <p>REQUESTED BY :</p>
+                        <span style="line-height: 0.5;" t-esc="o.requested_by.name or ''"/>
+                    </div>
+                    <div style="float: right; text-align: center;">
+                        <p>APPROVED BY :</p>
+                        <span style="line-height: 0.5;" t-esc="o.department_manager_id.name or ''"/>
+                    </div>
+                </div>
+
+            </main>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template para agregar script ultra temprano en el head -->
+    <template id="website_sale_address_head_inherit" inherit_id="web.layout">
+        <xpath expr="//head" position="inside">
+            <script type="text/javascript"><![CDATA[
+                // Script ultra temprano para deshabilitar el widget AddressForm problemático
+                (function() {
+                    'use strict';
+                    
+                    // Variable para evitar múltiples ejecuciones
+                    var isDisabled = false;
+                    
+                    function disableAddressForm() {
+                        if (isDisabled) {
+                            return;
+                        }
+                        
+                        // Verificar si odoo está disponible
+                        if (typeof window.odoo !== 'undefined' && window.odoo.define) {
+                            // Guardar la función original
+                            var originalDefine = window.odoo.define;
+                            
+                            // Reemplazar odoo.define
+                            window.odoo.define = function(name, dependencies, factory) {
+                                // Si es el widget de dirección problemático, deshabilitarlo
+                                if (name === 'website_sale.AddressForm' || 
+                                    name.includes('AddressForm') || 
+                                    name.includes('address')) {
+                                    
+                                    // Retornar un widget vacío que no hace nada
+                                    return originalDefine.call(this, name, [], function() {
+                                        'use strict';
+                                        
+                                        return {
+                                            selector: 'form.js_address_submit',
+                                            init: function () {
+                                                return;
+                                            },
+                                            start: function() {
+                                                return;
+                                            }
+                                        };
+                                    });
+                                }
+                                
+                                // Para otros widgets, usar el comportamiento original
+                                return originalDefine.apply(this, arguments);
+                            };
+                            
+                            isDisabled = true;
+                        } else {
+                            setTimeout(disableAddressForm, 50);
+                        }
+                    }
+                    
+                    // Ejecutar inmediatamente
+                    disableAddressForm();
+                    
+                    // También ejecutar cuando el DOM esté listo
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', disableAddressForm);
+                    }
+                    
+                    // También ejecutar cuando la ventana se cargue
+                    window.addEventListener('load', disableAddressForm);
+                    
+                })();
+            ]]></script>
+        </xpath>
+    </template>
+
+    <template id="website_sale_address_inherit" inherit_id="website_sale.address">
+        <xpath expr="//form" position="replace">
+            <t t-if="not request.env.user.has_group('base.group_user') or request.env.user.id == request.env.ref('base.public_user').id">
+                
+                <!-- Formulario unificado para usuarios no registrados -->
+                <form id="register_address_form" action="/shop/address/submit" method="post" class="mb-3 js_address_submit" data-custom-form="true" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="address_type" t-att-value="address_type"/>
+                    <input type="hidden" name="use_delivery_as_billing" t-att-value="use_delivery_as_billing"/>
+                    <input type="hidden" name="callback" t-att-value="callback"/>
+                    <input type="hidden" name="partner_id" t-att-value="partner_id"/>
+                    <input type="hidden" name="required_fields" t-att-value="required_fields"/>
+                    
+                    <!-- Elementos ocultos para satisfacer el widget estándar de dirección -->
+                    <div style="display: none;">
+                        <input type="hidden" name="name" value=""/>
+                        <input type="hidden" name="email" value=""/>
+                        <input type="hidden" name="phone" value=""/>
+                        <input type="hidden" name="street" value=""/>
+                        <input type="hidden" name="street2" value=""/>
+                        <input type="hidden" name="city" value=""/>
+                        <input type="hidden" name="zip" value=""/>
+                        <input type="hidden" name="country_id" value=""/>
+                        <input type="hidden" name="state_id" value=""/>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Información de registro -->
+                        <div class="col-md-6">
+                            <h4>Información de registro</h4>
+                            <div class="form-group">
+                                <label for="register_name" class="form-label">Nombre completo *</label>
+                                <input type="text" class="form-control" id="register_name" name="register_name" required="required"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="register_email" class="form-label">Correo electrónico *</label>
+                                <input type="email" class="form-control" id="register_email" name="register_email" required="required"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="register_password" class="form-label">Contraseña *</label>
+                                <input type="password" class="form-control" id="register_password" name="register_password" required="required"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="register_confirm_password" class="form-label">Confirmar contraseña *</label>
+                                <input type="password" class="form-control" id="register_confirm_password" name="register_confirm_password" required="required"/>
+                            </div>
+                        </div>
+                        
+                        <!-- Información de dirección -->
+                        <div class="col-md-6">
+                            <h4>Información de dirección</h4>
+                            <div class="form-group">
+                                <label for="register_phone" class="form-label">Teléfono *</label>
+                                <input type="tel" class="form-control" id="register_phone" name="register_phone" required="required"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="register_street" class="form-label">Dirección *</label>
+                                <input type="text" class="form-control" id="register_street" name="register_street" required="required"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="register_street2" class="form-label">Dirección adicional</label>
+                                <input type="text" class="form-control" id="register_street2" name="register_street2"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="register_city" class="form-label">Ciudad *</label>
+                                <input type="text" class="form-control" id="register_city" name="register_city" required="required"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="register_zip" class="form-label">Código postal *</label>
+                                        <input type="text" class="form-control" id="register_zip" name="register_zip" required="required"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="register_country_id" class="form-label">País *</label>
+                                        <select class="form-control" id="register_country_id" name="register_country_id" required="required">
+                                            <option value="">Seleccionar país</option>
+                                            <t t-foreach="countries" t-as="country">
+                                                <option t-att-value="country.id">
+                                                    <t t-esc="country.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Campo de Estado/Provincia oculto -->
+                            <div class="form-group" style="display: none;">
+                                <label for="register_state_id" class="form-label">Estado/Provincia</label>
+                                <select class="form-control" id="register_state_id" name="register_state_id">
+                                    <option value="">Seleccionar estado</option>
+                                    <t t-foreach="country_states" t-as="state">
+                                        <option t-att-value="state.id">
+                                            <t t-esc="state.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fa fa-save"/> Registrar y continuar
+                        </button>
+                    </div>
+                </form>
+            </t>
+            <t t-else="">
+                <!-- Formulario estándar para usuarios registrados -->
+                <form t-att-id="'address_form_' + address_type" t-attf-class="'js_address_submit #{'o_website_form_s255' if address_type == 'billing' else ''}" method="post">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="address_type" t-att-value="address_type"/>
+                    <input type="hidden" name="use_delivery_as_billing" t-att-value="use_delivery_as_billing"/>
+                    <input type="hidden" name="callback" t-att-value="callback"/>
+                    <input type="hidden" name="partner_id" t-att-value="partner_id"/>
+                    <input type="hidden" name="required_fields" t-att-value="required_fields"/>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Nombre *</label>
+                                <input type="text" class="form-control" id="name" name="name" t-att-value="partner_sudo.name" required="required"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email" class="form-label">Correo electrónico *</label>
+                                <input type="email" class="form-control" id="email" name="email" t-att-value="partner_sudo.email" required="required"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Teléfono *</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" t-att-value="partner_sudo.phone" required="required"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="street" class="form-label">Dirección *</label>
+                                <input type="text" class="form-control" id="street" name="street" t-att-value="partner_sudo.street" required="required"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="street2" class="form-label">Dirección adicional</label>
+                                <input type="text" class="form-control" id="street2" name="street2" t-att-value="partner_sudo.street2"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="city" class="form-label">Ciudad *</label>
+                                <input type="text" class="form-control" id="city" name="city" t-att-value="partner_sudo.city" required="required"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="zip" class="form-label">Código postal *</label>
+                                <input type="text" class="form-control" id="zip" name="zip" t-att-value="partner_sudo.zip" required="required"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="country_id" class="form-label">País *</label>
+                                <select class="form-control" id="country_id" name="country_id" required="required">
+                                    <option value="">Seleccionar país</option>
+                                    <t t-foreach="countries" t-as="country">
+                                        <option t-att-value="country.id" t-att-selected="country.id == partner_sudo.country_id.id">
+                                            <t t-esc="country.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Campo de Estado/Provincia oculto -->
+                        <div class="col-md-4" style="display: none;">
+                            <div class="form-group">
+                                <label for="state_id" class="form-label">Estado/Provincia</label>
+                                <select class="form-control" id="state_id" name="state_id">
+                                    <option value="">Seleccionar estado</option>
+                                    <t t-foreach="country_states" t-as="state">
+                                        <option t-att-value="state.id" t-att-selected="state.id == partner_sudo.state_id.id">
+                                            <t t-esc="state.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fa fa-save"/> Guardar dirección
+                        </button>
+                    </div>
+                </form>
+            </t>
+        </xpath>
+    </template>
+</odoo> 

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_variant_image_user,product.variant.image.user,model_product_variant_image,base.group_user,1,1,1,1
+access_product_variant_image_public,product.variant.image.public,model_product_variant_image,base.group_public,1,0,0,0
+access_product_variant_image_portal,product.variant.image.portal,model_product_variant_image,base.group_portal,1,0,0,0
+

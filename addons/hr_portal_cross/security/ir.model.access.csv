@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_talent_portal_tile_user,talent.portal.tile.user,model_talent_portal_tile,base.group_user,1,0,0,0
+access_talent_portal_tile_admin,talent.portal.tile.admin,model_talent_portal_tile,hr.group_hr_manager,1,1,1,1
+access_talent_portal_category_user,talent.portal.category.user,model_talent_portal_category,base.group_user,1,0,0,0
+access_talent_portal_category_admin,talent.portal.category.admin,model_talent_portal_category,hr.group_hr_manager,1,1,1,1
+access_talent_holiday_user,talent.holiday.user,model_talent_holiday,base.group_user,1,0,0,0
+access_talent_holiday_admin,talent.holiday.admin,model_talent_holiday,hr.group_hr_manager,1,1,1,1

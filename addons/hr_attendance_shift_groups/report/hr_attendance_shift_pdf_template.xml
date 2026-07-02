@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_shift_dashboard">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 class="text-center">Tablero por Turnos</h2>
+                    <p class="text-center">
+                        <strong>Empresa:</strong> <t t-esc="company.name"/> &amp;nbsp;|&amp;nbsp;
+                        <strong>Período:</strong> <t t-esc="date_from"/> a <t t-esc="date_to"/>
+                    </p>
+
+                    <t t-foreach="groups" t-as="payload">
+                        <h3 class="mt-3">Grupo: <t t-esc="payload['group'].name"/></h3>
+                        <table class="table table-bordered table-sm" style="font-size:9px;">
+                            <thead>
+                                <tr style="background-color:#B4C6E7;">
+                                    <th>Colaborador</th>
+                                    <th>Día</th>
+                                    <t t-foreach="payload['slots']" t-as="slot">
+                                        <th><t t-esc="slot.name"/></th>
+                                    </t>
+                                    <th>Total Jornada</th>
+                                    <th>Extra Diurno</th>
+                                    <th>Extra Nocturno</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="payload['rows']" t-as="row">
+                                    <t t-set="emp" t-value="row['employee']"/>
+                                    <t t-set="days_data" t-value="row['days']"/>
+                                    <t t-foreach="dates" t-as="date">
+                                        <tr>
+                                            <td><t t-esc="emp.name"/></td>
+                                            <td><t t-esc="date.strftime('%d/%m')"/></td>
+                                            <t t-set="day_slots" t-value="days_data.get(date, {})"/>
+                                            <t t-set="ord_total" t-value="0.0"/>
+                                            <t t-set="xd_total" t-value="0.0"/>
+                                            <t t-set="xn_total" t-value="0.0"/>
+                                            <t t-foreach="payload['slots']" t-as="slot">
+                                                <t t-set="h" t-value="day_slots.get(slot.id, 0.0)"/>
+                                                <td t-att-style="
+                                                    'background-color:#92D050;' if slot.slot_type in ('extra_day','extra_night') else
+                                                    ('background-color:#FFD966;' if slot.slot_type == 'break' else '')">
+                                                    <t t-esc="'%.2f' % h"/>
+                                                </td>
+                                                <t t-if="slot.slot_type == 'ordinary'" t-set="ord_total" t-value="ord_total + h"/>
+                                                <t t-if="slot.slot_type == 'extra_day'" t-set="xd_total" t-value="xd_total + h"/>
+                                                <t t-if="slot.slot_type == 'extra_night'" t-set="xn_total" t-value="xn_total + h"/>
+                                            </t>
+                                            <td><strong><t t-esc="'%.2f' % ord_total"/></strong></td>
+                                            <td><strong><t t-esc="'%.2f' % xd_total"/></strong></td>
+                                            <td><strong><t t-esc="'%.2f' % xn_total"/></strong></td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

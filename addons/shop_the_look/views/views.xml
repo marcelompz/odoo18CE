@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+  <!-- See LICENSE file for full copyright and licensing details. -->
+  <!-- "License URL : <https://store.webkul.com/license.html/>" -->
+  <data>
+    <record id="shop_the_look_form" model="ir.ui.view">
+      <field name="name">shop.the.look</field>
+      <field name="model">shop.the.look</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <div class="oe_button_box" name="button_box">
+                <field name="is_published" string="Published" invisible="1"/>
+                <button name="website_publish_button" invisible="is_published == False" class="oe_stat_button" type="object" icon="fa-globe">
+                    <div class="o_stat_info o_field_widget">
+                        <span class="text-success">Published</span>
+                    </div>
+                </button>
+                <button name="website_publish_button" invisible="is_published == True" class="oe_stat_button" type="object" icon="fa-eye-slash">
+                  <div class="o_stat_info o_field_widget">
+                    <span class="text-danger">Unpublished</span>
+                  </div>
+                </button>
+            </div>
+
+
+            <field name="primary_image" widget="image" class="oe_avatar"/>
+            <widget name="web_ribbon" title="Disabled" bg_color="bg-danger" invisible="is_published == True"/>
+            <div class="oe_title">
+                <h1><field name="name" placeholder="Name"/></h1>
+            </div>
+            <group>
+                <group>
+                  <field name="description"/>
+                </group>
+            </group>
+
+            <notebook>
+              <page name="related_products" string="Related Products">
+                  <field name="looks_ids" options="{'no_create_edit': True}">
+                    <list>
+                      <field name="product_tmpl_id" />
+                      <field name="name"/>
+                      <!-- <field name="hotspot_position_x"/>
+                      <field name="hotspot_position_y"/>
+                      <field name="product_target"/> -->
+                    </list>
+                  </field>
+              </page>
+              <page name="related_media" string="Extra Product Media">
+                <group name="look_images" string="Extra Product Media">
+                  <field name="look_image_ids" class="o_website_sale_image_list" context="{'default_name': name}" mode="kanban" add-label="Add a Media" nolabel="1"/>
+                </group>
+              </page>
+            </notebook>
+
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="shop_the_look_tree" model="ir.ui.view">
+      <field name="name">shop.the.look</field>
+      <field name="model">shop.the.look</field>
+      <field name="arch" type="xml">
+        <list >
+          <field name="name"/>
+          <!-- <field name="description"/> -->
+          <field name="looks_ids" widget="many2many_tags"/>
+        </list>
+      </field>
+    </record>
+
+
+
+    <record id="shop_the_look_action" model="ir.actions.act_window">
+        <field name="name">Look Tabs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shop.the.look</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'show_prod':1}</field>
+        <field name="view_id" ref="shop_the_look_tree"/>
+    </record>
+
+    <record id="shop_the_look_product_form" model="ir.ui.view">
+      <field name="name">shop.the.look.product</field>
+      <field name="model">shop.the.look.product</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group>
+                <field name="product_tmpl_id" options="{'no_create': True}" required="1"/>
+                 <field name="name"/>
+              </group>
+              <group>
+                <field name="prod_variant_ids" widget="many2many_tags"  invisible="product_tmpl_id == False" options="{'no_create': True}"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="shop_the_look_product_action" model="ir.actions.act_window">
+      <field name="name">Look Tabs</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">shop.the.look.product</field>
+      <field name="view_mode">form</field>
+
+  </record>
+
+
+
+  <menuitem name="Shop Look" id="shop_look_main_menu" parent="website.menu_website_global_configuration" sequence="45" />
+    <menuitem name="Look Book" id="vibrant_price_config" parent="shop_the_look.shop_look_main_menu" action="shop_the_look.shop_the_look_action" />
+
+
+  </data>
+</odoo>

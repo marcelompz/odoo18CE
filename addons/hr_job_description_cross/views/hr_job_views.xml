@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data><record id="view_hr_function_catalog_form" model="ir.ui.view">
+        <field name="name">hr.function.catalog.form</field>
+        <field name="model">hr.function.catalog</field>
+        <field name="arch" type="xml">
+            <form string="Funcion del Catalogo">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category"/>
+                        <field name="sequence"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="Descripcion estandar">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_function_catalog_list" model="ir.ui.view">
+        <field name="name">hr.function.catalog.list</field>
+        <field name="model">hr.function.catalog</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_hr_function_catalog" model="ir.actions.act_window">
+        <field name="name">Catalogo de Funciones</field>
+        <field name="res_model">hr.function.catalog</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_hr_function_catalog" name="Catalogo de Funciones" parent="hr.menu_config_employee" action="action_hr_function_catalog" sequence="16"/>
+
+    <record id="view_hr_education_level_list" model="ir.ui.view">
+        <field name="name">hr.education.level.list</field>
+        <field name="model">hr.education.level</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_hr_education_level" model="ir.actions.act_window">
+        <field name="name">Niveles de Formacion</field>
+        <field name="res_model">hr.education.level</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_hr_education_level" name="Niveles de Formacion" parent="hr.menu_config_employee" action="action_hr_education_level" sequence="17"/>
+
+    <record id="view_hr_job_form_inherit_manual" model="ir.ui.view">
+        <field name="name">hr.job.form.inherit.manual.cn</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr.view_hr_job_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="action_send_for_review" string="Enviar a Revision" type="object" class="oe_highlight" invisible="manual_state not in ('draft', 'rejected')"/>
+                <button name="action_approve" string="Aprobar" type="object" class="oe_highlight" invisible="manual_state != 'review' or not manual_can_approve"/>
+                <button name="action_reject" string="Rechazar" type="object" invisible="manual_state != 'review' or not manual_can_approve"/>
+                <button name="action_reset_to_draft" string="Reabrir (Borrador)" type="object" invisible="manual_state != 'approved' or not manual_can_approve" confirm="Esto reabre el manual aprobado para edicion. Continuar?"/>
+
+                <button name="action_print_job_manual" string="Imprimir Manual" type="object" class="btn-secondary" icon="fa-print"/>
+                <button name="action_export_manual_docx" string="Exportar a Word" type="object" class="btn-secondary" icon="fa-file-word-o"/>
+
+                <field name="manual_state" widget="statusbar" statusbar_visible="draft,review,approved"/>
+                <field name="manual_can_approve" invisible="1"/>
+                <field name="manual_is_locked" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Manual de Funciones" name="manual_funciones">
+
+                    <div class="alert alert-success" role="alert" invisible="manual_state != 'approved'">
+                        <i class="fa fa-lock"/>
+                        <b> Manual APROBADO y BLOQUEADO</b>. Aprobado por
+                        <field name="manual_approved_by_id" readonly="1" nolabel="1" class="ms-1"/>
+                        el <field name="manual_approval_date" readonly="1" nolabel="1" class="ms-1"/>.
+                        Para modificarlo, un aprobador debe usar el boton "Reabrir (Borrador)".
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="not manual_is_overdue">
+                        <i class="fa fa-exclamation-triangle"/>
+                        <b> ATENCION:</b> Este manual esta VENCIDO. Proxima revision era el
+                        <field name="manual_next_revision_date" readonly="1" nolabel="1" class="ms-1"/>.
+                        Se recomienda revisarlo y actualizarlo.
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="manual_state != 'rejected'">
+                        <i class="fa fa-exclamation-triangle"/>
+                        <b> Manual RECHAZADO.</b>
+                        <span invisible="not manual_rejection_reason"> Motivo:
+                            <field name="manual_rejection_reason" readonly="1" nolabel="1"/>
+                        </span>
+                    </div>
+
+                    <group>
+                        <group string="I. Informacion Basica">
+                            <field name="manual_code" readonly="1"/>
+                            <field name="manual_revision" readonly="1"/>
+                            <field name="manual_boss_job_id" options="{'no_create': True}" readonly="manual_is_locked"/>
+                            <field name="manual_supervises_job_ids" widget="many2many_tags" options="{'no_create': True}" readonly="manual_is_locked"/>
+                        </group>
+                        <group string="Fechas y Responsables">
+                            <field name="manual_create_date" readonly="1"/>
+                            <field name="manual_creator_id" readonly="1"/>
+                            <field name="manual_review_date" readonly="1"/>
+                            <field name="manual_approval_date" readonly="1" invisible="manual_state != 'approved'"/>
+                            <field name="manual_approved_by_id" readonly="1" invisible="manual_state != 'approved'"/>
+                            <field name="manual_next_revision_date" readonly="1" decoration-danger="manual_is_overdue"/>
+                            <field name="manual_is_overdue" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <group string="II. Naturaleza del Puesto">
+                        <field name="manual_nature" nolabel="1" readonly="manual_is_locked"/>
+                    </group>
+
+                    <group string="III. Funciones y Responsabilidades">
+                        <p class="text-muted" style="margin-bottom:6px;">
+                            Agregue funciones del catalogo. La descripcion se autocarga
+                            y puede editarse libremente.
+                        </p>
+                        <field name="manual_function_line_ids" nolabel="1" colspan="2" readonly="manual_is_locked">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="function_id" options="{'no_quick_create': True}"/>
+                                <field name="name"/>
+                                <field name="description" widget="html" optional="show"/>
+                            </list>
+                            <form>
+                                <group>
+                                    <field name="function_id" options="{'no_quick_create': True}"/>
+                                    <field name="name"/>
+                                </group>
+                                <group string="Descripcion">
+                                    <field name="description" nolabel="1"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+
+                    <group string="IV. Requisitos Minimos">
+                        <group string="Experiencia" colspan="2">
+                            <field name="manual_experience" nolabel="1" colspan="2" readonly="manual_is_locked"/>
+                        </group>
+                        <group string="Formacion Requerida (catalogo)" colspan="2">
+                            <field name="manual_education_ids" widget="many2many_tags" nolabel="1" colspan="2" options="{'no_quick_create': True}" readonly="manual_is_locked"/>
+                        </group>
+                        <group string="Formacion - Notas Adicionales" colspan="2">
+                            <field name="manual_education_notes" nolabel="1" colspan="2" readonly="manual_is_locked"/>
+                        </group>
+                        <group string="Habilidades Requeridas (catalogo)" colspan="2">
+                            <field name="manual_skill_ids" widget="many2many_tags" nolabel="1" colspan="2" options="{'no_quick_create': True}" readonly="manual_is_locked"/>
+                        </group>
+                        <group string="Habilidades - Notas Adicionales" colspan="2">
+                            <field name="manual_skills_notes" nolabel="1" colspan="2" readonly="manual_is_locked"/>
+                        </group>
+                        <group string="EPI (Elementos de Proteccion Individual)" colspan="2">
+                            <field name="manual_epi" nolabel="1" colspan="2" readonly="manual_is_locked"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hr_job_list_by_department" model="ir.ui.view">
+        <field name="name">hr.job.list.by.department.cn</field>
+        <field name="model">hr.job</field>
+        <field name="arch" type="xml">
+            <list string="Puestos por Departamento" decoration-success="manual_state == 'approved' and not manual_is_overdue" decoration-warning="manual_state == 'review'" decoration-danger="manual_state == 'rejected' or manual_is_overdue" decoration-muted="manual_state == 'draft'">
+                <field name="manual_code" string="Codigo" optional="show"/>
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="manual_state" widget="badge" decoration-success="manual_state == 'approved'" decoration-warning="manual_state == 'review'" decoration-danger="manual_state == 'rejected'" decoration-muted="manual_state == 'draft'"/>
+                <field name="manual_revision" string="Rev." optional="show"/>
+                <field name="no_of_employee" string="Empleados" optional="show"/>
+                <field name="manual_creator_id" string="Creador" optional="hide"/>
+                <field name="manual_approved_by_id" optional="show"/>
+                <field name="manual_approval_date" optional="hide"/>
+                <field name="manual_next_revision_date" string="Prox. Revision" optional="show" decoration-danger="manual_is_overdue"/>
+                <field name="manual_is_overdue" string="Vencido" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_job_kanban_workflow" model="ir.ui.view">
+        <field name="name">hr.job.kanban.workflow.cn</field>
+        <field name="model">hr.job</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="manual_state" class="o_kanban_small_column" records_draggable="false">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="manual_state"/>
+                <field name="manual_code"/>
+                <field name="manual_revision"/>
+                <field name="manual_approved_by_id"/>
+                <field name="no_of_employee"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click" style="padding:10px;">
+                            <div style="font-weight:bold; font-size:13px;">
+                                <field name="name"/>
+                            </div>
+                            <div t-if="record.manual_code.value" style="font-size:10px; color:#888;">
+                                <i class="fa fa-barcode"/> <field name="manual_code"/>
+                            </div>
+                            <div t-if="record.department_id.value" style="font-size:11px; color:#666;">
+                                <i class="fa fa-sitemap"/> <field name="department_id"/>
+                            </div>
+                            <div style="margin-top:6px; font-size:11px;">
+                                <span class="badge text-bg-primary">
+                                    <i class="fa fa-users"/> <field name="no_of_employee"/>
+                                </span>
+                                <span class="badge text-bg-secondary ms-1">Rev. <field name="manual_revision"/></span>
+                            </div>
+                            <div t-if="record.manual_approved_by_id.value" style="font-size:10px; color:#888; margin-top:4px;">
+                                <i class="fa fa-check"/> Aprobado por <field name="manual_approved_by_id"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_hr_job_kanban_by_department" model="ir.ui.view">
+        <field name="name">hr.job.kanban.by.department.cn</field>
+        <field name="model">hr.job</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="department_id" class="o_kanban_dashboard">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="manual_state"/>
+                <field name="no_of_employee"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click" style="padding:10px;">
+                            <strong><field name="name"/></strong>
+                            <div style="margin-top:6px; font-size:11px;">
+                                <field name="manual_state" widget="badge" decoration-success="manual_state == 'approved'" decoration-warning="manual_state == 'review'" decoration-danger="manual_state == 'rejected'" decoration-muted="manual_state == 'draft'"/>
+                                <span class="badge text-bg-primary ms-1">
+                                    <i class="fa fa-users"/> <field name="no_of_employee"/>
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_hr_job_search_manual" model="ir.ui.view">
+        <field name="name">hr.job.search.manual.cn</field>
+        <field name="model">hr.job</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Puesto">
+                <field name="name"/>
+                <field name="manual_code"/>
+                <field name="department_id"/>
+                <filter string="Borrador" name="state_draft" domain="[('manual_state','=','draft')]"/>
+                <filter string="En Revision" name="state_review" domain="[('manual_state','=','review')]"/>
+                <filter string="Aprobado" name="state_approved" domain="[('manual_state','=','approved')]"/>
+                <filter string="Rechazado" name="state_rejected" domain="[('manual_state','=','rejected')]"/>
+                <separator/>
+                <filter string="Vencidos (Revision atrasada)" name="overdue" domain="[('manual_is_overdue','=',True)]"/>
+                <filter string="Vigentes" name="not_overdue" domain="[('manual_is_overdue','=',False)]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Departamento" name="group_department" context="{'group_by': 'department_id'}"/>
+                    <filter string="Estado del Manual" name="group_state" context="{'group_by': 'manual_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hr_job_by_department" model="ir.actions.act_window">
+        <field name="name">Puestos por Departamento</field>
+        <field name="res_model">hr.job</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_hr_job_search_manual"/>
+        <field name="context">{'search_default_group_department': 1}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_hr_job_kanban_by_department')}), (0, 0, {'view_mode': 'list', 'view_id': ref('view_hr_job_list_by_department')}), (0, 0, {'view_mode': 'form'})]"/>
+    </record>
+
+    <record id="action_hr_job_workflow" model="ir.actions.act_window">
+        <field name="name">Workflow Aprobacion de Manuales</field>
+        <field name="res_model">hr.job</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_hr_job_search_manual"/>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_hr_job_kanban_workflow')}), (0, 0, {'view_mode': 'list', 'view_id': ref('view_hr_job_list_by_department')}), (0, 0, {'view_mode': 'form'})]"/>
+    </record>
+
+    <menuitem id="menu_hr_job_manual_root" name="Manual de Funciones" parent="hr.menu_hr_root" sequence="12"/>
+
+    <menuitem id="menu_hr_job_manual_management" name="Gestion" parent="menu_hr_job_manual_root" action="action_hr_job_by_department" sequence="10"/>
+
+    <menuitem id="menu_hr_job_manual_approval" name="Aprobacion" parent="menu_hr_job_manual_root" action="action_hr_job_workflow" sequence="20"/>
+
+  </data>
+</odoo>

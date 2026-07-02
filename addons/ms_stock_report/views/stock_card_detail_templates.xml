@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="stock_card_detail_general">
+			<div class="page">
+                <div align="center">
+                    <h2>
+                        <span>Stock Card Detail</span>
+                    </h2>
+                </div>
+                <t t-if="not wizard_id">
+                    <t t-set="wizard_id" t-value="docs"/>
+                </t>
+                <t t-set="grouped_datas" t-value="wizard_id.get_stock_card_detail_data()"/>
+                <t t-foreach="grouped_datas" t-as="datas">
+                    <table class="table table-sm o_main_table table-bordered mt-4">
+                        <thead style="display: table-row-group">
+                            <tr>
+                                <th width="3%" class="text-center"><strong>No</strong></th>
+                                <th width="13%" class="text-center"><strong>Product</strong></th>
+                                <th width="7%" class="text-center"><strong>Category</strong></th>
+                                <th width="6%" class="text-center"><strong>Lot / SN</strong></th>
+                                <th width="8%" class="text-center"><strong>Date</strong></th>
+                                <th width="11%" class="text-center"><strong>Reference</strong></th>
+                                <th width="7%" class="text-center"><strong>Beginning</strong></th>
+                                <th width="5%" class="text-center"><strong>PO</strong></th>
+                                <th width="5%" class="text-center"><strong>Return In</strong></th>
+                                <th width="5%" class="text-center"><strong>Adj In</strong></th>
+                                <th width="5%" class="text-center"><strong>Others In</strong></th>
+                                <th width="5%" class="text-center"><strong>SO</strong></th>
+                                <th width="5%" class="text-center"><strong>Return Out</strong></th>
+                                <th width="5%" class="text-center"><strong>Adj Out</strong></th>
+                                <th width="5%" class="text-center"><strong>Others Out</strong></th>
+                                <th width="5%" class="text-center"><strong>Ending</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total_purchase_qty" t-value="0"/>
+                            <t t-set="total_return_in_qty" t-value="0"/>
+                            <t t-set="total_adjustment_in_qty" t-value="0"/>
+                            <t t-set="total_others_in_qty" t-value="0"/>
+                            <t t-set="total_sale_qty" t-value="0"/>
+                            <t t-set="total_return_out_qty" t-value="0"/>
+                            <t t-set="total_adjustment_out_qty" t-value="0"/>
+                            <t t-set="total_others_out_qty" t-value="0"/>
+                            <t t-foreach="datas" t-as="data">
+                                <t t-set="total_purchase_qty" t-value="total_purchase_qty + data['purchase_qty']"/>
+                                <t t-set="total_return_in_qty" t-value="total_return_in_qty + data['return_in_qty']"/>
+                                <t t-set="total_adjustment_in_qty" t-value="total_adjustment_in_qty + data['adjustment_in_qty']"/>
+                                <t t-set="total_others_in_qty" t-value="total_others_in_qty + data['others_in_qty']"/>
+                                <t t-set="total_sale_qty" t-value="total_sale_qty + data['sale_qty']"/>
+                                <t t-set="total_return_out_qty" t-value="total_return_out_qty + data['return_out_qty']"/>
+                                <t t-set="total_adjustment_out_qty" t-value="total_adjustment_out_qty + data['adjustment_out_qty']"/>
+                                <t t-set="total_others_out_qty" t-value="total_others_out_qty + data['others_out_qty']"/>
+
+                                <tr>
+                                    <td>
+                                        <span t-esc="data['no']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="data['product_name']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="data['categ_name']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="data['lot_name']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="data['trx_date']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="data['reference']"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.0f}'.format(data['beginning_qty'])"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(data['purchase_qty'])"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(data['return_in_qty'])"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(data['adjustment_in_qty'])"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(data['others_in_qty'])"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(data['sale_qty'])"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(data['return_out_qty'])"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(data['adjustment_out_qty'])"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(data['others_out_qty'])"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(data['ending_qty'])"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                                <span><strong>Grand Total</strong></span>
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td class="text-end">
+                                
+                            </td>
+                            <td class="text-end">
+                                <span t-esc="'{:,.2f}'.format(total_purchase_qty)"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-esc="'{:,.2f}'.format(total_return_in_qty)"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-esc="'{:,.2f}'.format(total_adjustment_in_qty)"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-esc="'{:,.2f}'.format(total_others_in_qty)"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-esc="'{:,.2f}'.format(total_sale_qty)"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-esc="'{:,.2f}'.format(total_return_out_qty)"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-esc="'{:,.2f}'.format(total_adjustment_out_qty)"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-esc="'{:,.2f}'.format(total_others_out_qty)"/>
+                            </td>
+                            <td class="text-end">
+
+                            </td>
+                        </tr>
+                    </table>
+                </t>
+            </div>
+        </template>
+
+        <template id="stock_card_detail_document">
+            <t t-call="web.external_layout">
+                <t t-call="ms_stock_report.stock_card_detail_general"/>
+            </t>
+        </template>
+
+        <template id="stock_card_detail">
+		    <t t-call="web.html_container">
+		        <t t-call="ms_stock_report.stock_card_detail_document" />
+		    </t>
+		</template>
+		
+		<record id="report_stock_card_detail" model="ir.actions.report">
+            <field name="name">Stock Card Detail</field>
+            <field name="model">ms.stock.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ms_stock_report.stock_card_detail</field>
+            <field name="report_file">ms_stock_report.stock_card_detail</field>
+            <field name="print_report_name">'Stock Card Detail'</field>
+            <field name="binding_model_id" eval="False"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_euro_landscape"/>
+        </record>
+
+        <template id="stock_card_detail_template">
+            <t t-call="portal.portal_layout">
+                <t t-set="additional_title">Stock Card Detail</t>
+                <t t-call="ms_stock_report.stock_card_detail_general"/>
+            </t>
+        </template>
+
+    </data>
+</odoo>

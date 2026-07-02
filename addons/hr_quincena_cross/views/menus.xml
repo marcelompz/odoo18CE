@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Menus bajo "Anticipos y Prestamos" (menu raiz definido en
+         hr_loan_advance_py_cross). Asi no dependemos de menus de
+         hr_payroll que pueden no existir en Enterprise/Community.
+         ============================================================ -->
+
+    <menuitem id="menu_hr_quincena_generator"
+              name="Generar Quincenas"
+              parent="hr_loan_advance_py_cross.menu_hr_loan_advance_root"
+              action="action_hr_quincena_generator"
+              sequence="30"/>
+
+    <record id="action_hr_advance_quincena" model="ir.actions.act_window">
+        <field name="name">Historial de Quincenas</field>
+        <field name="res_model">hr.advance</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('advance_type', '=', 'quincena')]</field>
+        <field name="context">{'search_default_solo_quincena': 1}</field>
+    </record>
+
+    <menuitem id="menu_hr_advance_quincena"
+              name="Historial de Quincenas"
+              parent="hr_loan_advance_py_cross.menu_hr_loan_advance_root"
+              action="action_hr_advance_quincena"
+              sequence="40"/>
+
+    <menuitem id="menu_hr_benefit_type"
+              name="Tipos de Beneficio"
+              parent="hr_loan_advance_py_cross.menu_hr_loan_advance_root"
+              action="action_hr_benefit_type"
+              sequence="90"/>
+
+</odoo>

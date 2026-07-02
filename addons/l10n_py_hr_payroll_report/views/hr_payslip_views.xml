@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_server_report_payslip_funcionario" model="ir.actions.server">
+        <field name="name">Imprimir Recibo - Funcionario</field>
+        <field name="model_id" ref="hr_payroll.model_hr_payslip"/>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+action = env.ref('l10n_py_hr_payroll_report.action_report_payslip_funcionario').report_action(records)
+        </field>
+    </record>
+
+    <record id="action_server_report_payslip_ips" model="ir.actions.server">
+        <field name="name">Imprimir Planilla IPS</field>
+        <field name="model_id" ref="hr_payroll.model_hr_payslip"/>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+action = env.ref('l10n_py_hr_payroll_report.action_report_payslip_ips').report_action(records)
+</field>
+    </record>
+
+    <!-- Acción de servidor para el reporte IPS desde la vista de lista -->
+    <record id="action_server_report_payslip_ips_list" model="ir.actions.server">
+        <field name="name">Imprimir Planilla IPS (Lista)</field>
+        <field name="model_id" ref="hr_payroll.model_hr_payslip"/>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = env.ref('l10n_py_hr_payroll_report.action_report_payslip_ips').report_action(records)
+else:
+    action = {'type': 'ir.actions.act_window_close'}
+        </field>
+    </record>
+
+
+    <!-- Heredar la vista form de hr.payslip para agregar botón de reporte y filtrar líneas -->
+    <record id="view_hr_payslip_form_inherit_report_funcionario" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit.report.funcionario</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <!-- Agregar botones en el header después del botón Print -->
+            <button name="action_print_payslip" position="after">
+                <button string="Imprimir Recibo - Funcionario" 
+                        name="%(action_server_report_payslip_funcionario)d"
+                        type="action"
+                        class="btn-secondary"
+                        invisible="not line_ids or state not in ('done', 'paid')"
+                        icon="fa-print"
+                        title="Generar PDF del Recibo de Pago de Sueldo - Funcionario"/>
+                <button string="Imprimir Planilla IPS" 
+                        name="%(action_server_report_payslip_ips)d"
+                        type="action"
+                        class="btn-secondary"
+                        invisible="not line_ids or state not in ('done', 'paid')"
+                        icon="fa-print"
+                        title="Generar PDF de Planilla IPS"/>
+            </button>
+            
+            <!-- Filtrar líneas de totales: solo mostrar líneas que aparecen en recibo 
+                 Y que no son códigos de totales -->
+            <xpath expr="//field[@name='line_ids']" position="attributes">
+                <attribute name="domain">[
+                    ('appears_on_payslip', '=', True),
+                    ('code', 'not in', ['TOTAL_SALARIOS', 'TOTAL_DEDUCCIONES', 'NET', 'SUELDO_IMPO', 'BASIC']),
+                    ('category_id.code', 'not in', ['PY_TOTAL_BRUTO', 'PY_NETO', 'NET', 'PY_EMPLOYER', 'PY_PROVISION'])
+                ]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Heredar la vista list de hr.payslip para agregar botón de reporte IPS -->
+    <record id="view_hr_payslip_tree_inherit_report_ips" model="ir.ui.view">
+        <field name="name">hr.payslip.tree.inherit.report.ips</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+        <field name="arch" type="xml">
+            <!-- Agregar botón en el header de la vista de lista después del botón Print -->
+            <button name="action_print_payslip" position="after">
+                <button string="Imprimir Planilla IPS" 
+                        name="%(action_server_report_payslip_ips_list)d"
+                        type="action"
+                        class="btn-primary"
+                        icon="fa-print"
+                        title="Generar PDF de Planilla IPS para los payslips seleccionados"/>
+            </button>
+        </field>
+    </record>
+
+    <!-- Botón en lote de nómina para exportar pagos bancarios -->
+    <record id="view_hr_payslip_run_form_bank_export" model="ir.ui.view">
+        <field name="name">hr.payslip.run.form.bank.export</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_generate_payroll_summary"
+                        string="Planilla de Salarios"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="state != 'done'"/>
+                <button name="%(action_hr_payroll_bank_export_wizard)d"
+                        string="Exportar pagos bancarios"
+                        type="action"
+                        class="btn-primary"
+                        context="{'default_payslip_run_id': id}"
+                        invisible="state != 'done'"/>
+            </header>
+        </field>
+    </record>
+
+    <!-- Acción para el menú Imprimir del lote -->
+    <record id="action_report_payroll_summary_batch" model="ir.actions.server">
+        <field name="name">Planilla de Salarios (Excel)</field>
+        <field name="model_id" ref="hr_payroll.model_hr_payslip_run"/>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>
+        <field name="state">code</field>
+        <field name="code">
+action = records.action_generate_payroll_summary()
+        </field>
+    </record>
+</odoo>

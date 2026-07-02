@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_attendance_shift_root"
+              name="Turnos"
+              parent="hr_attendance.menu_hr_attendance_root"
+              sequence="50"/>
+
+    <menuitem id="menu_attendance_shift_dashboard"
+              name="Tablero por Turnos (pivot)"
+              parent="menu_attendance_shift_root"
+              action="action_attendance_shift_dashboard"
+              sequence="10"/>
+
+    <menuitem id="menu_daily_report_oper"
+              name="Planilla Diaria - Operativo"
+              parent="menu_attendance_shift_root"
+              action="action_daily_report_oper"
+              sequence="11"/>
+
+    <menuitem id="menu_daily_report_admin"
+              name="Planilla Diaria - Administrativo"
+              parent="menu_attendance_shift_root"
+              action="action_daily_report_admin"
+              sequence="12"/>
+
+    <menuitem id="menu_daily_regen"
+              name="Regenerar Tablero Diario"
+              parent="menu_attendance_shift_root"
+              action="action_daily_regen_wizard"
+              sequence="13"
+              groups="group_shift_supervisor"/>
+
+    <menuitem id="menu_attendance_shift_correction"
+              name="Correccion de Marcaciones"
+              parent="menu_attendance_shift_root"
+              action="action_hr_attendance_correction"
+              sequence="15"/>
+
+    <menuitem id="menu_attendance_shift_pivot_edit"
+              name="Tablero Editable"
+              parent="menu_attendance_shift_root"
+              action="action_hr_attendance_correction_pivot"
+              sequence="20"/>
+
+    <menuitem id="menu_attendance_shift_create_manual"
+              name="Crear Asistencia Manual"
+              parent="menu_attendance_shift_root"
+              action="action_hr_attendance_create_wizard"
+              sequence="25"/>
+
+    <menuitem id="menu_attendance_shift_export"
+              name="Exportar Planilla Excel"
+              parent="menu_attendance_shift_root"
+              action="action_hr_attendance_shift_export_wizard"
+              sequence="30"/>
+
+    <menuitem id="menu_attendance_shift_recompute"
+              name="Recalcular Periodo"
+              parent="menu_attendance_shift_root"
+              action="action_hr_attendance_shift_recompute_wizard"
+              sequence="40"
+              groups="group_shift_manager"/>
+
+    <menuitem id="menu_attendance_shift_config_root"
+              name="Configuracion Turnos"
+              parent="hr_attendance.menu_hr_attendance_root"
+              sequence="60"
+              groups="group_shift_manager"/>
+
+    <menuitem id="menu_hr_shift_group"
+              name="Grupos de Turno"
+              parent="menu_attendance_shift_config_root"
+              action="action_hr_shift_group"
+              sequence="10"/>
+
+</odoo>

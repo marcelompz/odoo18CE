@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2026-03-06 15:50:06
+    @author: drojo
+-->
+<odoo>
+
+    <!-- list view -->
+    <record id="l10n_latam_document_type_inherit_tree" model="ir.ui.view">
+        <field name="name">l10n_latam.document.type.inherit.tree</field>
+        <field name="model">l10n_latam.document.type</field>
+        <field name="inherit_id" ref="l10n_latam_invoice_document.view_document_type_tree" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//list" position="attributes">
+                <attribute name="create">1</attribute>
+                <attribute name="edit">1</attribute>
+                <attribute name="editable">bottom</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- form view -->
+    <record id="account_move_l10n_latam_document_type_inherit_form" model="ir.ui.view">
+        <field name="name">account.move.l10n_latam.document.type.inherit.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_latam_invoice_document.view_move_form" />
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='l10n_latam_document_type_id']" position="attributes">
+                <attribute name="domain"></attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_hr_payslip_batch_review_wizard_form" model="ir.ui.view">
+        <field name="name">hr.payslip.batch.review.wizard.form</field>
+        <field name="model">hr.payslip.batch.review.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Revisar Lote de Nómina">
+                <sheet>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="company_id"/>
+                    </group>
+                    <group>
+                        <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="generated_payslip_count" readonly="1"/>
+                        <field name="payslip_run_id" readonly="1"/>
+                        <field name="state" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="selected_payslip_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <button name="action_open_selected_payslips" type="object" string="Ver Recibos"
+                            invisible="state != 'generated'" class="oe_link"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_find_employees" type="object" string="Buscar Empleados"
+                            class="oe_highlight"/>
+                    <button name="action_calculate_batch" type="object" string="Calcular Lote"
+                            class="oe_highlight"/>
+                        <button name="action_confirm_selected" type="object" string="Confirmar Seleccionados"
+                            invisible="state != 'generated'" class="oe_highlight"/>
+                        <button name="action_print_selected" type="object" string="Imprimir Seleccionados"
+                            invisible="state != 'generated'"/>
+                        <button name="action_finalize_run" type="object" string="Confirmar Lote"
+                            invisible="state != 'generated'"/>
+                        <button name="action_finalize_and_print" type="object" string="Confirmar y Imprimir"
+                            invisible="state != 'generated'" class="oe_highlight"/>
+                    <button name="action_open_run" type="object" string="Abrir Lote"
+                            invisible="state != 'generated'"/>
+                    <button string="Cancelar" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_payslip_batch_review_wizard" model="ir.actions.act_window">
+        <field name="name">Revisar Lote de Nómina</field>
+        <field name="res_model">hr.payslip.batch.review.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

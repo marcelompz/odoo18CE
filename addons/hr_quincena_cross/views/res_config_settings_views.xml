@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_form_quincena" model="ir.ui.view">
+        <field name="name">res.config.settings.form.quincena</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr_payroll.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[1]" position="after">
+                <block title="Quincena (Crossnexion)" name="cn_quincena_block">
+                    <setting id="cn_quincena_setting" string="Pago Quincenal Automatizado">
+                        <div>
+                            <label for="cn_antiguedad_minima_prestamo_dias"/>
+                            <field name="cn_antiguedad_minima_prestamo_dias"/>
+                            <div class="text-muted">
+                                Dias de antiguedad minima del empleado para solicitar un Prestamo
+                                (tipo "Prestamo"). Otros tipos (Uniforme, Beneficio, Otros) no
+                                requieren antiguedad.
+                            </div>
+                            <label for="cn_quincena_dia" class="mt8"/>
+                            <field name="cn_quincena_dia"/>
+                            <div class="text-muted">
+                                Dia del mes en que se genera la quincena (default 15).
+                            </div>
+                            <label for="cn_quincena_journal_id" class="mt8"/>
+                            <field name="cn_quincena_journal_id"/>
+                            <div class="text-muted">
+                                Diario en el que se registran los pagos de quincena.
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
