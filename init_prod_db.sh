@@ -81,10 +81,17 @@ psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c \
 echo "✓ Paraguay configurado"
 
 # Instalar módulos l10n_py
-echo "Instalando módulo l10n_py..."
+echo "Instalando módulos de localización Paraguay..."
+
+# Primero instalar dependencia tu-ruc-python-client
+echo "  Instalando tu-ruc-python-client..."
+python3 -m pip install --break-system-packages tu-ruc-python-client 2>&1 | tail -3
+echo "  ✓ tu-ruc-python-client instalado"
+
+# Instalar módulos
 odoo -c /etc/odoo/odoo.conf \
      -d "$DB_NAME" \
-     --init l10n_py \
+     --init l10n_py,electronic_invoice_cross,pos_einvoice_cross \
      --stop-after-init \
      --db_host "$DB_HOST" \
      --db_port "$DB_PORT" \
@@ -94,10 +101,7 @@ odoo -c /etc/odoo/odoo.conf \
      2>&1 | tail -30
 
 echo ""
-echo "NOTA: Los módulos electronic_invoice_cross y pos_einvoice_cross requieren"
-echo "      la instalación manual de la dependencia: tu-ruc-python-client"
-echo "      Puede instalarlos desde la UI de Odoo una vez resuelta la dependencia."
-echo ""
+echo "✓ Módulos de localización Paraguay instalados"
 
 echo ""
 echo "============================================================"

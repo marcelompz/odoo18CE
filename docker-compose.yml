@@ -75,6 +75,7 @@ services:
       - ./addons:/mnt/extra-addons:ro
       - /srv/odoo-modules:/srv/odoo-modules:ro
       - ./init_prod_db.sh:/init_prod_db.sh:ro
+      - ~/.ssh:/root/.ssh:ro
     environment:
       - DB_NAME=prod
       - DB_HOST=db
@@ -84,8 +85,11 @@ services:
       - ADMIN_EMAIL=soporte@crossnexion.com
       - ADMIN_PASSWORD=Cross1983_
     command: >
-      bash /init_prod_db.sh &&
-      touch /tmp/init_completed
+      bash -c "
+        apt-get update && apt-get install -y git python3-pip &&
+        bash /init_prod_db.sh &&
+        touch /tmp/init_completed
+      "
     restart: "no"
 
 volumes:
