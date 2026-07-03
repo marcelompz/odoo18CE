@@ -63,6 +63,27 @@ services:
       retries: 5
       start_period: 10s
 
+  init:
+    container_name: odoo_init_db
+    image: odoo:18.0
+    depends_on:
+      web:
+        condition: service_healthy
+    volumes:
+      - ./init_prod_db.py:/init_prod_db.py:ro
+    environment:
+      - ODOO_URL=http://web:8069
+      - MASTER_PASSWORD=soportecrossdimora.159753
+      - DB_NAME=prod
+      - ADMIN_EMAIL=soporte@crossnexion.com
+      - ADMIN_PASSWORD=Cross1983_
+    command: >
+      bash -c "
+        python3 /init_prod_db.py &&
+        touch /tmp/init_completed
+      "
+    restart: "no"
+
 volumes:
   odoo-db-data:
   odoo-web-data:
