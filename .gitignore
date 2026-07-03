@@ -1,0 +1,6 @@
+.env
+*.backup/
+db-data/
+web-data/
+__pycache__/
+*.pyc

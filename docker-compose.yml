@@ -1,0 +1,66 @@
+services:
+  web:
+    container_name: odoo_web_8082
+    image: odoo:18.0
+    depends_on:
+      - db
+    ports:
+      - "8082:8069"
+      - "8072:8072"
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./addons:/mnt/extra-addons-customize:ro
+    environment:
+      # Database
+      - HOST=db
+      - PORT=5432
+      - USER=odoo
+      - PASSWORD=crossdimora.159753
+      
+      # Odoo Configuration
+      - ODOO_DB_FILTER=^prod$
+      - ODOO_ADMIN_PASSWD=soportecrossdimora.159753
+      
+      # Performance
+      - WORKERS=2
+      - LIMIT_MEMORY_HARD=2684354560
+      - LIMIT_MEMORY_SOFT=2147483648
+      - LIMIT_REQUEST=100
+      - LIMIT_TIME_CPU=600
+      - LIMIT_TIME_REAL=1200
+      
+      # System
+      - TZ=America/Asuncion
+      - ODOO_LOG_LEVEL=info
+      
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8069/web/database/selector"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+
+  db:
+    container_name: db_odoo_5434
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=crossdimora.159753
+      - TZ=America/Asuncion
+    ports:
+      - "5434:5432"
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  odoo-db-data:
+  odoo-web-data:

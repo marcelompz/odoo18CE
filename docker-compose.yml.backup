@@ -1,0 +1,52 @@
+services:
+  web8082:
+    container_name: ${WEB_HOST}
+    image: ${WEB_IMAGE_NAME}:${WEB_IMAGE_TAG}
+    build: ./
+    depends_on:
+      - db5434
+    ports:
+      - "${WEB_PORT}:8069"
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./config:/etc/odoo
+      - /mnt/addons:/mnt/extra-addons
+      - ${WEB_ADDONS_CUSTOMIZE}:/mnt/extra-addons-customize
+      - ${WEB_ADDONS_ENTERPRISE}:/mnt/extra-addons-enterprise
+      - ${WEB_ADDONS_L10N_PY}:/mnt/extra-addons-l10n_py
+    entrypoint: "/usr/bin/odoo -c /etc/odoo/odoo.conf"
+    environment:
+      - HOST=${DB_NAME}
+      - USER=${DB_USER}
+      - PASSWORD=${DB_PASSWD}
+      - TZ=America/Asuncion
+      - DEBIAN_FRONTEND=noninteractive
+    restart: always
+  db5434:
+    container_name: ${DB_HOST}
+    image: ${DB_IMAGE}:${DB_TAG}
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWD}
+      - POSTGRES_USER=${DB_USER}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - TZ=America/Asuncion
+      - DEBIAN_FRONTEND=noninteractive
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+    restart: always
+volumes:
+  odoo-db-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${DB_VOLUMES}
+      o: bind
+  odoo-web-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${WEB_VOLUMES}
+      o: bind
