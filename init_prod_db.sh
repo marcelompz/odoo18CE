@@ -82,11 +82,7 @@ echo "✓ Paraguay configurado"
 
 # Instalar módulos l10n_py
 echo "Instalando módulos de localización Paraguay..."
-
-# Primero instalar dependencia tu-ruc-python-client
-echo "  Instalando tu-ruc-python-client..."
-python3 -m pip install --break-system-packages tu-ruc-python-client 2>&1 | tail -3
-echo "  ✓ tu-ruc-python-client instalado"
+echo "  (tu-ruc-python-client ya está instalado en el host)"
 
 # Instalar módulos
 odoo -c /etc/odoo/odoo.conf \
