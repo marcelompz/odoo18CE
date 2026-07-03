@@ -18,12 +18,6 @@ RUN apt-get update && apt-get install -y \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Copiar requirements.txt si existe
-COPY requirements.txt /tmp/requirements.txt
-RUN if [ -f /tmp/requirements.txt ]; then \
-    pip install --break-system-packages -r /tmp/requirements.txt; \
-    fi
-
 # Crear directorio para scripts personalizados
 RUN mkdir -p /opt/odoo/custom-scripts && chown odoo:odoo /opt/odoo/custom-scripts
 
