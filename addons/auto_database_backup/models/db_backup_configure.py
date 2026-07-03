@@ -3,7 +3,7 @@
 #
 #    Cybrosys Technologies Pvt. Ltd.
 #
-#    Copyright (C) 2024-TODAY Cybrosys Technologies(<https://www.cybrosys.com>)
+#    Copyright (C) 2025-TODAY Cybrosys Technologies(<https://www.cybrosys.com>)
 #    Author: Cybrosys Techno Solutions (odoo@cybrosys.com)
 #
 #    You can modify it under the terms of the GNU LESSER
@@ -19,6 +19,8 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
+from email.policy import default
+
 import boto3
 import dropbox
 import errno
@@ -33,7 +35,7 @@ import shutil
 import subprocess
 import tempfile
 import odoo
-from datetime import timedelta
+from datetime import datetime, timedelta
 from nextcloud import NextCloud
 from requests.auth import HTTPBasicAuth
 from werkzeug import urls
@@ -122,6 +124,7 @@ class DbBackupConfigure(models.Model):
     auto_remove = fields.Boolean(string='Remove Old Backups',
                                  help='Remove old backups')
     days_to_remove = fields.Integer(string='Remove After',
+                                    default=1,
                                     help='Automatically delete stored backups'
                                          ' after this specified number of days')
     google_drive_folder_key = fields.Char(string='Drive Folder ID',
@@ -129,13 +132,13 @@ class DbBackupConfigure(models.Model):
     notify_user = fields.Boolean(string='Notify User',
                                  help='Send an email notification to user when'
                                       'the backup operation is successful'
-                                      'or failed')
+                                      ' or failed')
     user_id = fields.Many2one('res.users', string='User',
                               help='Name of the user')
     backup_filename = fields.Char(string='Backup Filename',
                                   help='For Storing generated backup filename')
     generated_exception = fields.Char(string='Exception',
-                                      help='Exception Encountered while Backup'
+                                      help='Exception Encountered while Backup '
                                            'generation')
     onedrive_client_key = fields.Char(string='Onedrive Client ID', copy=False,
                                       help='Client ID of the onedrive')
@@ -345,7 +348,7 @@ class DbBackupConfigure(models.Model):
         url_return = f"{base_url}/web#id={self.id}&action={action_id}&view_type=form&model=db.backup.configure"
         state = {
             'backup_config_id': self.id,
-            'url_return': url_return }
+            'url_return': url_return}
         params = {
             'response_type': 'code',
             'client_id': self.onedrive_client_key,
@@ -588,7 +591,7 @@ class DbBackupConfigure(models.Model):
         mail_template_failed = self.env.ref(
             'auto_database_backup.mail_template_data_db_backup_failed')
         for rec in records:
-            backup_time = fields.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
+            backup_time = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
             backup_filename = f"{rec.db_name}_{backup_time}.{rec.backup_format}"
             rec.backup_filename = backup_filename
             # Local backup
@@ -605,9 +608,9 @@ class DbBackupConfigure(models.Model):
                     if rec.auto_remove:
                         for filename in os.listdir(rec.backup_path):
                             file = os.path.join(rec.backup_path, filename)
-                            create_time = fields.datetime.fromtimestamp(
+                            create_time = datetime.fromtimestamp(
                                 os.path.getctime(file))
-                            backup_duration = fields.datetime.utcnow() - create_time
+                            backup_duration = datetime.utcnow() - create_time
                             if backup_duration.days >= rec.days_to_remove:
                                 os.remove(file)
                     if rec.notify_user:
@@ -639,11 +642,11 @@ class DbBackupConfigure(models.Model):
                     if rec.auto_remove:
                         files = ftp_server.nlst()
                         for file in files:
-                            create_time = fields.datetime.strptime(
+                            create_time = datetime.strptime(
                                 ftp_server.sendcmd('MDTM ' + file)[4:],
                                 "%Y%m%d%H%M%S")
                             diff_days = (
-                                    fields.datetime.now() - create_time).days
+                                    datetime.now() - create_time).days
                             if diff_days >= rec.days_to_remove:
                                 ftp_server.delete(file)
                     ftp_server.quit()
@@ -679,8 +682,8 @@ class DbBackupConfigure(models.Model):
                     if rec.auto_remove:
                         files = sftp.listdir()
                         expired = list(filter(
-                            lambda fl: (fields.datetime.now()
-                                        - fields.datetime.fromtimestamp(
+                            lambda fl: (fields.Datetime.now()
+                                        - datetime.fromtimestamp(
                                         sftp.stat(fl).st_mtime)).days >=
                                        rec.days_to_remove, files))
                         for file in expired:
@@ -736,7 +739,7 @@ class DbBackupConfigure(models.Model):
                                                   'createdTime'][
                                               :19].replace('T', ' ')
                                 diff_days = (
-                                        fields.datetime.now() - fields.datetime.strptime(
+                                        fields.Datetime.now() - datetime.strptime(
                                     create_time, '%Y-%m-%d %H:%M:%S')).days
                                 if diff_days >= rec.days_to_remove:
                                     requests.delete(
@@ -778,7 +781,7 @@ class DbBackupConfigure(models.Model):
                         files = dbx.files_list_folder(rec.dropbox_folder)
                         file_entries = files.entries
                         expired_files = list(filter(
-                            lambda fl: (fields.datetime.now() -
+                            lambda fl: (fields.Datetime.now() -
                                         fl.client_modified).days >=
                                        rec.days_to_remove,
                             file_entries))
@@ -794,46 +797,85 @@ class DbBackupConfigure(models.Model):
                         mail_template_failed.send_mail(rec.id, force_send=True)
             # Onedrive Backup
             elif rec.backup_destination == 'onedrive':
-                if rec.onedrive_token_validity <= fields.Datetime.now():
-                    rec.generate_onedrive_refresh_token()
-                temp = tempfile.NamedTemporaryFile(
-                    suffix='.%s' % rec.backup_format)
-                with open(temp.name, "wb+") as tmp:
-                    self.dump_data(rec.db_name, tmp, rec.backup_format, rec.backup_frequency)
-                headers = {
-                    'Authorization': 'Bearer %s' % rec.onedrive_access_token,
-                    'Content-Type': 'application/json'}
-                upload_session_url = MICROSOFT_GRAPH_END_POINT + "/v1.0/me/drive/items/%s:/%s:/createUploadSession" % (
-                    rec.onedrive_folder_key, backup_filename)
                 try:
-                    upload_session = requests.post(upload_session_url,
-                                                   headers=headers)
-                    upload_url = upload_session.json().get('uploadUrl')
-                    requests.put(upload_url, data=temp.read())
-                    if rec.auto_remove:
-                        list_url = MICROSOFT_GRAPH_END_POINT + "/v1.0/me/drive/items/%s/children" % rec.onedrive_folder_key
-                        response = requests.get(list_url, headers=headers)
-                        files = response.json().get('value')
-                        for file in files:
-                            create_time = file['createdDateTime'][:19].replace(
-                                'T',
-                                ' ')
-                            diff_days = (
-                                    fields.datetime.now() - fields.datetime.strptime(
-                                create_time, '%Y-%m-%d %H:%M:%S')).days
-                            if diff_days >= rec.days_to_remove:
-                                delete_url = MICROSOFT_GRAPH_END_POINT + "/v1.0/me/drive/items/%s" % \
-                                             file['id']
-                                requests.delete(delete_url, headers=headers)
-                    if rec.notify_user:
-                        mail_template_success.send_mail(rec.id,
-                                                        force_send=True)
-                except Exception as error:
-                    rec.generated_exception = error
-                    _logger.info('Onedrive Exception: %s', error)
+                    if rec.onedrive_token_validity <= fields.Datetime.now():
+                        rec.generate_onedrive_refresh_token()
+
+                    with tempfile.NamedTemporaryFile(suffix=f'.{rec.backup_format}') as temp:
+                        with open(temp.name, "wb+") as tmp:
+                            self.dump_data(rec.db_name, tmp, rec.backup_format, rec.backup_frequency)
+
+                        headers = {
+                            'Authorization': f'Bearer {rec.onedrive_access_token}',
+                            'Content-Type': 'application/json'
+                        }
+
+                        upload_session_url = (
+                            f"{MICROSOFT_GRAPH_END_POINT}/v1.0/me/drive/items/"
+                            f"{rec.onedrive_folder_key}:/{backup_filename}:/createUploadSession"
+                        )
+
+                        upload_session = requests.post(upload_session_url, headers=headers)
+                        upload_session.raise_for_status()
+
+                        upload_url = upload_session.json().get('uploadUrl')
+                        if not upload_url:
+                            raise ValueError("Failed to get upload URL from OneDrive")
+
+                        file_size = os.path.getsize(temp.name)
+                        with open(temp.name, 'rb') as f:
+                            headers_upload = {
+                                'Content-Length': str(file_size),
+                                'Content-Range': f'bytes 0-{file_size - 1}/{file_size}'
+                            }
+                            upload_response = requests.put(upload_url, headers=headers_upload, data=f)
+                            upload_response.raise_for_status()
+
+                        if rec.auto_remove:
+                            verify_url = (
+                                f"{MICROSOFT_GRAPH_END_POINT}/v1.0/me/drive/items/"
+                                f"{rec.onedrive_folder_key}:/{backup_filename}"
+                            )
+                            verify_response = requests.get(verify_url, headers=headers)
+
+                            if verify_response.status_code == 200:
+                                list_url = (
+                                    f"{MICROSOFT_GRAPH_END_POINT}/v1.0/me/drive/items/"
+                                    f"{rec.onedrive_folder_key}/children"
+                                )
+                                response = requests.get(list_url, headers=headers)
+                                response.raise_for_status()
+
+                                files = response.json().get('value', [])
+                                current_time = fields.Datetime.now()
+
+                                for file in files:
+                                    if file['name'] == backup_filename:
+                                        continue
+
+                                    create_time_str = file['createdDateTime'][:19].replace('T', ' ')
+                                    create_time = datetime.strptime(create_time_str, '%Y-%m-%d %H:%M:%S')
+                                    diff_days = (current_time - create_time).days
+
+                                    if diff_days >= rec.days_to_remove:
+                                        delete_url = f"{MICROSOFT_GRAPH_END_POINT}/v1.0/me/drive/items/{file['id']}"
+                                        requests.delete(delete_url, headers=headers).raise_for_status()
+
+                        # Notify user on success
+                        if rec.notify_user:
+                            mail_template_success.send_mail(rec.id, force_send=True)
+
+                except requests.exceptions.RequestException as req_error:
+                    rec.generated_exception = str(req_error)
+                    _logger.error('OneDrive API Error: %s', req_error, exc_info=True)
                     if rec.notify_user:
                         mail_template_failed.send_mail(rec.id, force_send=True)
-            # NextCloud Backup
+
+                except Exception as error:
+                    rec.generated_exception = str(error)
+                    _logger.error('OneDrive Backup Error: %s', error, exc_info=True)
+                    if rec.notify_user:
+                        mail_template_failed.send_mail(rec.id, force_send=True)
             elif rec.backup_destination == 'next_cloud':
                 try:
                     if rec.domain and rec.next_cloud_password and \
@@ -860,7 +902,7 @@ class DbBackupConfigure(models.Model):
                                     backup_file_name = item.path.split("/")[-1]
                                     backup_date_str = \
                                         backup_file_name.split("_")[1]
-                                    backup_date = fields.datetime.strptime(
+                                    backup_date = datetime.strptime(
                                         backup_date_str, '%Y-%m-%d').date()
                                     if (fields.date.today() - backup_date).days \
                                             >= rec.days_to_remove:

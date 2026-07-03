@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Modified on 2025-02-21 23:36:23
+    @author: drojo
+-->
+<odoo>
+    <!-- form view -->
+
+    <record model="ir.ui.view" id="view_move_form_inherit">
+        <field name="name">view.move.form.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//sheet" position="before">
+                <div 
+                    role="alert" 
+                    class="alert alert-success text-center" 
+                    invisible="not is_ed or is_ed_cancelled">
+                    ¡Factura electrónica generada!
+                </div>
+                <div 
+                    role="alert" 
+                    class="alert alert-warning text-center" 
+                    invisible="not is_ed_cancelled">
+                    Factura electrónica cancelado!
+                </div>
+                <div 
+                    role="alert" 
+                    class="alert alert-danger text-center" 
+                    invisible="client_eligible_de or not partner_id">
+                    Cliente no apto para facturación electrónica!
+                </div>
+                <div 
+                    role="alert" 
+                    class="alert alert-danger text-center" 
+                    invisible="not is_digital_certificate_expired">
+                    ATTENTION, DIGITAL CERTIFICATE NEAR EXPIRATION, REQUEST RENEWAL WITH THE ISSUER URGENTLY
+                </div>
+            </xpath>
+
+            <xpath expr="//button[@name='preview_invoice']" position="after">
+                <button 
+                    name="send_json_to_set" 
+                    type="object" 
+                    string="GENERAR DOC. ELECTRONICA"
+                    invisible="state != 'posted' or not fiscal_document or de_requested or not client_eligible_de or is_ed"
+                    class="btn btn-success"
+                    icon="fa-file-text-o"
+                />
+                <button 
+                    name="send_json_to_set_again" 
+                    type="object" 
+                    string="RE-GENERAR FACT. ELECTRONICA"
+                    invisible="state != 'posted' or not fiscal_document or not client_eligible_de or de_status != '4'"
+                    class="btn btn-success"
+                    icon="fa-file-text-o"
+                />
+                <button 
+                    name="get_pdf_to_print" 
+                    type="object" 
+                    string="Obtener PDF"
+                    class="bt-primary"
+                    invisible="not is_ed or de_status in ['4','98','99']"
+                    groups="base.group_no_one"
+                />
+                <button 
+                    name="get_de_status" 
+                    type="object" 
+                    string="Consultar estado del D.E."
+                    class="bt-primary"
+                    invisible="not is_ed or is_ed_cancelled"
+                />
+                <button 
+                    name="cancel_document_electronic" 
+                    type="object" 
+                    string="Cancelar D.E."
+                    icon="fa-ban"
+                    invisible="not is_ed or is_ed_cancelled"
+                />
+                <button 
+                    name="%(electronic_invoice_cross.invoice_preprinted)d" 
+                    type="action" 
+                    string="Factura PreImpresa"
+                    class="oe_highlight"
+                    invisible = "not pre_printed_invoice or state == 'posted'"
+                />
+            </xpath>
+
+            <xpath expr="//button[@name='action_reverse']" position="attributes">
+                <attribute name="string">Agregar nota crédito</attribute>
+            </xpath>
+
+            <field name="invoice_date" position="after">
+                <field name="l10n_py_enabled_invoice_number" invisible="1"/>
+                <field name="fiscal_document"/>
+                <field 
+                    name="authorization_id" 
+                    required="move_type in ['out_invoice','out_refund'] and fiscal_document" 
+                    invisible="move_type not in ['out_invoice','out_refund']" 
+                    options="{'no_create': 1}"/>
+                <field name="invoice_number" invisible="move_type == 'in_invoice'" readonly="not l10n_py_enabled_invoice_number or state != 'draft'"/>
+                <field name="invoice_number" invisible="move_type == 'out_invoice'" readonly="state != 'draft'"/>
+                <field name="is_ed" invisible="1"/>
+                <field name="is_ed_cancelled" invisible="1"/>
+                <field name="de_requested" invisible="1"/>
+                <field name="client_eligible_de" invisible="1"/>
+                <field name="is_digital_certificate_expired" invisible="1"/>
+            </field>
+
+            <field name="invoice_line_ids" position="after">
+                <group>
+                    <group>
+                        <field name="invoice_line_count" class="oe_edit_only"/>
+                    </group>
+                </group>
+            </field>
+
+            <xpath expr="//notebook" position="inside">
+                <page name="eddocument" string="Doc. electrónico Py" invisible="not fiscal_document">
+                    <group>
+                        <field name="cdc_l10n_py" invisible="not cdc_l10n_py"/>
+                    </group>
+                    <!-- <label for="pdf_show" string="Factura electrónica" class="text-center"/>
+                    <field name="pdf_show" widget="pdf_viewer" readonly="1"/> -->
+                    <field name="l10n_py_ids">
+                        <list create="false" edit="false" delete="false">
+                            <field name="name"/>
+                            <field name="ed_status"/>
+                            <field name="ed_xml"/>
+                            <field name="ed_error_code"/>
+                            <!-- <field name="json_result" groups="base.group_no_one"/> -->
+                        </list>
+                    </field>
+                    <group name="set_messages" groups="base.group_no_one">
+                        <field name="response_code" readonly="1"/>
+                        <field name="response_message" readonly="1"/>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//div[@name='journal_div']" position="after">
+                <field name="de_status" readonly="1"/>
+                <field name="pre_printed_invoice" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//notebook//page[@name='other_info']//group[1]" position="before">
+                <group name="de_info" string="Datos para la nota crédito/debito electrónica" invisible="move_type not in ['out_refund']">
+                    <group>
+                        <field name="comes_from_invoice" invisible="1"/>
+                        <field name="creditdebit_note_id" required="move_type == 'out_refund'" options="{'no_create': 1, 'no_open': 1}"/>
+                        <field name="doc_format_id" required="move_type == 'out_refund'" readonly="comes_from_invoice" options="{'no_create': 1, 'no_open': 1}"/>
+                        <field name="doc_format_type_id" required="move_type == 'out_refund'" readonly="comes_from_invoice" options="{'no_create': 1, 'no_open': 1}"/>
+                        <field name="associated_document" readonly="1" invisible="not comes_from_invoice"/>
+                    </group>
+                    <group invisible="comes_from_invoice">
+                        <field name="doc_stamped" required="not comes_from_invoice and move_type == 'out_refund'" placeholder="16123456"/>
+                        <field name="doc_establishment" required="not comes_from_invoice and move_type == 'out_refund'" placeholder="001"/>
+                        <field name="doc_point" required="not comes_from_invoice and move_type == 'out_refund'" placeholder="001"/>
+                        <field name="doc_number" required="not comes_from_invoice and move_type == 'out_refund'" placeholder="0001234"/>
+                        <field name="doc_date" widget="date" required="not comes_from_invoice and move_type == 'out_refund'"/>
+                    </group>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- form view -->
+
+    <record id="account_move_inherit_fix_form" model="ir.ui.view">
+        <field name="name">account.move.inherit.fix.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_latam_invoice_document.view_move_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='l10n_latam_document_number']" position="attributes">
+                <attribute name="required">0</attribute>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- list view -->
+
+    <record id="view_move_list_inherit" model="ir.ui.view">
+        <field name="name">view.move.list.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_out_invoice_tree" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="decoration-bf">0</attribute>
+                <attribute name="string">No. Interno</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field 
+                    name="invoice_number" 
+                    decoration-bf="1" 
+                    decoration-success="1"
+                    string="Nro Factura" 
+                />
+            </xpath>
+
+            <xpath expr="//field[@name='status_in_payment']" position="before">
+                <field 
+                    name="de_status" 
+                    optional="show" 
+                    widget="badge"
+                    decoration-info="de_status == '0'"
+                    decoration-success="de_status in ['2', '3']"
+                    decoration-danger="de_status == '4'"
+                    decoration-warning="de_status in ['98', '99']"
+                />
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- search view -->
+
+    <record id="view_move_search_inherit" model="ir.ui.view">
+        <field name="name">view_move.search.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="string">No. Interno</attribute>
+            </xpath>
+            
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="invoice_number"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

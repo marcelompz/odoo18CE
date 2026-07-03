@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-21 23:41:16
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view  -->
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.inherit.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="10"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//form" position="inside">
+                <app data-string="cross_fe_configurator" string="Facturación electrónica" name="electronic_invoice_cross" groups="account.group_account_manager">
+                    <block title="Parámetros de la empresa" name="cross_company_parameters">
+                        <setting string="Tipo de emisor" company_dependent="1">
+                            <div class="row mt16">
+                                <field name="cross_fe_emitter_type" options="{'no_create_edit': True, 'no_open': True}"/>
+                            </div>
+                        </setting>
+                        <setting string="Tipo de transacción de la empresa" company_dependent="1">
+                            <div class="row mt16">
+                                <field name="cross_fe_company_transactiontype_id" options="{'no_create_edit': True, 'no_open': True}" class="o_light_label w-auto" widget="selection"/>
+                            </div>
+                        </setting>
+                        <setting string="Tipo de impuesto de empresa" company_dependent="1">
+                            <div class="row mt16">
+                                <field name="cross_fe_company_taxtype_id" options="{'no_create_edit': True, 'no_open': True}" class="o_light_label" widget="selection"/>
+                            </div>
+                        </setting>
+                        <setting string="Indicador de presencia" company_dependent="1">
+                            <div class="row mt16">
+                                <field name="cross_fe_presence_id" options="{'no_create_edit': True, 'no_open': True}" class="o_light_label w-auto" widget="selection"/>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Configuración de conexión" name="cross_connection_parameters">
+                        <setting string="API" company_dependent="1">
+                        <!-- <setting> -->
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="cross_fe_url_api" string="URL" class="col-lg-1"/>
+                                    <field name="cross_fe_url_api"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="cross_fe_api_key" string="KEY" class="col-lg-1"/>
+                                    <field name="cross_fe_api_key"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="cross_fe_sync_communication" company_dependent="1">
+                            <field name="cross_fe_sync_communication"/>
+                            <label for="cross_digital_certificate_expiration"/>
+                            <div class="text-muted">
+                                Ingrese la fecha de vencimiento del certificado digital, se le notificará 10 días antes de esa fecha
+                            </div>
+                            <field name="cross_digital_certificate_expiration"/>
+                        </setting>
+                        <div class="mb16 mt8">
+                            <button 
+                                name="check_connection_with_cross" 
+                                type="object" 
+                                string="Test de conexión"
+                                class="btn-primary" 
+                                icon="fa-cog"
+                            />
+                        </div>
+                    </block>
+
+                    <block title="Mensaje de la empresa en la factura" name="cross_company_message_on_invoice">
+                        <setting company_dependent="1">
+                            <div class="row mt16">
+                                <label for="cross_fe_description"/>
+                                <div class="text-muted">
+                                    Información de interés para Hacienda respecto al DE.
+                                </div>
+                                <field name="cross_fe_description"/>
+                            </div>
+                        </setting>
+                        <setting company_dependent="1">
+                            <div class="row mt16">
+                                <label for="cross_fe_general_remarks"/>
+                                <div class="text-muted">
+                                    Información de interés para el emisor respecto del DE. Puede ser cualquier información de marketing, publicidad, promociones, sorteos, etc., para el destinatario.
+                                </div>
+                                <field name="cross_fe_general_remarks"/>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Ventas" name="cross_sales_parameters">
+                        <setting id="cross_without_discount_invoice" help="Al generar una factura desde un presupuesto confirmado con descuentos en las líneas, se enviará solo el precio final con el descuento aplicado. No se mostrará el precio original ni el descuento por separado.">
+                            <field name="without_discount_invoice"/>
+                        </setting>
+                    </block>
+
+                    <block title="Facturas" name="cross_invoice_parameters">
+                        <setting id="cross_l10n_py_enabled_invoice_number" help="Habilitar el campo Número de factura para su edición cuando la factura está en borrador.">
+                            <field name="l10n_py_enabled_invoice_number"/>
+                        </setting>
+                    </block>
+
+                    <block title="Punto de ventas" name="cross_pos_invoice_parameters">
+                        <setting id="cross_module_pos_einvoice_cross" help="Habilita generar la facturación electrónica desde el POS.">
+                            <field name="module_pos_einvoice_cross"/>
+                            <!-- <div class="row mt16" invisible="not module_pos_einvoice_cross">
+                                <label for="cross_pos_customers_default_city_id"/>
+                                <div class="text-muted">
+                                    Seleccione una ciudad por defecto para mostrar al crear un nuevo cliente en el PdV.
+                                </div>
+                                <field name="cross_pos_customers_default_city_id" options="{'no_create_edit': True, 'no_open': True}" class="o_light_label w-auto"/>
+                            </div> -->
+                        </setting>
+                    </block>
+
+                    <block title="Ajustes de conexión" name="cross_res_partner_search_config" groups="base.group_no_one">
+                        <setting string="Seleccione la base de consulta de RUC" company_dependent="1" groups="base.group_no_one">
+                            <div class="row mt16">
+                                <field name="cross_ruc_query_base_api" options="{'no_create_edit': True, 'no_open': True}" widget="selection"/>
+                            </div>
+                        </setting>
+                        <setting id="cross_res_partner_search_wizard">
+                            <div class="text-muted">
+                                Abre la configuración a la base de datos centralizada de clientes para la busqueda por R.U.C./C.I.
+                            </div>
+                            <button 
+                                name="action_open_res_partner_search_config" 
+                                type="object" 
+                                string="Configurar" 
+                                class="oe_link" 
+                                icon="oi-arrow-right"
+                                invisible="cross_ruc_query_base_api != 'own'"    
+                            />
+                            <br/>
+                            <button name="action_test_res_partner_search_config" type="object" string="Probar" class="oe_link" icon="oi-arrow-right"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

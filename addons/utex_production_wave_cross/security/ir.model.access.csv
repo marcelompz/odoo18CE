@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_production_wave_all,access_production_wave_all,model_production_wave,,1,1,1,1
-access_production_wave_product_line_all,access_production_wave_product_line_all,model_production_wave_product_line,,1,1,1,1
-access_production_wave_component_line_all,access_production_wave_component_line_all,model_production_wave_component_line,,1,1,1,1

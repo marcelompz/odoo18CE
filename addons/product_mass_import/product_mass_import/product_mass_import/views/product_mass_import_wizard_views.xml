@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Preview List View -->
+    <record id="product_mass_import_preview_view_list" model="ir.ui.view">
+        <field name="name">product.mass.import.preview.list</field>
+        <field name="model">product.mass.import.preview</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" decoration-danger="error_message != False">
+                <field name="row_number"/>
+                <field name="default_code"/>
+                <field name="name"/>
+                <field name="pos_description"/>
+                <field name="barcode"/>
+                <field name="categ_name"/>
+                <field name="pos_categ_name"/>
+                <field name="list_price"/>
+                <field name="standard_price"/>
+                <field name="qty_on_hand"/>
+                <field name="product_type"/>
+                <field name="tracking"/>
+                <field name="available_in_pos"/>
+                <field name="error_message"/>
+                <field name="is_valid" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Wizard Form View -->
+    <record id="product_mass_import_wizard_view_form" model="ir.ui.view">
+        <field name="name">product.mass.import.wizard.form</field>
+        <field name="model">product.mass.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Importación Masiva de Productos">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_download_template" type="object" 
+                                class="oe_stat_button" icon="fa-download"
+                                string="Descargar Plantilla"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="file_data" filename="filename"/>
+                            <field name="filename" invisible="1"/>
+                            <field name="location_id"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                            <field name="product_count"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Vista Previa" name="preview" attrs="{'invisible': [('state', '!=', 'preview')]}">
+                            <field name="preview_ids">
+                                <list create="0" delete="0" decoration-danger="error_message != False">
+                                    <field name="row_number"/>
+                                    <field name="default_code"/>
+                                    <field name="name"/>
+                                    <field name="pos_description"/>
+                                    <field name="barcode"/>
+                                    <field name="categ_name"/>
+                                    <field name="pos_categ_name"/>
+                                    <field name="list_price"/>
+                                    <field name="standard_price"/>
+                                    <field name="qty_on_hand"/>
+                                    <field name="product_type"/>
+                                    <field name="tracking"/>
+                                    <field name="available_in_pos"/>
+                                    <field name="error_message"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <footer>
+                        <button name="action_parse_excel" type="object" string="Cargar Archivo"
+                                class="btn-primary" 
+                                attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_confirm_import" type="object" string="Confirmar Importación"
+                                class="btn-primary"
+                                attrs="{'invisible': [('state', '!=', 'preview')]}"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="product_mass_import_wizard_action" model="ir.actions.act_window">
+        <field name="name">Importación Masiva desde Excel</field>
+        <field name="res_model">product.mass.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-21 23:39:44
+    @author: drojo
+-->
+<odoo>
+
+    <!-- res_delivery_note model -->
+    <!-- list view -->
+
+    <record id="res_delivery_note_list" model="ir.ui.view">
+        <field name="name">res.delivery.note.list</field>
+        <field name="model">res.delivery.note</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name" required="1"/>
+                <field name="code" required="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- window action -->
+
+    <record id="res_delivery_note_action" model="ir.actions.act_window">
+        <field name="name">Motivo de la emisión</field>
+        <field name="res_model">res.delivery.note</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Oops, nada a ser mostrado!</p>
+        </field>
+    </record>
+
+    <!-- menu -->
+
+    <menuitem
+        id="de_delivery_menu"
+        name="Nota de remisión electrónica"
+        parent="base.menu_custom"
+        sequence="2"
+    />
+
+    <menuitem
+        id="res_delivery_note_menu"
+        name="Motivo"
+        action="electronic_invoice_cross.res_delivery_note_action"
+        parent="electronic_invoice_cross.de_delivery_menu"
+        sequence="1"
+    />
+
+    <!-- res_delivery_responsible model -->
+    <!-- list view -->
+
+    <record id="res_delivery_responsible_list" model="ir.ui.view">
+        <field name="name">res.delivery.responsible.list</field>
+        <field name="model">res.delivery.responsible</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name" required="1"/>
+                <field name="code" required="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- window action -->
+
+    <record id="res_delivery_responsible_action" model="ir.actions.act_window">
+        <field name="name">Responsable de la emisión</field>
+        <field name="res_model">res.delivery.responsible</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Oops, nada a ser mostrado!</p>
+        </field>
+    </record>
+
+    <!-- menu -->
+
+    <menuitem
+        id="res_delivery_responsible_menu"
+        name="Responsable"
+        action="electronic_invoice_cross.res_delivery_responsible_action"
+        parent="electronic_invoice_cross.de_delivery_menu"
+        sequence="2"
+    />
+
+    <!-- res.negotiation.condition -->
+    <!-- list view -->
+
+    <record id="res_negotiation_condition_list" model="ir.ui.view">
+        <field name="name">res.negotiation.condition.list</field>
+        <field name="model">res.negotiation.condition</field>
+        <field name="arch" type="xml">
+            <list string="" editable="bottom">
+                <field name="name" required="1"/>
+                <field name="code" required="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- window action -->
+
+    <record id="res_negotiation_condition_action" model="ir.actions.act_window">
+        <field name="name">Condición de la negociación</field>
+        <field name="res_model">res.negotiation.condition</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Oops, nada a ser mostrado!</p>
+        </field>
+    </record>
+
+    <!-- menu -->
+
+    <menuitem
+        id="res_negotiation_condition_menu"
+        name="Condición de la negociación"
+        action="electronic_invoice_cross.res_negotiation_condition_action"
+        parent="electronic_invoice_cross.de_delivery_menu"
+        sequence="3"
+    />
+
+</odoo>

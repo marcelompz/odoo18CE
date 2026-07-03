@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_pos_customer_balance" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.pos.customer.balance</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pos_accounting_section']" position="inside">
+                <setting id="pos_auto_invoice_debt" string="Facturar Abonos de Cuenta" help="Marcar automáticamente la opción 'Factura/Recibo' al pagar saldos de clientes.">
+                    <field name="pos_auto_invoice_debt_payment"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

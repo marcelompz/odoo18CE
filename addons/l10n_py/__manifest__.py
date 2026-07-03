@@ -1,0 +1,43 @@
+# -*- coding: utf-8 -*-
+{
+    'name': 'Paraguay - Accounting',
+    'summary': 'Paraguayan accounting chart and tax localization.',
+    'description': """
+        Paraguayan accounting plan and taxes according to current provisions
+    """,
+    'author': 'Crossnexion EAS',
+    'website': 'www.crossnexion.com',
+    'license': 'OPL-1',
+    'category': 'Accounting/Localizations/Account Charts',
+    'countries': ['py'],
+    'version': '18.0.1.0.1',
+    'icon': '/account/static/description/l10n.png',
+    'depends': [
+        'base',
+        'contacts',
+        'l10n_latam_base',
+        'l10n_latam_invoice_document',
+        'uom',
+    ],
+    'data': [
+        'data/l10n_py_chart_data.xml',
+        'data/account_tax_report_data.xml',
+        'data/account_tax_tags_data.xml',
+        'data/l10n_latam.document.type.csv',
+        'data/l10n_latam.identification.type.csv',
+        'data/l10n_latam_identification_type_data.xml',
+        'data/res.bank.csv',
+        'data/res.country.state.csv',
+        'data/res.country.state.district.csv',
+        'data/res.country.state.district.city.csv',
+        'data/ir_sequence.xml',
+        'data/res_partner.xml',
+        'security/ir.model.access.csv',
+        'views/account_payment_term.xml',
+        'views/res_partner.xml',
+        'views/res_config_settings.xml',
+        'views/res_country_state_district_city.xml',
+        'views/res_country_state_district.xml',
+        'views/uom_uom.xml',
+    ],
+}

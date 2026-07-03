@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-03-13 18:19:30
+    @author: drojo
+-->
+<odoo>
+
+    <!-- action server -->
+
+    <record id="action_send_email_de_action_server" model="ir.actions.server">
+        <field name="name">Enviar DE por Email</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="state">code</field>
+        <field name="code">
+            record.action_send_email(show_notification=True)
+        </field>
+    </record>
+
+</odoo>

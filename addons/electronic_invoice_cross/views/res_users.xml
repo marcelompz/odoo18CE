@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-21 23:42:00
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="res_users_inherit_form" model="ir.ui.view">
+        <field name="name">res.users.inherit.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook//page[@name='preferences']" position="inside">
+                <group>
+                    <group name="de_users_data" string="Datos necesarios para factura electrónica">
+                        <group>
+                            <field name="function"/>
+                            <field name="l10n_latam_identification_type_id" domain="[('country_id.code','=','PY')]"/>
+                            <field name="vat"/>
+                        </group>
+                    </group>
+                    <group name="authorization_default" string="Valores predeterminados">
+                        <field name="authorization_ids" widget="many2many_tags" options="{'no_create': 1}"/>
+                    </group>
+                </group>
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

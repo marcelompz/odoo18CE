@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_auto_lot_validation_root"
+              name="Lot Validation"
+              parent="stock.menu_stock_root"
+              sequence="15"/>
+
+    <menuitem id="menu_pending_lot_validation"
+              name="Pending Lot Validation"
+              parent="menu_auto_lot_validation_root"
+              action="action_pending_lot_validation"
+              sequence="10"/>
+
+    <menuitem id="menu_lot_validation_log"
+              name="Validation Logs"
+              parent="menu_auto_lot_validation_root"
+              action="action_lot_validation_log"
+              sequence="20"/>
+
+    <menuitem id="menu_stock_negative_record"
+              name="Negative Adjustments"
+              parent="menu_auto_lot_validation_root"
+              action="action_stock_negative_record"
+              sequence="30"/>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-18 12:15:38
+    @author: drojo
+-->
+<odoo>
+
+    <record id="account_authorization_company_rule" model="ir.rule">
+        <field name="name">Restrict Account Authorization by Company</field>
+        <field name="model_id" ref="model_account_authorization"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,394 @@
+# Translation of Mass Product Import with Inventory module.
+# Copyright (C) 2026 Crossnexion E.A.S.
+# This file is distributed under the same license as the original module.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-17\n"
+"PO-Revision-Date: 2026-06-17\n"
+"Last-Translator: Crossnexion E.A.S.\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: product_mass_import
+#: model:ir.model,name:product_mass_import.model_product_mass_import_wizard
+msgid "Wizard de Importación Masiva de Productos desde Excel"
+msgstr "Asistente de Importación Masiva de Productos desde Excel"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_wizard_file_data
+msgid "Archivo Excel (.xlsx)"
+msgstr "Archivo Excel (.xlsx)"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_wizard_location_id
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_location_id
+msgid "Ubicación de Inventario"
+msgstr "Ubicación de Inventario"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_mass_import_wizard_view_form
+msgid "Descargar Plantilla"
+msgstr "Descargar Plantilla"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_mass_import_wizard_view_form
+msgid "Cargar Archivo"
+msgstr "Cargar Archivo"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_mass_import_wizard_view_form
+msgid "Confirmar Importación"
+msgstr "Confirmar Importación"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_wizard_preview_ids
+msgid "Vista Previa"
+msgstr "Vista Previa"
+
+#. module: product_mass_import
+#: model:ir.model,name:product_mass_import.model_product_mass_import_preview
+msgid "Vista Previa de Importación de Productos"
+msgstr "Vista Previa de Importación de Productos"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_name
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_name
+msgid "Nombre del Producto"
+msgstr "Nombre del Producto"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_barcode
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_barcode
+msgid "Código de Barras"
+msgstr "Código de Barras"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_available_in_pos
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_available_in_pos
+msgid "Disponible en PdV"
+msgstr "Disponible en Punto de Venta"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_categ_name
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_categ_name
+msgid "Categoría de Producto"
+msgstr "Categoría de Producto"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_pos_categ_name
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_pos_categ_name
+msgid "Categoría de PdV"
+msgstr "Categoría de Punto de Venta"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_list_price
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_list_price
+msgid "Precio de Venta"
+msgstr "Precio de Venta"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_standard_price
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_standard_price
+msgid "Precio de Costo"
+msgstr "Precio de Costo"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_qty_on_hand
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_qty_on_hand
+msgid "Cantidad a la Mano"
+msgstr "Cantidad a la Mano"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_product_type
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_product_type
+msgid "Tipo de Producto"
+msgstr "Tipo de Producto"
+
+#. module: product_mass_import
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_mass_import_preview_product_type_product
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_batch_import_line_product_type_product
+msgid "Almacenable"
+msgstr "Almacenable"
+
+#. module: product_mass_import
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_mass_import_preview_product_type_consu
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_batch_import_line_product_type_consu
+msgid "Consumible"
+msgstr "Consumible"
+
+#. module: product_mass_import
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_mass_import_preview_product_type_service
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_batch_import_line_product_type_service
+msgid "Servicio"
+msgstr "Servicio"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_tracking
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_tracking
+msgid "Trazabilidad"
+msgstr "Trazabilidad"
+
+#. module: product_mass_import
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_mass_import_preview_tracking_none
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_batch_import_line_tracking_none
+msgid "Ninguno"
+msgstr "Ninguno"
+
+#. module: product_mass_import
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_mass_import_preview_tracking_lot
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_batch_import_line_tracking_lot
+msgid "Por Lote"
+msgstr "Por Lote"
+
+#. module: product_mass_import
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_mass_import_preview_tracking_serial
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_batch_import_line_tracking_serial
+msgid "Por Número de Serie"
+msgstr "Por Número de Serie"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_error_message
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_error_message
+msgid "Errores"
+msgstr "Errores"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_preview_is_valid
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_is_valid
+msgid "Válido"
+msgstr "Válido"
+
+#. module: product_mass_import
+#: model:ir.model,name:product_mass_import.model_product_batch_import
+msgid "Importación de Productos en Lote desde Odoo"
+msgstr "Importación de Productos en Lote desde Odoo"
+
+#. module: product_mass_import
+#: model:ir.model,name:product_mass_import.model_product_batch_import_line
+msgid "Línea de Importación de Productos en Lote"
+msgstr "Línea de Importación de Productos en Lote"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_ids
+msgid "Líneas"
+msgstr "Líneas"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_name
+msgid "Referencia"
+msgstr "Referencia"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_state
+msgid "Estado"
+msgstr "Estado"
+
+#. module: product_mass_import
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_batch_import_state_draft
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_mass_import_wizard_state_draft
+msgid "Borrador"
+msgstr "Borrador"
+
+#. module: product_mass_import
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_batch_import_state_validated
+msgid "Validado"
+msgstr "Validado"
+
+#. module: product_mass_import
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_batch_import_state_done
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_mass_import_wizard_state_done
+msgid "Completado"
+msgstr "Completado"
+
+#. module: product_mass_import
+#: model:ir.model.fields.selection,name:product_mass_import.field_product_batch_import_state_cancel
+msgid "Cancelado"
+msgstr "Cancelado"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_wizard_state
+msgid "Estado"
+msgstr "Estado"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_mass_import_wizard_product_count
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_product_count
+msgid "Cantidad de Productos"
+msgstr "Cantidad de Productos"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_valid_count
+msgid "Productos Válidos"
+msgstr "Productos Válidos"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_invalid_count
+msgid "Con Errores"
+msgstr "Con Errores"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_form
+msgid "Validar"
+msgstr "Validar"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_form
+msgid "Confirmar"
+msgstr "Confirmar"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_form
+msgid "Cancelar"
+msgstr "Cancelar"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_form
+msgid "Volver a Borrador"
+msgstr "Volver a Borrador"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_form
+msgid "Agregar Línea"
+msgstr "Agregar Línea"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_form
+msgid "Eliminar"
+msgstr "Eliminar"
+
+#. module: product_mass_import
+#: model:ir.actions.act_window,name:product_mass_import.product_mass_import_wizard_action
+msgid "Importación Masiva desde Excel"
+msgstr "Importación Masiva desde Excel"
+
+#. module: product_mass_import
+#: model:ir.actions.act_window,name:product_mass_import.product_batch_import_action
+msgid "Importación en Lote de Productos"
+msgstr "Importación en Lote de Productos"
+
+#. module: product_mass_import
+#: model:ir.ui.menu,name:product_mass_import.menu_product_mass_import_root
+msgid "Importación Masiva"
+msgstr "Importación Masiva"
+
+#. module: product_mass_import
+#: model:ir.ui.menu,name:product_mass_import.menu_product_mass_import_excel
+msgid "Importar desde Excel"
+msgstr "Importar desde Excel"
+
+#. module: product_mass_import
+#: model:ir.ui.menu,name:product_mass_import.menu_product_batch_import
+msgid "Creación en Lote"
+msgstr "Creación en Lote"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_mass_import_wizard_view_form
+msgid "Vista Previa de Productos"
+msgstr "Vista Previa de Productos"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_form
+msgid "Productos"
+msgstr "Productos"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_tree
+msgid "Importaciones en Lote"
+msgstr "Importaciones en Lote"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_search
+msgid "Buscar Importaciones"
+msgstr "Buscar Importaciones"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_company_id
+msgid "Compañía"
+msgstr "Compañía"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_sequence
+msgid "Secuencia"
+msgstr "Secuencia"
+
+#. module: product_mass_import
+#: model:ir.model.fields,field_description:product_mass_import.field_product_batch_import_line_product_id
+msgid "Producto Creado"
+msgstr "Producto Creado"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_form
+msgid "Total"
+msgstr "Total"
+
+#. module: product_mass_import
+#: code:model/product_mass_import_wizard.py:0
+msgid "La librería 'openpyxl' es necesaria. Ejecute: pip install openpyxl"
+msgstr "La librería 'openpyxl' es necesaria. Ejecute: pip install openpyxl"
+
+#. module: product_mass_import
+#: code:model/product_mass_import_wizard.py:0
+msgid "Error al procesar el archivo Excel: %s"
+msgstr "Error al procesar el archivo Excel: %s"
+
+#. module: product_mass_import
+#: code:model/product_mass_import_wizard.py:0
+msgid "Análisis Completado"
+msgstr "Análisis Completado"
+
+#. module: product_mass_import
+#: code:model/product_mass_import_wizard.py:0
+msgid "Productos válidos: %d, Con errores: %d"
+msgstr "Productos válidos: %d, Con errores: %d"
+
+#. module: product_mass_import
+#: code:model/product_mass_import_wizard.py:0
+msgid "Proceso Completado"
+msgstr "Proceso Completado"
+
+#. module: product_mass_import
+#: code:model/product_mass_import_wizard.py:0
+msgid "Se crearon %d productos exitosamente."
+msgstr "Se crearon %d productos exitosamente."
+
+#. module: product_mass_import
+#: code:model/product_mass_import_wizard.py:0
+msgid "No hay productos para importar"
+msgstr "No hay productos para importar"
+
+#. module: product_mass_import
+#: code:model/product_mass_import_wizard.py:0
+msgid "No hay productos válidos para importar. Corrija los errores primero."
+msgstr "No hay productos válidos para importar. Corrija los errores primero."
+
+#. module: product_mass_import
+#: code:model/product_batch_import.py:0
+msgid "No hay líneas válidas para procesar"
+msgstr "No hay líneas válidas para procesar"
+
+#. module: product_mass_import
+#: code:model/product_batch_import.py:0
+msgid "No hay líneas válidas para duplicar"
+msgstr "No hay líneas válidas para duplicar"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_form
+msgid "Crear primera importación en lote"
+msgstr "Crear primera importación en lote"
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_batch_import_view_form
+msgid "Cree productos manualmente con validación previa y asignación de stock inicial."
+msgstr "Cree productos manualmente con validación previa y asignación de stock inicial."
+
+#. module: product_mass_import
+#: model_terms:ir.ui.view,arch_db:product_mass_import.product_mass_import_wizard_view_form
+msgid "Descargar plantilla Excel para importar productos"
+msgstr "Descargar plantilla Excel para importar productos"

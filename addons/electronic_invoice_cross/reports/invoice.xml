@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- llama al reporte con la hoja creada y le asigna un nombre al archivo PDF -->
+    <record id="invoice_preprinted" model="ir.actions.report">
+        <field name="name">Factura (PreImp)</field>
+        <field name="model">account.move</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">electronic_invoice_cross.template_invoice_preprinted</field>
+        <field name="print_report_name">'F-%s' % (object.invoice_number)</field>
+        <field name="paperformat_id" ref="electronic_invoice_cross.paperformat_folio_invoice_preprinted"/>
+        <field name="attachment">'F-%s' % (object.invoice_number)</field>
+        <field name="attachment_use">True</field>
+    </record>
+
+    <!-- reemplaza algunas partes del external layout predeterminado del odoo -->
+    <template id="template_helper_external_layout_view">
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <div class="article o_report_layout_standard"
+                t-att-data-oe-model="o and o._name"
+                t-att-data-oe-id="o and o.id">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+    </template>
+
+    <!-- estructura de la impresion -->
+    <template id="template_invoice_preprinted">
+        <t t-call="web.html_container">
+            <div t-foreach="docs" t-as="o">
+                <div t-call="electronic_invoice_cross.template_helper_external_layout_view">
+                    <!--Style-->
+                    <style>
+                        div {
+                            font-size: 17px;
+                            position: absolute;
+                            font-family: sans-serif;
+                        }
+
+                        .trunc {    
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: clip;
+                        }
+                    </style>
+
+                    <!-- DOCUMENT VALUES -->
+                    <div id="document_values">
+                        <t t-set="line_height" t-value="20"></t>
+                        <t t-set="space1" t-value="786"/>
+                        <t t-set="space2" t-value="1557"/>
+
+                        <t t-set="day" t-value="{'top':250, 'left':90, 'width':500}"/>
+                        <t t-set="name" t-value="{'top':279, 'left':90, 'width':1000}"/>
+                        <t t-set="addr" t-value="{'top':309, 'left':90, 'width':1000}"/>
+                        <t t-set="payment_term" t-value="{'top':250, 'left':1089, 'width':350}"/>
+                        <t t-set="vat" t-value="{'top':279, 'left':1089, 'width':300}"/>
+                        <t t-set="phone" t-value="{'top':309, 'left':1089, 'width':500}"/>
+                        
+                        
+                        <t t-set="code" t-value="{'top':23, 'left':74, 'width':500}"/>
+                        <t t-set="quantity" t-value="{'top':197, 'left':140, 'width':200}"/>
+                        <t t-set="product" t-value="{'top':110, 'left':210, 'width':680}"/>
+                        <t t-set="price" t-value="{'top':23, 'left':889, 'width':120}"/>
+                        <t t-set="exempt" t-value="{'top':640, 'left':1031, 'width':120}"/>
+                        <t t-set="withtax5" t-value="{'top':640, 'left':1154, 'width':120}"/>
+                        <t t-set="withtax10" t-value="{'top':640, 'left':1300, 'width':120}"/>
+                        
+                        <t t-set="marcador" t-value="{'top':670, 'left':80, 'width':300}"/>
+                        <t t-set="totaltext" t-value="{'top':670, 'left':280, 'width':900}"/>
+                        <t t-set="iva5" t-value="{'top':700, 'left':370, 'width':220}"/>
+                        <t t-set="iva10" t-value="{'top':700, 'left':658, 'width':220}"/>
+                        <t t-set="totaltax" t-value="{'top':700, 'left':1010, 'width':220}"/>
+                        <t t-set="total" t-value="{'top':670, 'left':1300, 'width':120}"/>
+
+                        <t t-set="lines" t-value="{'top':403, 'left':0, 'width':0}"/>
+                        
+                    </div>
+
+                    <t t-foreach="[16, space1, space2]" t-as="space">
+                        <t t-if="space > 0">
+
+                            <!-- HEADER -->
+
+                            <!-- date -->
+                            <div id="day" t-attf-style="top: {{day['top']+space}}px; left: {{day['left']}}px; width: {{day['width']}}px;" >
+                                <span>FECHA DE EMISIÓN: </span><span t-field="o.invoice_date" t-options='{"format": "dd"}'/>
+                                <span> de </span><span t-field="o.invoice_date" t-options='{"format": "MMMM"}'/>
+                                <span> del </span><span t-field="o.invoice_date" t-options='{"format": "yyyy"}'/>
+                            </div>
+
+                            <!-- name -->
+                            <div id="name" t-attf-style="top: {{name['top']+space}}px; left: {{name['left']}}px; width: {{name['width']}}px;" >
+                                <span>NOMBRE O RAZÓN SOCIAL: </span><span t-esc="o.partner_id.name[:80]"/></div>
+
+                            <!-- vat -->
+                            <div id="vat" t-attf-style="top: {{vat['top']+space}}px; left: {{vat['left']}}px; width: {{vat['width']}}px;" >
+                                <span>R.U.C.: </span><span t-field="o.partner_id.vat"/></div>
+
+                            <!-- addr -->
+                            <div id="addr" class="trunc" style="max-width: {{addr['width']}}px;" t-attf-style="top: {{addr['top']+space}}px; left: {{addr['left']}}px; width: {{addr['width']}}px;" >
+                                <span>DIRECCIÓN: </span><span t-field="o.partner_id.street"/>
+                            </div>
+                            
+                            <!-- phone -->
+                            <div id="phone" t-attf-style="top: {{phone['top']+space}}px; left: {{phone['left']}}px; width: {{phone['width']}}px;" >
+                                <span>TELÉFONO: </span><span t-field="o.partner_id.phone"/>
+                            </div>
+
+                            <!-- square -->
+                            <div id="customer_square" t-attf-style="top: {{day['top']+space-17}}px; left: {{day['left']-15}}px; width: 1350px; height: 105px; border: 1px solid #000; border-radius: 5px;"/>
+
+                            <!-- column header -->
+                            <div id="header-text-code" t-attf-style="top: {{phone['top']+space+50}}px; left: {{code['left']}}px; width: {{code['width']}}px;">
+                                <strong>Cód.</strong>
+                            </div>
+
+                            <div id="header-text-cant" t-attf-style="top: {{phone['top']+space+50}}px; left: {{quantity['left']}}px; width: {{quantity['width']}}px;">
+                                <strong>Cant.</strong>
+                            </div>
+
+                            <div id="header-text-desc" t-attf-style="top: {{phone['top']+space+50}}px; left: {{product['left']}}px; width: {{product['width']}}px;">
+                                <strong>Descripción</strong>
+                            </div>
+
+                            <div id="header-text-preunit" t-attf-style="top: {{phone['top']+space+50}}px; left: {{price['left']}}px; width: {{price['width']}}px; text-align:right;">
+                                <strong>Pre. Unit.</strong>
+                            </div>
+
+                            <div id="header-text-exenta" t-attf-style="top: {{phone['top']+space+50}}px; left: {{exempt['left']}}px; width: {{exempt['width']}}px; text-align:right;">
+                                <strong>Exentas</strong>
+                            </div>
+
+                            <div id="header-text-5" t-attf-style="top: {{phone['top']+space+50}}px; left: {{withtax5['left']}}px; width: {{withtax5['width']}}px; text-align:right;">
+                                <strong>5%</strong>
+                            </div>
+
+                            <div id="header-text-10" t-attf-style="top: {{phone['top']+space+50}}px; left: {{withtax10['left']}}px; width: {{withtax10['width']}}px; text-align:right;">
+                                <strong>10%</strong>
+                            </div>
+
+                            <!-- separator -->
+                            <div id="separator2" t-attf-style="top: {{phone['top']+space+70}}px; left: {{day['left']-15}}px; width: 1350px;">
+                                <hr style="border-color: black;"/>
+                            </div>
+
+                            <!-- payment_term -->
+                            <div id="payment_term" t-attf-style="top: {{payment_term['top']+space}}px; left: {{payment_term['left']}}px; width: {{payment_term['width']}}px;" >
+                                <span>CONDICIÓN DE VENTA: </span>
+                                <t t-if="o.invoice_date_due == o.invoice_date">
+                                    <span>CONTADO (X)</span>
+                                </t>
+                                <t t-else="">
+                                    <span>CRÉDITO (X)</span>
+                                </t>
+                            </div>
+
+                            <!-- marcador de dolar / guarani -->
+                            <div id="marcador" t-attf-style="top: {{marcador['top']+space}}px; left: {{marcador['left']}}px; width: {{marcador['width']}}px;" >
+                                    <span>Total a pagar </span><span t-esc="o.currency_id.currency_unit_label" />/es:
+                            </div>
+
+                            <!-- ............................................................................ -->
+
+                            <!-- INVOICE LINES -->
+                            <t t-set="line_top" t-value="lines['top']+space"/>
+                            
+                            <div t-foreach="o.invoice_line_ids" t-as="l">
+
+                                <!-- code -->
+                                <t t-if="l.product_id.default_code">
+                                    <div id="code" t-attf-style="top: {{line_top}}px; left: {{code['left']}}px; width: {{code['width']}}px;">
+                                        <span style="font-size:12px;" t-esc="l.product_id.default_code[:7]"/>
+                                    </div>
+                                </t>
+
+                                <!-- quantity -->
+                                <div id="quantity" t-attf-style="top: {{line_top}}px; left: {{quantity['left']}}px; width: {{quantity['width']}}px;">
+                                    <span style="font-size:12px;" t-esc="l.quantity"/>
+                                </div>
+
+                                <!-- product-->
+                                <!-- <div id="product" class="trunc" style="max-width: {{product['width']}}px;" t-attf-style="top: {{line_top}}px; left: {{product['left']}}px; width: {{product['width']}}px;"> -->
+                                <div id="product" style="max-width: {{product['width']}}px;" t-attf-style="top: {{line_top}}px; left: {{product['left']}}px; width: {{product['width']}}px;">
+                                    <!-- <span t-esc="l.name[l.name.find('] ')+1:]"/> -->
+                                    <span style="font-size:12px;" t-esc="l.name[:l.name.index('(') if ' (' in l.name else None]"/>
+                                </div>
+
+                                <!-- price -->
+                                <div id="price" t-attf-style="top: {{line_top}}px; left: {{price['left']}}px; width: {{price['width']}}px; text-align: right;">
+                                    <span t-field="l.price_unit" t-options="{'widget':'monetary', 'display_currency': o.currency_id}" t-attf-style="font-size:12px"/>
+                                </div>
+                            
+                                <!-- exempt -->
+
+                                <div t-if="l.tax_ids.amount == 0" id="excempt" t-attf-style="top: {{line_top}}px; left: {{exempt['left']}}px; width: {{exempt['width']}}px; text-align: right;">
+                                    <span t-field="l.price_total" t-options="{'widget':'monetary', 'display_currency': o.currency_id}" t-attf-style="font-size:12px"/>
+                                </div>
+
+                                <!-- withtax5 -->
+                                <div t-if="l.tax_ids.amount == 5" id="withtax5" t-attf-style="top: {{line_top}}px; left: {{withtax5['left']}}px; width: {{withtax5['width']}}px; text-align: right;">
+                                    <span t-field="l.price_total" t-options="{'widget':'monetary', 'display_currency': o.currency_id}" t-attf-style="font-size:12px"/>
+                                </div>
+
+                                <!-- withtax10 -->
+                                <div t-if="l.tax_ids.amount == 10" id="withtax10" t-attf-style="top: {{line_top}}px; left: {{withtax10['left']}}px; width: {{withtax10['width']}}px; text-align: right;">
+                                    <span t-field="l.price_total" t-options="{'widget':'monetary', 'display_currency': o.currency_id}" t-attf-style="font-size:12px"/>
+                                </div>
+
+                                <t t-if="len(l.name) > 91">
+                                    <t t-set="line_top" t-value="line_top+line_height"/>
+                                </t>
+
+                                <t t-set="line_top" t-value="line_top+line_height"/>
+
+                            </div>
+
+                            <!-- ............................................................................ -->
+
+                            <!-- recuadros -->
+                            <div id="summary_square" t-attf-style="top: {{exempt['top']+space-7}}px; left: 75px; width: 1350px; height: 90px; border: 1px solid #566573; border-radius: 5px;" />
+                            <div id="exempt_square" t-attf-style="top: {{exempt['top']+space-7}}px; left: {{exempt['left']}}px; width: {{exempt['width']+5}}px; height: 28px; border: 1px solid #566573;" />
+                            <div id="withtax5_square" t-attf-style="top: {{withtax5['top']+space-7}}px; left: {{withtax5['left']+4}}px; width: {{withtax5['width']+5}}px; height: 28px; border: 1px solid #566573;" />
+                            <div id="withtax10_square" t-attf-style="top: {{withtax10['top']+space-7}}px; left: {{withtax10['left']-15}}px; width: {{withtax10['width']+19}}px; height: 28px; border: 1px solid #566573;" />
+                            <div id="total_square" t-attf-style="top: {{total['top']+space-9}}px; left: {{total['left']-15}}px; width: {{total['width']+19}}px; height: 28px; border: 1px solid #566573;" />
+
+                            <!-- TOTALS -->
+                            <div id="liq-subtotal" t-attf-style="top: {{exempt['top']+space}}px; left: 80px; width: {{exempt['width']}}px;">
+                                <span>Sub totales: </span>
+                            </div>
+
+                            <!-- exempt -->
+                            <div id="exempt_subtotal" t-attf-style="top: {{exempt['top']+space}}px; left: {{exempt['left']}}px; width: {{exempt['width']}}px; text-align: right;">
+                                <span t-field="o.amount_subtotal_exempt" t-options="{'widget':'monetary', 'display_currency': o.currency_id}"/>
+                            </div>
+                            
+                            <!-- withtax5_total -->
+                            <div id="withtax5_subtotal" t-attf-style="top: {{withtax5['top']+space}}px; left: {{withtax5['left']}}px; width: {{withtax5['width']}}px; text-align: right;">
+                                <span t-field="o.amount_subtotal_5" t-options="{'widget':'monetary', 'display_currency': o.currency_id}"/>
+                            </div>
+                            
+                            <!-- withtax10 -->
+                            <div id="withtax10_subtotal" t-attf-style="top: {{withtax10['top']+space}}px; left: {{withtax10['left']}}px; width: {{withtax10['width']}}px; text-align: right;">
+                                <span t-field="o.amount_subtotal_10" t-options="{'widget':'monetary', 'display_currency': o.currency_id}"/>
+                            </div>
+                            
+                            <!-- totaltext -->
+                            <t t-if="o.currency_id.name == 'PYG'">
+                                <div id="totaltext" t-attf-style="top: {{totaltext['top']+space}}px; left: {{totaltext['left']}}px; width: {{totaltext['width']}}px;">
+                                    <span t-esc="'{}'.format(o.amount_total_words).replace('Guarani','')"/>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <t t-set="decimals" t-value="' con ' + str(round(o.amount_total - int(o.amount_total),2)) + '/100'"/>
+                                <t t-set="decimalstext" t-value="o.amount_total_words.replace('Dollars','')"/>
+                                <div id="totaltext" t-attf-style="top: {{totaltext['top']+space}}px; left: {{totaltext['left']}}px; width: {{totaltext['width']}}px;">
+                                    <span t-esc="'{}'.format(decimalstext).replace(' Cents','/100')"/>
+                                </div>
+                            </t>
+
+                            <!-- total -->
+                            <div id="total" t-attf-style="top: {{total['top']+space}}px; left: {{total['left']}}px; width: {{total['width']}}px; text-align: right">
+                                <strong t-field="o.amount_total" t-options="{'widget':'monetary', 'display_currency': o.currency_id}"/>
+                            </div>
+
+                            <div id="liq-tax" t-attf-style="top: {{iva5['top']+space}}px; left: 80px; width: {{iva5['width']+50}}px;">
+                                <span>Liquidación del IVA: </span>
+                            </div>
+
+                            <!-- iva5 -->
+                            <div id="iva5" t-attf-style="top: {{iva5['top']+space}}px; left: {{iva5['left']}}px; width: {{iva5['width']}}px;">
+                                <span>5%: </span><span t-field="o.amount_iva_5" t-options="{'widget':'monetary', 'display_currency': o.currency_id}"/>
+                            </div>
+                            
+                            <!-- iva10 -->
+                            <div id="iva10" t-attf-style="top: {{iva10['top']+space}}px; left: {{iva10['left']}}px; width: {{iva10['width']}}px;">
+                                <span>10%: </span><span t-field="o.amount_iva_10" t-options="{'widget':'monetary', 'display_currency': o.currency_id}"/>
+                            </div>
+                            
+                            <!-- totaltax -->
+                            <div id="totaltax" t-attf-style="top: {{totaltax['top']+space}}px; left: {{totaltax['left']}}px; width: {{totaltax['width']}}px;">
+                                <span>Total IVA: </span><span t-field="o.amount_iva_total" t-options="{'widget':'monetary', 'display_currency': o.currency_id}"/>
+                            </div>
+                            
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

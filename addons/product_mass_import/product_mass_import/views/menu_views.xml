@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Main Menu under Inventory -->
+    <menuitem id="menu_product_mass_import_root"
+              name="Importación Masiva"
+              parent="stock.menu_stock_root"
+              sequence="50"/>
+
+    <!-- Excel Import Menu -->
+    <menuitem id="menu_product_mass_import_excel"
+              name="Importar desde Excel"
+              parent="menu_product_mass_import_root"
+              action="product_mass_import_wizard_action"
+              sequence="10"/>
+
+    <!-- Batch Import Menu -->
+    <menuitem id="menu_product_batch_import"
+              name="Creación en Lote"
+              parent="menu_product_mass_import_root"
+              action="product_batch_import_action"
+              sequence="20"/>
+
+</odoo>

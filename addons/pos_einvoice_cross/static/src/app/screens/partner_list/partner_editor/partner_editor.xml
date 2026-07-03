@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="PartnerDetailsEdit" t-inherit="point_of_sale.PartnerDetailsEdit" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('partner-details-box')]" position="replace">
+            
+            <div class="partner-details-box row row-cols-1 row-cols-sm-2 gy-3 mt-3">
+            
+                <!-- RUC -->
+                <div class="partner-detail col d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <label class="form-label label" for="vat">R.U.C.</label>
+                        <input class="detail vat form-control" id="vat" name="vat" t-model="changes.vat" t-att="{'disabled': isFieldCommercialAndPartnerIsChild('vat')}" t-att-class="{'border-danger': missingFields.includes('vat')}" />
+                    </div>
+                    <div class="ms-2" style="margin-top: 1.5rem;">
+                        <!-- Botón con ícono de lupa -->
+                        <button type="button" class="control-button ruc-search-button btn btn-outline-secondary" t-on-click="searchCustomersRuc">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tipo de identificacion -->
+                <div class="partner-detail col">
+                    <label class="form-label label" for="l10n_latam_identification_type_id">Tipo de identificación</label>
+                    <select class="detail form-select" id="l10n_latam_identification_type_id" name="l10n_latam_identification_type_id" t-model="changes.l10n_latam_identification_type_id" t-att-class="{'border-danger': missingFields.includes('l10n_latam_identification_type_id')}">
+                        <option value="">None</option>
+                        <t t-foreach="pos.l10n_latam_identification_type_id" t-as="l10n_latam_identification_type_id" t-key="l10n_latam_identification_type_id.id">
+                            <option t-att-value="l10n_latam_identification_type_id.id">
+                                <t t-esc="l10n_latam_identification_type_id.name" />
+                            </option>
+                        </t>
+                    </select>
+                </div>
+
+                <!-- Ciudad -->
+                <div class="partner-detail col">
+                    <label class="form-label label" for="city_id">Ciudad</label>
+                    <select class="detail form-select" id="city_id" name="city_id" t-model="changes.city_id" t-att-class="{'border-danger': missingFields.includes('city_id')}">
+                        <option value="">None</option>
+                        <t t-foreach="pos.city_id" t-as="city_id" t-key="city_id.id">
+                            <option t-att-value="city_id.id">
+                                <t t-esc="city_id.name" />
+                            </option>
+                        </t>
+                    </select>
+                </div>
+
+                <t t-foreach="['Street', 'Email', 'Mobile', 'Phone']" t-as="item" t-key="item">
+                    <div class="partner-detail col">
+                        <label class="form-label label" t-attf-for="{{item}}" t-esc="partnerDetailsFields[item]"/>
+                        <input
+                            class="detail form-control"
+                            t-attf-id="{{item}}"
+                            t-attf-name="{{item}}"
+                            t-model="changes[item.toLowerCase()]"
+                            t-attf-placeholder="{{partnerDetailsFields[item]}}"
+                            t-att="{'disabled': isFieldCommercialAndPartnerIsChild(item)}"
+                            t-att-class="{'border-danger': missingFields.includes(item.toLowerCase())}" />
+                    </div>
+                </t>
+            </div>
+
+        </xpath>
+    </t>
+
+</templates>

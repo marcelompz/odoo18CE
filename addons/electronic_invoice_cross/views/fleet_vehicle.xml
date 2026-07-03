@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-21 23:36:44
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="fleet_vehicle_inherit_form" model="ir.ui.view">
+        <field name="name">fleet.vehicle.inherit.form</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[1]" position="before">
+                <page name="de_info" string="Info para el doc. electrónico">
+                    <group>
+                        <group>
+                            <field name="transport_type" required="1"/>
+                            <field name="modality" required="1"/>
+                            <field name="type_of_transport_id" required="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//label[@for='tag_ids']" position="before">
+                <div>
+                    <label for="type_id_vehicle"/>
+                    <field name="type_id_vehicle" required="1"/>
+                </div>
+                <div>
+                    <label for="cross_carrier_id"/>
+                    <field name="cross_carrier_id" required="1"/>
+                </div>
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

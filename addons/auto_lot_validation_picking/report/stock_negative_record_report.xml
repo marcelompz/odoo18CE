@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_stock_negative_record" model="ir.actions.report">
+        <field name="name">Negative Inventory Report</field>
+        <field name="model">stock.negative.record</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">auto_lot_validation_picking.report_stock_negative_record</field>
+        <field name="report_file">auto_lot_validation_picking.report_stock_negative_record</field>
+        <field name="print_report_name">'Negative_Inventory_Report'</field>
+        <field name="binding_model_id" ref="model_stock_negative_record"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_stock_negative_record">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Negative Inventory Report</h2>
+                    <br/>
+                    <table class="table table-sm o_main_table" name="negative_record_table">
+                        <thead>
+                            <tr>
+                                <th><strong>Reference</strong></th>
+                                <th><strong>Date</strong></th>
+                                <th><strong>Product</strong></th>
+                                <th><strong>Picking</strong></th>
+                                <th class="text-end"><strong>Missing Qty</strong></th>
+                                <th><strong>Status</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="doc">
+                                <tr>
+                                    <td><span t-field="doc.name"/></td>
+                                    <td><span t-field="doc.date" t-options='{"widget": "date"}'/></td>
+                                    <td><span t-field="doc.product_id.display_name"/></td>
+                                    <td><span t-field="doc.picking_id.name"/></td>
+                                    <td class="text-end">
+                                        <span t-field="doc.quantity"/>
+                                    </td>
+                                    <td><span t-field="doc.state"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

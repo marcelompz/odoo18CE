@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-21 23:41:06
+    @author: drojo
+-->
+<odoo>
+
+    <!-- list view -->
+
+    <record id="res_credit_debit_note_list" model="ir.ui.view">
+        <field name="name">res.credit.debit.note.list</field>
+        <field name="model">res.credit.debit.note</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name" required="1"/>
+                <field name="code" required="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- window action -->
+
+    <record id="res_credit_debit_note_action" model="ir.actions.act_window">
+        <field name="name">Motivo</field>
+        <field name="res_model">res.credit.debit.note</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Oops, nada a ser mostrado!</p>
+        </field>
+    </record>
+
+    <!-- menu -->
+
+    <menuitem
+        id="creditdebit_note_menu"
+        name="Nota crédito/debito"
+        parent="base.menu_custom"
+        sequence="2"
+    />
+
+    <menuitem
+        id="res_credit_debit_note_menu"
+        action="electronic_invoice_cross.res_credit_debit_note_action"
+        parent="electronic_invoice_cross.creditdebit_note_menu"
+        sequence="1"
+    />
+
+</odoo>

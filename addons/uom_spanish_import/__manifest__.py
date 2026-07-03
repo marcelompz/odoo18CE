@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'UoM Spanish Import Fix',
-    'version': '19.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Product',
     'summary': 'Fix UoM matching for Spanish language imports',
     'description': """
@@ -50,7 +50,7 @@ JSON text search that properly matches Spanish unit names against translated fie
 3. Spanish unit names will be automatically matched
 
 **Compatible with:**
-- Odoo 19.0 Community Edition
+- Odoo 18.0 Community Edition
 - Any import that uses uom_id field (product.template, product.product)
     """,
     'author': 'Marcelo Pesallaccia',

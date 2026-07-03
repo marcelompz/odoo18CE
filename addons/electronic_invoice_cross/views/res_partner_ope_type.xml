@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-21 23:41:34
+    @author: drojo
+-->
+<odoo>
+
+    <!-- list view  -->
+
+    <record id="res_partner_ope_type_list" model="ir.ui.view">
+        <field name="name">res.partner.ope.type.list</field>
+        <field name="model">res.partner.ope.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="operation_description"/>
+                <field name="operation_id" widget="integer"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- window action  -->
+
+    <record id="res_partner_ope_type_action" model="ir.actions.act_window">
+        <field name="name">Tipo de operaciones (FE)</field>
+        <field name="res_model">res.partner.ope.type</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Oops, nada a ser mostrado!</p>
+        </field>
+    </record>
+
+    <!-- menu -->
+
+    <menuitem
+        id="res_partner_ope_type_menu"
+        name="Tipo de operaciones (FE)"
+        action="electronic_invoice_cross.res_partner_ope_type_action"
+        parent="electronic_invoice_cross.electronic_bill_menu"
+        sequence="3"
+    />
+
+</odoo>

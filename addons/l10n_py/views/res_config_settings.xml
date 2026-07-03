@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-21 22:29:00
+    @author: drojo
+-->
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.paraguayan.loc</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='invoicing_settings']" position="after">
+                <block title="Paraguayan Localization" id="l10n_py_section" invisible="country_code != 'PY'">
+                    <!-- inside empty to add configuration of tags -->
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

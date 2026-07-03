@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- Improve PartnerList Table Headers -->
+    <t t-name="pos_customer_balance_ce.PartnerList" t-inherit="point_of_sale.PartnerList" t-inherit-mode="extension">
+        <xpath expr="//table" position="inside">
+            <thead class="bg-light sticky-top">
+                <tr>
+                    <th class="w-25 text-start ps-3">Nombre</th>
+                    <th class="text-start">Dirección</th>
+                    <th class="text-start">Contacto</th>
+                    <th class="text-end pe-3">Saldo</th>
+                    <th class="pe-0"></th>
+                    <th class="pe-3"></th>
+                </tr>
+            </thead>
+        </xpath>
+        <xpath expr="//table" position="attributes">
+            <attribute name="class">table table-hover mb-0</attribute>
+        </xpath>
+    </t>
+
+    <!-- Adjust PartnerLine content -->
+    <t t-name="pos_customer_balance_ce.PartnerLine" t-inherit="point_of_sale.PartnerLine" t-inherit-mode="extension">
+        <xpath expr="//td[hasclass('partner-line-balance')]" position="inside">
+            <div class="d-flex align-items-center justify-content-end gap-2">
+                <span class="fw-bold" t-att-class="{ 'text-danger': props.partner.outstanding_debt &lt; 0, 'text-success': props.partner.outstanding_debt &gt; 0 }">
+                    <t t-if="props.partner.outstanding_debt &lt; 0">
+                        - <t t-esc="env.utils.formatCurrency(Math.abs(props.partner.outstanding_debt), env.currency)" />
+                    </t>
+                    <t t-elif="props.partner.outstanding_debt &gt; 0">
+                        + <t t-esc="env.utils.formatCurrency(props.partner.outstanding_debt, env.currency)" />
+                    </t>
+                    <t t-else="">
+                        <t t-esc="env.utils.formatCurrency(0, env.currency)" />
+                    </t>
+                </span>
+                <button t-if="props.partner.outstanding_debt &lt; 0" 
+                        class="btn btn-sm btn-primary" 
+                        t-on-click.stop="() => this.settleCustomerAccount()">
+                    Pagar Saldo
+                </button>
+            </div>
+        </xpath>
+        <!-- Adjust alignment of other columns to match headers if needed -->
+        <xpath expr="//tr[hasclass('partner-line')]/td[1]" position="attributes">
+            <attribute name="class">text-break w-25 ps-3</attribute>
+        </xpath>
+        <xpath expr="//tr[hasclass('partner-line')]/td[hasclass('partner-line-balance')]" position="attributes">
+            <attribute name="class">partner-line-balance text-end pe-3 align-middle</attribute>
+        </xpath>
+    </t>
+
+</templates>

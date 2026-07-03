@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Modified on 2025-02-21 23:34:38
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="view_account_authorization_form" model="ir.ui.view">
+        <field name="name">view.account.authorization.form</field>
+        <field name="model">account.authorization</field>
+        <field name="arch" type="xml">
+            <form string="Timbrado de documentos">
+                <header>
+                    <button name="disabling_event" type="object" string="Generar un evento de inutilización" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <div class="oe_title" colspan="2">
+                                <label for="name" class="oe_edit_only"/>
+                                <h1>
+                                    <field name="name" placeholder="Descripción breve"/>
+                                </h1>
+                            </div>
+                        </group>
+                        <group>
+                            <div class="oe_title" colspan="2">
+                                <label for="stamped" class="oe_edit_only"/>
+                                <h1>
+                                    <field name="stamped" placeholder="Número de Timbrado de 8 dígitos"/>
+                                </h1>
+                            </div>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="establishment_code" placeholder="001"/>
+                            <field name="generation_point" placeholder="001"/>
+                            <field name="latam_doc_type_id" options="{'no_create': 1}" required="1"/>
+                            <field name="pre_printed_invoice"/>
+                        </group>
+                        <group>
+                            <label for="numbers_start" string="Numeración"/>
+                            <div class="d-flex">
+                                <field name="numbers_start"/>
+                                <span class="oe_inline o_form_label mx-3 oe_read_only"> al </span>
+                                <field name="numbers_end"/>
+                            </div>
+                            <field name="next_number" placeholder="45"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="invoices" string="Facturas">                            
+                            <field name="move_ids"/>
+                        </page>
+                        <page name="downtime_history" string="Historial del evento de inutilización">
+                            <field name="downtime_history_ids" style="pointer-events:none;">
+                                <list create="false" edit="false" delete="false">   
+                                    <field name="create_date"/>
+                                    <field name="number_from"/>
+                                    <field name="number_to"/>
+                                    <field name="reason"/>
+                                    <field name="json_message"/>
+                                    <field name="json_sent" groups="base.group_no_one"/>
+                                    <field name="json_result" groups="base.group_no_one"/>
+                                    <field 
+                                        name="state" 
+                                        widget="badge" 
+                                        decoration-success="state=='approved'" 
+                                        decoration-warning="state=='refused'"
+                                    />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <!-- Chatter -->
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- list view -->
+
+    <record id="view_account_authorization_list" model="ir.ui.view">
+        <field name="name">view.account.authorization.list</field>
+        <field name="model">account.authorization</field>
+        <field name="arch" type="xml">
+            <list string="Timbrado de documentos">
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="establishment_code"/>
+                <field name="generation_point"/>
+                <field name="latam_doc_type_id"/>
+                <field name="active"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- window action -->
+
+    <record id="action_account_authorization" model="ir.actions.act_window">
+        <field name="name">Timbrado de documentos</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.authorization</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- menu -->
+    
+    <menuitem id="menu_account_authorization"
+        name="Timbrado de documentos"
+        parent="account.account_invoicing_menu"
+        action="action_account_authorization"
+        sequence="3"
+    />
+
+</odoo>

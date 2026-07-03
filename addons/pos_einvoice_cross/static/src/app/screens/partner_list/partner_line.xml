@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="pos_unlimited_customers.PartnerLine"
+       t-inherit="point_of_sale.PartnerLine" t-inherit-mode="extension">
+        <!-- Insertar el icono de advertencia en la primera celda si client_eligible_de es False -->
+        <xpath expr="//td[1]/b" position="before">
+            <span t-if="!props.partner.client_eligible_de" class="text-danger me-2">
+                <i class="fa fa-exclamation-circle" title="Cliente no apto para facturación electrónica"></i>
+            </span>
+        </xpath>
+    </t>
+</templates>

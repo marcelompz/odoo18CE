@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-    <!--
-      La logica de ocultar los botones del modulo l10n_py_hr_payroll_report
-      ahora esta en hooks.py (post_init_hook + post-migrate). Se hace
-      programaticamente porque Odoo 18 prohibe @string y @title como
-      selectores xpath.
-    -->
-</odoo>

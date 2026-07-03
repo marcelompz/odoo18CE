@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-03-13 18:01:26
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="ir_mail_server_inherit_form" model="ir.ui.view">
+        <field name="name">ir.mail_server.inherit.form</field>
+        <field name="model">ir.mail_server</field>
+        <field name="inherit_id" ref="base.ir_mail_server_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@role='alert']" position="after">
+                <field name="is_send_de" widget="boolean_toggle"/>
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

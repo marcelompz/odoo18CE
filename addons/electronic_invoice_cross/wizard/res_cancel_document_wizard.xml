@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-21 23:43:55
+    @author: drojo
+-->
+<odoo>
+
+    <!-- wizard view -->
+
+    <record id="res_cancel_document_wizard_form" model="ir.ui.view">
+        <field name="name">res.cancel.document.wizard.form</field>
+        <field name="model">res.cancel.document.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="info">
+                        <field name="origin" invisible="1"/>
+                        <field name="stock_id" invisible="1"/>
+                        <field name="account_id" invisible="1"/>
+                        <field name="name" required="1"/>
+                        <field name="reason" default_focus="1" required="1"/>
+                    </group>
+                    <br/>
+                    <br/>
+                    <field name="confirm_cancellation" widget="boolean_toggle" nolabel="1"/>
+                    <label for="confirm_cancellation" string=" Confirme la cancelación del documento electrónico"/>
+                </sheet>
+                <footer>
+                    <button 
+                        name="action_cancel_document" 
+                        type="object" 
+                        string="Cancelar documento electrónico" 
+                        class="btn-primary"
+                        invisible="not confirm_cancellation"
+                    />
+                    <button 
+                        string="Atras" 
+                        class="btn-secondary" 
+                        special="cancel"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

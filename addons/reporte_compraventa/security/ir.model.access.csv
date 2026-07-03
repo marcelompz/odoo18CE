@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-group_user.reporte_compraventa.wizardcompra,group_user.reporte_compraventa.wizardcompra,reporte_compraventa.model_reporte_compraventa_wizardcompra,base.group_user,1,1,1,1
-group_user.reporte_compraventa.wizardventa,group_user.reporte_compraventa.wizardventa,reporte_compraventa.model_reporte_compraventa_wizardventa,base.group_user,1,1,1,1

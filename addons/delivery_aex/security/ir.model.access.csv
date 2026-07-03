@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_aex_city,aex.city.user,model_aex_city,base.group_user,1,1,1,1
-access_aex_city_wizard,aex.city.import.wizard,model_aex_city_import_wizard,base.group_system,1,1,1,1

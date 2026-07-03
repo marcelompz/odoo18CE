@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-04-30 12:58:09
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="electronic_invoice_cross.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//app[@data-string='cross_fe_configurator']" position="inside">
+                <block title="Envío de correo electrónico" name="cross_de_send_email">
+                    <setting string="Enviar copia?" help="Activa el envío de una copia del correo electrónico a la dirección de correo electrónico especificada." company_dependent="1">
+                        <field name="send_de_copy_to"/>
+                    </setting>
+                    <setting string="Enviar copia a" company_dependent="1" help="Correo electrónico que recibirá la copia de los documentos electrónicos." invisible="not send_de_copy_to">
+                        <div class="row mt16">
+                            <field name="email_to_copy_de"/>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

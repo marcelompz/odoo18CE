@@ -1,8 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sale_order_task_generator_user,sale.order.task.generator.user,model_sale_order,base.group_user,1,1,1,1
-access_project_task_sale_order_user,project.task.sale.order.user,model_project_task,base.group_user,1,1,1,1
-access_sale_task_generator_wizard_user,sale.task.generator.wizard.user,model_sale_task_generator_wizard,base.group_user,1,1,1,1
-access_sale_task_generator_simple_task_user,sale.task.generator.simple.task.user,model_sale_task_generator_simple_task,base.group_user,1,1,1,1
-access_sale_task_generator_complex_task_user,sale.task.generator.complex.task.user,model_sale_task_generator_complex_task,base.group_user,1,1,1,1
-access_project_task_template_user,project.task.template.user,model_project_task_template,base.group_user,1,1,1,1
-access_project_task_template_line_user,project.task.template.line.user,model_project_task_template_line,base.group_user,1,1,1,1

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Create on 2025-02-21 23:42:07
+    @author: drojo
+-->
+<odoo>
+
+    <!-- form view -->
+
+    <record id="stock_picking_inherit_form" model="ir.ui.view">
+        <field name="name">stock.picking.inherit.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+
+            <!-- mensajes / alertas -->
+            <xpath expr="//sheet" position="before">
+                <div 
+                    role="alert" 
+                    class="alert alert-success text-center" 
+                    invisible="not is_ed or is_ed_cancelled">
+                    Nota de remisión electrónica aprovado!
+                </div>
+                <div 
+                    role="alert" 
+                    class="alert alert-warning text-center" 
+                    invisible="not is_ed_cancelled">
+                    Nota de remisión electrónica cancelado!
+                </div>
+            </xpath>
+
+            <!-- botones -->
+            <xpath expr="//header" position="inside">                
+                <button 
+                    name="electronic_invoice_action" 
+                    type="object" 
+                    string="GENERAR DOC. ELECTRONICO"
+                    class="btn btn-success"
+                    icon="fa-file-text-o"
+                    invisible="picking_type_code == 'incoming' or state != 'done' or not fiscal_document or is_ed"
+                />
+                <button 
+                    name="get_pdf_from_fs" 
+                    type="object" 
+                    string="Obtener PDF"
+                    icon="fa-file-pdf-o"
+                    invisible="not is_ed"
+                />
+                <button 
+                    name="cancel_document_electronic" 
+                    type="object" 
+                    string="Cancelar documento electrónico"
+                    icon="fa-ban"
+                    invisible="not is_ed or is_ed_cancelled"
+                />
+                <button 
+                    name="get_de_status" 
+                    type="object" 
+                    string="Consultar estado del D.E."
+                    class="bt-primary"
+                    invisible="not is_ed"
+                />
+            </xpath>
+
+            <!-- campos DE -->
+            <xpath expr="//field[@name='picking_type_id']" position="after">
+                <field name="is_ed" invisible="1"/>
+                <field name="is_ed_cancelled" invisible="1"/>
+                <field name="fiscal_document" invisible="picking_type_code == 'incoming'"/>
+                <field name="authorization_id" invisible="picking_type_code == 'incoming'" options="{'no_create': 1}"/>
+                <field name="invoice_number" invisible="picking_type_code == 'incoming'" readonly="1"/>
+            </xpath>
+
+            <!-- otras infos para el DE -->
+            <xpath expr="//page[@name='extra']//group[@name='other_infos']" position="before">
+                <group name="de_info" string="Datos para nota de remisión electrónica">
+                    <field name="delivery_note_id" options="{'no_create': 1, 'no_open': 1}" required="fiscal_document"/>
+                    <field name="responsible_note_id" options="{'no_create': 1, 'no_open': 1}" required="fiscal_document"/>
+                </group>
+                <group name="fleet_info" string="Transporte">
+                    <field name="kms_traveled" required="fiscal_document"/>
+                    <field name="fleet_id" required="fiscal_document"/>
+                    <field name="cross_carrier_id" required="fiscal_document"/>
+                    <field name="driver_id" required="fiscal_document"/>
+                    <field name="freight_cost" required="fiscal_document"/>
+                    <field name="negotiation_condition_id" required="fiscal_document"/>
+                </group>
+            </xpath>
+
+            <!-- pagina de resultados de solicitud DE -->
+            <xpath expr="//notebook" position="inside">
+                <page name="eddocument" string="Doc. electrónico Py" invisible="not fiscal_document">
+                    <!-- <label for="pdf_show" string="Nota de remisión electrónica" class="text-center"/>
+                    <field name="pdf_show" widget="pdf_viewer" readonly="1"/> -->
+                    <field name="l10n_py_ids">
+                        <list create="false" edit="false" delete="false">
+                            <field name="name"/>
+                            <field name="ed_status"/>
+                            <field name="ed_xml"/>
+                            <field name="ed_error_code"/>
+                            <field name="json_result" groups="base.group_no_one"/>
+                        </list>
+                    </field>
+                    <group name="set_messages" groups="base.group_no_one">
+                        <field name="response_code" readonly="1"/>
+                        <field name="response_message" readonly="1"/>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="end_transfer_date" invisible="not fiscal_document" required="not fiscal_document"/>
+                <field name="de_status" readonly="1"/>
+            </xpath>
+
+            <!-- ajuste en el chatter para mostrar preview del DE -->
+            <xpath expr="//chatter" position="replace">
+                <!-- Attachment preview -->
+                <div class="o_attachment_preview" invisible="state != 'draft'"/>
+                <!-- Chatter -->
+                <chatter reload_on_attachment="True"/>
+            </xpath>
+        
+        </field>
+    </record>
+
+    <!-- list view -->
+
+    <record id="stock_picking_inherit_list" model="ir.ui.view">
+        <field name="name">stock.picking.inherit.list</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='origin']" position="after">
+                <field 
+                    name="de_status" 
+                    optional="show" 
+                    widget="badge"
+                    decoration-info="de_status == '0'"
+                    decoration-success="de_status in ['2', '3']"
+                    decoration-danger="de_status == '4'"
+                    decoration-warning="de_status in ['98', '99']"
+                />
+            </xpath>
+        
+        </field>
+    </record>
+
+</odoo>

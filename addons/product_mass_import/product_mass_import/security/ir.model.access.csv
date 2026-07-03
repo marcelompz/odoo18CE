@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_mass_import_wizard_user,product.mass.import.wizard.user,model_product_mass_import_wizard,stock.group_stock_user,1,1,1,0
+access_product_mass_import_preview_user,product.mass.import.preview.user,model_product_mass_import_preview,stock.group_stock_user,1,1,1,1
+access_product_batch_import_user,product.batch.import.user,model_product_batch_import,stock.group_stock_user,1,1,1,0
+access_product_batch_import_line_user,product.batch.import.line.user,model_product_batch_import_line,stock.group_stock_user,1,1,1,1
+access_product_mass_import_wizard_manager,product.mass.import.wizard.manager,model_product_mass_import_wizard,stock.group_stock_manager,1,1,1,1
+access_product_batch_import_manager,product.batch.import.manager,model_product_batch_import,stock.group_stock_manager,1,1,1,1

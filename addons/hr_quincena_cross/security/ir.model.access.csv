@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_hr_quincena_generator_user,hr.quincena.generator user,model_hr_quincena_generator,hr.group_hr_user,1,1,1,1
-access_hr_quincena_generator_manager,hr.quincena.generator manager,model_hr_quincena_generator,hr.group_hr_manager,1,1,1,1
-access_hr_benefit_type_employee,hr.benefit.type employee read,model_hr_benefit_type,base.group_user,1,0,0,0
-access_hr_benefit_type_user,hr.benefit.type hr user,model_hr_benefit_type,hr.group_hr_user,1,0,0,0
-access_hr_benefit_type_manager,hr.benefit.type hr manager,model_hr_benefit_type,hr.group_hr_manager,1,1,1,1

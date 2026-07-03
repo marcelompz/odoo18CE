@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_maintenance_type_problem_all,access_maintenance_type_problem_all,model_maintenance_type_problem,,1,1,1,1

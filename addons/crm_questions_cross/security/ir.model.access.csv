@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_crm_ratings_all,access_crm_ratings_all,model_crm_ratings,,1,1,1,1
-access_res_questions_all,access_res_questions_all,model_res_questions,,1,1,1,1
-access_res_question_answers_all,access_res_question_answers_all,model_res_question_answers,,1,1,1,1
-access_res_key_questions_all,access_res_key_questions_all,model_res_key_questions,,1,1,1,1
-access_crm_key_question_answer_all,access_crm_key_question_answer_all,model_crm_key_question_answer,,1,1,1,1

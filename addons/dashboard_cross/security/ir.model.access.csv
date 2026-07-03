@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_dashboard_cross_api,access.dashboard.cross.api,model_dashboard_cross_api,dashboard_cross.group_dashboard_cross_user,1,1,1,1
