@@ -50,7 +50,7 @@ fi
 echo "Inicializando Odoo en '$DB_NAME'..."
 odoo \
      -d "$DB_NAME" \
-     --init base \
+     --init base,web,mail \
      --stop-after-init \
      --db_host "$DB_HOST" \
      --db_port "$DB_PORT" \
