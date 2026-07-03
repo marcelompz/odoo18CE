@@ -26,8 +26,7 @@ Credits
                (v16) Midilaj,
                (v16 Amazon S3,NextCloud) Anfas Faisal K,
                (v17) Aslam A K,
-               (v18) Aslam A K,
-               (v19) Ashwin A
+               (v18) Aslam A K
   Contact : odoo@cybrosys.com
 
 Contacts
