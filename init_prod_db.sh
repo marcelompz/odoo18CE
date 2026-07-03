@@ -16,22 +16,28 @@ ADMIN_PASSWORD="${ADMIN_PASSWORD:-Cross1983_}"
 
 export PGPASSWORD="$DB_PASSWD"
 
-# Clonar módulos l10n_py desde GitHub
+# Clonar módulos l10n_py desde GitHub usando SSH
 echo "=== Sincronizando módulos l10n_py desde GitHub ==="
 L10N_PY_DIR="/srv/odoo-modules/l10n_py"
-GITHUB_REPO="git@github.com:marcelompz/odoo-l10n-py.git"
+GITHUB_SSH="git@github.com:marcelompz/odoo-l10n-py.git"
+
+# Configurar SSH para GitHub (evitar verificación de host)
+mkdir -p /root/.ssh
+echo "Host github.com" > /root/.ssh/config
+echo "  StrictHostKeyChecking no" >> /root/.ssh/config
+echo "  UserKnownHostsFile /dev/null" >> /root/.ssh/config
+chmod 600 /root/.ssh/config
 
 if [ -d "$L10N_PY_DIR/.git" ]; then
-    echo "Repositorio ya existe, haciendo pull..."
+    echo "Repositorio ya existe, actualizando..."
     cd "$L10N_PY_DIR"
-    git pull origin main || echo "Warning: git pull falló, continuando..."
+    git pull origin main || echo "Warning: git pull falló"
 else
-    echo "Clonando repositorio..."
+    echo "Clonando desde GitHub..."
     mkdir -p "$L10N_PY_DIR"
-    git clone "$GITHUB_REPO" "$L10N_PY_DIR"
+    git clone "$GITHUB_SSH" "$L10N_PY_DIR"
 fi
 
-echo "✓ Módulos l10n_py disponibles"
 ls -la "$L10N_PY_DIR"
 echo ""
 
