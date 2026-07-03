@@ -10,7 +10,7 @@ services:
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./addons:/mnt/extra-addons:ro
-      - /srv/odoo-modules/l10n_py:/mnt/extra-addons-l10n:ro
+      - /srv/odoo-modules/l10n_py:/mnt/extra-addons-l10n:ro  # Clone from github.com/marcelompz/odoo-l10n-py
     command: --addons-path=/mnt/extra-addons,/mnt/extra-addons-l10n,/usr/lib/python3/dist-packages/odoo/addons
     environment:
       # Database
