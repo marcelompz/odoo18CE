@@ -1,7 +1,9 @@
 services:
   web:
     container_name: odoo_web_8082
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     depends_on:
       db:
         condition: service_healthy
@@ -11,12 +13,14 @@ services:
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo:ro
-      - ./addons:/mnt/extra-addons-customize:ro
+      - ${WEB_ADDONS_CUSTOMIZE:-./addons}:/mnt/extra-addons-customize:ro
+    entrypoint: "/entrypoint.sh"
     environment:
-      - HOST=db
-      - USER=odoo
-      - PASSWORD=crossdimora.159753
-      - TZ=America/Asuncion
+      - HOST=db_odoo_5434
+      - USER=${DB_USER:-odoo}
+      - PASSWORD=${DB_PASSWD:-crossdimora.159753}
+      - TZ=${TZ:-America/Asuncion}
+      - DEBIAN_FRONTEND=noninteractive
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8069/web/health"]
@@ -26,20 +30,21 @@ services:
       start_period: 60s
 
   db:
-    container_name: db5434
-    image: postgres:15
+    container_name: db_odoo_5434
+    image: postgres:${DB_TAG:-15}
     environment:
       - POSTGRES_DB=postgres
-      - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=crossdimora.159753
-      - TZ=America/Asuncion
+      - POSTGRES_USER=${DB_USER:-odoo}
+      - POSTGRES_PASSWORD=${DB_PASSWD:-crossdimora.159753}
+      - TZ=${TZ:-America/Asuncion}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8 --lc-collate=C --lc-ctype=C
     ports:
       - "5434:5432"
     volumes:
       - odoo-db-data:/var/lib/postgresql/data
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-odoo} -d postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -50,11 +55,11 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /opt/odoo/odoo8082/db-data
+      device: ${DB_VOLUMES:-/opt/odoo/odoo8082/db-data}
       o: bind
   odoo-web-data:
     driver: local
     driver_opts:
       type: none
-      device: /opt/odoo/odoo8082/web-data
+      device: ${WEB_VOLUMES:-/opt/odoo/odoo8082/web-data}
       o: bind
