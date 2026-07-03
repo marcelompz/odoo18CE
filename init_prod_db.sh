@@ -43,6 +43,7 @@ odoo -c /etc/odoo/odoo.conf \
      --db_port "$DB_PORT" \
      --db_user "$DB_USER" \
      --db_password "$DB_PASSWD" \
+     --addons-path=/mnt/extra-addons,/mnt/extra-addons-l10n,/usr/lib/python3/dist-packages/odoo/addons \
      2>&1 | tail -20
 
 echo "✓ Odoo inicializado"
@@ -66,18 +67,23 @@ psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c \
 echo "✓ Paraguay configurado"
 
 # Instalar módulos l10n_py
-echo "Instalando módulos l10n_py..."
+echo "Instalando módulo l10n_py..."
 odoo -c /etc/odoo/odoo.conf \
      -d "$DB_NAME" \
-     --init l10n_py,electronic_invoice_cross,pos_einvoice_cross \
+     --init l10n_py \
      --stop-after-init \
      --db_host "$DB_HOST" \
      --db_port "$DB_PORT" \
      --db_user "$DB_USER" \
      --db_password "$DB_PASSWD" \
-     2>&1 | tail -20
+     --addons-path=/mnt/extra-addons,/mnt/extra-addons-l10n,/usr/lib/python3/dist-packages/odoo/addons \
+     2>&1 | tail -30
 
-echo "✓ Módulos instalados"
+echo ""
+echo "NOTA: Los módulos electronic_invoice_cross y pos_einvoice_cross requieren"
+echo "      la instalación manual de la dependencia: tu-ruc-python-client"
+echo "      Puede instalarlos desde la UI de Odoo una vez resuelta la dependencia."
+echo ""
 
 echo ""
 echo "============================================================"

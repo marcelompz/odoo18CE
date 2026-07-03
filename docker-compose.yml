@@ -72,6 +72,8 @@ services:
       db:
         condition: service_healthy
     volumes:
+      - ./addons:/mnt/extra-addons:ro
+      - /srv/odoo-modules/l10n_py:/mnt/extra-addons-l10n:ro
       - ./init_prod_db.sh:/init_prod_db.sh:ro
     environment:
       - DB_NAME=prod
@@ -82,11 +84,8 @@ services:
       - ADMIN_EMAIL=soporte@crossnexion.com
       - ADMIN_PASSWORD=Cross1983_
     command: >
-      bash -c "
-        chmod +x /init_prod_db.sh &&
-        /init_prod_db.sh &&
-        touch /tmp/init_completed
-      "
+      bash /init_prod_db.sh &&
+      touch /tmp/init_completed
     restart: "no"
 
 volumes:
