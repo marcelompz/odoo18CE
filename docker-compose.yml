@@ -9,18 +9,20 @@ services:
       - "8072:8072"
     volumes:
       - odoo-web-data:/var/lib/odoo
-      - ./addons:/mnt/extra-addons-customize:ro
+      - ./addons:/mnt/extra-addons:ro
+      - /srv/odoo-modules/l10n_py:/mnt/extra-addons-l10n:ro
+    command: --addons-path=/mnt/extra-addons,/mnt/extra-addons-l10n,/usr/lib/python3/dist-packages/odoo/addons
     environment:
       # Database
       - HOST=db
       - PORT=5432
       - USER=odoo
       - PASSWORD=crossdimora.159753
-      
+
       # Odoo Configuration
       - ODOO_DB_FILTER=^prod$
       - ODOO_ADMIN_PASSWD=soportecrossdimora.159753
-      
+
       # Performance
       - WORKERS=2
       - LIMIT_MEMORY_HARD=2684354560
@@ -28,11 +30,11 @@ services:
       - LIMIT_REQUEST=100
       - LIMIT_TIME_CPU=600
       - LIMIT_TIME_REAL=1200
-      
+
       # System
       - TZ=America/Asuncion
       - ODOO_LOG_LEVEL=info
-      
+
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8069/web/database/selector"]
