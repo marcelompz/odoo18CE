@@ -23,7 +23,7 @@ services:
       - DEBIAN_FRONTEND=noninteractive
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8069/web/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8069/web/database/selector"]
       interval: 30s
       timeout: 10s
       retries: 3
