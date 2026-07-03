@@ -1,0 +1,20 @@
+# ===========================================
+# ODOO 18 CE - DEPENDENCIAS PYTHON
+# Provecchio Di Mora
+# ===========================================
+
+# Backup modules
+dropbox>=12.0
+boto3>=1.26
+paramiko>=3.0
+nextcloud-api-wrapper
+
+# Excel import/export
+pandas>=2.0
+openpyxl>=3.1
+
+# DNS for Let's Encrypt
+dnspython>=2.0
+
+# Notifications
+pyncclient

@@ -1,63 +1,39 @@
 FROM odoo:18.0
 
-LABEL maintainer="Crossnexion EAS <contacto@crossnexion.com>"
-
-# Cambiar a root para instalación de paquetes
 USER root
 
-# Instalar herramientas útiles y dependencias
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        curl \
-        gnupg \
-        ca-certificates \
-        iputils-ping \
-        vim-tiny \
-        less \
-        jq \
-        && \
-    rm -rf /var/lib/apt/lists/*
-    
-# Copiar uv desde su imagen oficial
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+LABEL MAINTAINER="Provecchio Di Mora <soporte@provecchio.com>"
+LABEL DESCRIPTION="Odoo 18.0 CE - Optimized for Provecchio Di Mora"
 
-# Instalar paquetes con uv forzando la instalación a nivel sistema
-RUN uv pip install --system --break-system-packages \
-        dropbox \
-        pyncclient \
-        nextcloud-api-wrapper \
-        boto3 \
-        paramiko \
-        tu-ruc-python-client \
-        openpyxl \
-        xlrd \
-        xlwt \
-        psycopg2-binary \
-        python-dateutil \
-        pytz \
-        redis \
-        requests \
-        gevent
-        openupgradelib\
+# Instalar herramientas de debugging y utilidades
+RUN apt-get update && apt-get install -y \
+    curl \
+    vim-tiny \
+    jq \
+    netcat-openbsd \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiar entrypoint mejorado
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Copiar requirements.txt si existe
+COPY requirements.txt /tmp/requirements.txt
+RUN if [ -f /tmp/requirements.txt ]; then \
+    pip install --break-system-packages -r /tmp/requirements.txt; \
+    fi
 
 # Crear directorio para scripts personalizados
-RUN mkdir -p /opt/odoo/custom_scripts && \
-    chown -R odoo:odoo /opt/odoo/custom_scripts
+RUN mkdir -p /opt/odoo/custom-scripts && chown odoo:odoo /opt/odoo/custom-scripts
 
-# Copiar entrypoint script mejorado
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh && \
-    chown odoo:odoo /entrypoint.sh
-
-# Volver al usuario odoo
-USER odoo
-
-# Health check
+# Health check integrado
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8069/web/health || exit 1
 
-# Expose puerto de longpolling
-EXPOSE 8072
+USER odoo
 
-# Entrypoint personalizado
+# Puerto principal y longpolling
+EXPOSE 8069 8072
+
 ENTRYPOINT ["/entrypoint.sh"]
