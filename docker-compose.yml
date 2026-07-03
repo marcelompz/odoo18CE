@@ -69,17 +69,22 @@ services:
     depends_on:
       web:
         condition: service_healthy
+      db:
+        condition: service_healthy
     volumes:
-      - ./init_prod_db.py:/init_prod_db.py:ro
+      - ./init_prod_db.sh:/init_prod_db.sh:ro
     environment:
-      - ODOO_URL=http://web:8069
-      - MASTER_PASSWORD=soportecrossdimora.159753
       - DB_NAME=prod
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=odoo
+      - DB_PASSWD=crossdimora.159753
       - ADMIN_EMAIL=soporte@crossnexion.com
       - ADMIN_PASSWORD=Cross1983_
     command: >
       bash -c "
-        python3 /init_prod_db.py &&
+        chmod +x /init_prod_db.sh &&
+        /init_prod_db.sh &&
         touch /tmp/init_completed
       "
     restart: "no"
