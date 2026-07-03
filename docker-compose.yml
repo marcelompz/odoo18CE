@@ -11,17 +11,22 @@ services:
       - odoo-web-data:/var/lib/odoo
       - ./addons:/mnt/extra-addons:ro
       - /srv/odoo-modules/l10n_py:/mnt/extra-addons-l10n:ro  # Clone from github.com/marcelompz/odoo-l10n-py
-    command: --addons-path=/mnt/extra-addons,/mnt/extra-addons-l10n,/usr/lib/python3/dist-packages/odoo/addons
+    command: >
+      bash -c "pip3 install --break-system-packages tu-ruc-python-client && odoo --addons-path=/mnt/extra-addons,/mnt/extra-addons-l10n,/usr/lib/python3/dist-packages/odoo/addons --db_host=${DB_HOST} --db_port=${DB_PORT} --db_user=${DB_USER} --db_password=${DB_PASSWORD}"
     environment:
-      # Database
-      - HOST=db
-      - PORT=5432
-      - USER=odoo
-      - PASSWORD=crossdimora.159753
+      # Database (from .env)
+      - HOST=${DB_HOST:-db}
+      - PORT=${DB_PORT:-5432}
+      - USER=${DB_USER:-odoo}
+      - PASSWORD=${DB_PASSWORD:-crossdimora.159753}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USER=${DB_USER:-odoo}
+      - DB_PASSWORD=${DB_PASSWORD:-crossdimora.159753}
 
       # Odoo Configuration
-      - ODOO_DB_FILTER=^prod$
-      - ODOO_ADMIN_PASSWD=soportecrossdimora.159753
+      - ODOO_DB_FILTER=${ODOO_DB_FILTER:-^prod$}
+      - ODOO_ADMIN_PASSWD=${ODOO_ADMIN_PASSWD:-soportecrossdimora.159753}
 
       # Performance
       - WORKERS=2
@@ -47,17 +52,17 @@ services:
     container_name: db_odoo_5434
     image: postgres:15
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=crossdimora.159753
-      - TZ=America/Asuncion
+      - POSTGRES_DB=${DB_NAME:-postgres}
+      - POSTGRES_USER=${DB_USER:-odoo}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-crossdimora.159753}
+      - TZ=${TZ:-America/Asuncion}
     ports:
-      - "5434:5432"
+      - "${DB_PORT:-5434}:5432"
     volumes:
       - odoo-db-data:/var/lib/postgresql/data
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-odoo} -d ${DB_NAME:-postgres}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -73,7 +78,7 @@ services:
         condition: service_healthy
     volumes:
       - ./addons:/mnt/extra-addons:ro
-      - /srv/odoo-modules:/srv/odoo-modules:ro
+      - /srv/odoo-modules/l10n_py:/mnt/extra-addons-l10n:ro
       - ./init_prod_db.sh:/init_prod_db.sh:ro
     environment:
       - DB_NAME=prod
@@ -84,8 +89,11 @@ services:
       - ADMIN_EMAIL=soporte@crossnexion.com
       - ADMIN_PASSWORD=Cross1983_
     command: >
-      bash /init_prod_db.sh &&
-      touch /tmp/init_completed
+      bash -c "
+        pip3 install --break-system-packages tu-ruc-python-client &&
+        bash /init_prod_db.sh &&
+        touch /tmp/init_completed
+      "
     restart: "no"
 
 volumes:
