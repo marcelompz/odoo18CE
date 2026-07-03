@@ -16,29 +16,18 @@ ADMIN_PASSWORD="${ADMIN_PASSWORD:-Cross1983_}"
 
 export PGPASSWORD="$DB_PASSWD"
 
-# Clonar módulos l10n_py desde GitHub usando SSH
-echo "=== Sincronizando módulos l10n_py desde GitHub ==="
+# Verificar módulos l10n_py (ya deben estar clonados en el host)
+echo "=== Verificando módulos l10n_py ==="
 L10N_PY_DIR="/srv/odoo-modules/l10n_py"
-GITHUB_SSH="git@github.com:marcelompz/odoo-l10n-py.git"
 
-# Configurar SSH para GitHub (evitar verificación de host)
-mkdir -p /root/.ssh
-echo "Host github.com" > /root/.ssh/config
-echo "  StrictHostKeyChecking no" >> /root/.ssh/config
-echo "  UserKnownHostsFile /dev/null" >> /root/.ssh/config
-chmod 600 /root/.ssh/config
-
-if [ -d "$L10N_PY_DIR/.git" ]; then
-    echo "Repositorio ya existe, actualizando..."
-    cd "$L10N_PY_DIR"
-    git pull origin main || echo "Warning: git pull falló"
+if [ -d "$L10N_PY_DIR/l10n_py" ]; then
+    echo "✓ Módulos l10n_py disponibles"
+    ls -la "$L10N_PY_DIR"
 else
-    echo "Clonando desde GitHub..."
-    mkdir -p "$L10N_PY_DIR"
-    git clone "$GITHUB_SSH" "$L10N_PY_DIR"
+    echo "✗ ERROR: Módulos l10n_py no disponibles en $L10N_PY_DIR"
+    echo "   Ejecutar en el host: git clone git@github.com:marcelompz/odoo-l10n-py.git $L10N_PY_DIR"
+    exit 1
 fi
-
-ls -la "$L10N_PY_DIR"
 echo ""
 
 # Esperar a que PostgreSQL esté disponible

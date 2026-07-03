@@ -73,9 +73,8 @@ services:
         condition: service_healthy
     volumes:
       - ./addons:/mnt/extra-addons:ro
-      - /srv/odoo-modules:/srv/odoo-modules
+      - /srv/odoo-modules:/srv/odoo-modules:ro
       - ./init_prod_db.sh:/init_prod_db.sh:ro
-      - ~/.ssh:/root/.ssh:ro
     environment:
       - DB_NAME=prod
       - DB_HOST=db
