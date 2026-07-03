@@ -16,6 +16,25 @@ ADMIN_PASSWORD="${ADMIN_PASSWORD:-Cross1983_}"
 
 export PGPASSWORD="$DB_PASSWD"
 
+# Clonar módulos l10n_py desde GitHub
+echo "=== Sincronizando módulos l10n_py desde GitHub ==="
+L10N_PY_DIR="/srv/odoo-modules/l10n_py"
+GITHUB_REPO="git@github.com:marcelompz/odoo-l10n-py.git"
+
+if [ -d "$L10N_PY_DIR/.git" ]; then
+    echo "Repositorio ya existe, haciendo pull..."
+    cd "$L10N_PY_DIR"
+    git pull origin main || echo "Warning: git pull falló, continuando..."
+else
+    echo "Clonando repositorio..."
+    mkdir -p "$L10N_PY_DIR"
+    git clone "$GITHUB_REPO" "$L10N_PY_DIR"
+fi
+
+echo "✓ Módulos l10n_py disponibles"
+ls -la "$L10N_PY_DIR"
+echo ""
+
 # Esperar a que PostgreSQL esté disponible
 echo "Esperando PostgreSQL..."
 until psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d postgres -c '\q' 2>/dev/null; do
