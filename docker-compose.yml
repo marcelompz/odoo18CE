@@ -1,36 +1,22 @@
-networks:
-  odoo-network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: ${SUBNET:-10.202.0.0/16}
-
 services:
   web:
-    container_name: ${WEB_HOST:-odoo_web_8082}
-    build:
-      context: .
-      dockerfile: Dockerfile
+    container_name: odoo_web_8082
+    build: .
     depends_on:
       db:
         condition: service_healthy
     ports:
-      - "${WEB_PORT:-8082}:8069"
+      - "8082:8069"
       - "8072:8072"
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo:ro
-      - ${WEB_ADDONS_CUSTOMIZE:-./addons}:/mnt/extra-addons-customize:ro
-    entrypoint: "/entrypoint.sh"
+      - ./addons:/mnt/extra-addons-customize:ro
     environment:
-      - HOST=${DB_HOST:-db}
-      - USER=${DB_USER:-odoo}
-      - PASSWORD=${DB_PASSWD:-crossdimora.159753}
-      - TZ=${TZ:-America/Asuncion}
-      - DEBIAN_FRONTEND=noninteractive
-      - ODOO_WORKERS=${ODOO_WORKERS:-2}
-      - ODOO_LIMIT_MEMORY_HARD=${ODOO_LIMIT_MEMORY_HARD:-2684354560}
-      - ODOO_LIMIT_REQUEST=${ODOO_LIMIT_REQUEST:-100}
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=crossdimora.159753
+      - TZ=America/Asuncion
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8069/web/health"]
@@ -38,42 +24,37 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
-    networks:
-      - odoo-network
 
   db:
-    container_name: ${DB_HOST:-db5434}
-    image: postgres:${DB_TAG:-15}
+    container_name: db5434
+    image: postgres:15
     environment:
-      - POSTGRES_DB=${DB_NAME:-postgres}
-      - POSTGRES_USER=${DB_USER:-odoo}
-      - POSTGRES_PASSWORD=${DB_PASSWD:-crossdimora.159753}
-      - TZ=${TZ:-America/Asuncion}
-      - POSTGRES_INITDB_ARGS=--encoding=UTF8 --lc-collate=C --lc-ctype=C
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=crossdimora.159753
+      - TZ=America/Asuncion
     ports:
-      - "${DB_PORT:-5434}:5432"
+      - "5434:5432"
     volumes:
       - odoo-db-data:/var/lib/postgresql/data
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-odoo} -d ${DB_NAME:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
-    networks:
-      - odoo-network
 
 volumes:
   odoo-db-data:
     driver: local
     driver_opts:
       type: none
-      device: ${DB_VOLUMES:-/opt/odoo/odoo8082/db-data}
+      device: /opt/odoo/odoo8082/db-data
       o: bind
   odoo-web-data:
     driver: local
     driver_opts:
       type: none
-      device: ${WEB_VOLUMES:-/opt/odoo/odoo8082/web-data}
+      device: /opt/odoo/odoo8082/web-data
       o: bind
